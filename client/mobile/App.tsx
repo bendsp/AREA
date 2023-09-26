@@ -12,7 +12,7 @@ const App: React.FC<AppProps> = () => {
         <Header title="AREA" />
         <Surface
           style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Title>Welcome to AREA</Title>
+          <Title>Welcome to The AREA</Title>
         </Surface>
       </SafeAreaView>
     </PaperProvider>
