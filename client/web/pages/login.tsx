@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Button from '@mui/material/Button';
-// import { TextField } from '@mui/material';
 import React from 'react';
 
 const LoginPage: React.FC = () => {
@@ -56,37 +55,3 @@ const LoginPage: React.FC = () => {
 };
 
 export default LoginPage;
-
-// const LoginPage = () => {
-//   return (
-//     <div className="flex items-center justify-center h-screen bg-[#050014]">
-//       <div className="bg-[#282828] p-8 rounded shadow-lg">
-//         <h2 className="text-2xl text-white font-bold mb-6">Login</h2>
-//         <div className="mb-4">
-//           <TextField
-//             variant="outlined"
-//             fullWidth
-//             id="username"
-//             label="Username"
-//             InputProps={{ classes: { root: 'rounded-xl' } }}
-//           />
-//         </div>
-//         <div className="mb-6">
-//           <TextField
-//             variant="outlined"
-//             fullWidth
-//             type="password"
-//             id="password"
-//             label="Password"
-//             InputProps={{ classes: { root: 'rounded-xl' } }}
-//           />
-//         </div>
-//         <Button variant="contained" fullWidth className="bg-[#240090] hover:bg-[#3300CC]">
-//           Login
-//         </Button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default LoginPage;
