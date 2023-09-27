@@ -7,6 +7,7 @@ const LoginPage: React.FC = () => {
     <div className="flex items-center justify-center h-screen bg-[#050014]">
       <div className="bg-[#282828] p-8 rounded shadow-lg">
         <h2 className="text-2xl text-white font-bold mb-4">Login</h2>
+
         <div className="mb-4">
           <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="username">
             Username
@@ -19,6 +20,7 @@ const LoginPage: React.FC = () => {
             placeholder="Enter your username"
           />
         </div>
+
         <div className="mb-6">
           <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="password">
             Password
@@ -31,12 +33,16 @@ const LoginPage: React.FC = () => {
             placeholder="Enter your password"
           />
         </div>
+
         <Button variant="contained" fullWidth className="bg-[#240090] hover:bg-[#3300CC]">
           Login
         </Button>
-        {/* <Link href="/home">
-          <Button variant="outlined" fullWidth className="mt-5">Go to Home</Button>
-        </Link> */}
+
+        <Link href="/home">
+          <Button variant="outlined" fullWidth className="mt-5 border-white text-white hover:border-[#240090] hover:text-[#240090]">
+            Go to Home
+          </Button>
+        </Link>
       </div>
     </div>
   );
