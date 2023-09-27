@@ -1,11 +1,12 @@
 import Link from 'next/link';
+import Button from '@mui/material/Button';
 
 const Login = () => {
   return (
     <div>
       <h1>Login Page</h1>
       <Link href="/home">
-        <div>Go to Home</div>
+        <Button variant='contained'>Go to Home</Button>
       </Link>
     </div>
   );
