@@ -13,7 +13,7 @@ services:
   web:
     build: ./client/web
     ports:
-      - "3000:3000"
+      - "8081:3000"
     volumes:
       - shared_cli_volume:/shared_data
 

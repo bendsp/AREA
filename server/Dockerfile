@@ -16,7 +16,7 @@ COPY . .
 # Run the Nest.js build command
 RUN npx nest build
 
-# Make the container listen on port 3000 (default for Nest.js) at runtime
+# Make the container listen on port 8080
 EXPOSE 8080
 
 # Specify the command to run when the container starts
