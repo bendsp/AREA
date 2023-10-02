@@ -4,7 +4,15 @@ services:
     build: ./server
     ports:
       - "8080:8080"
-  mobile:
+    volumes:
+      - shared_cli_volume:/shared_data
+
+  mobile: 
     build: ./client/mobile
     ports:
       - "8081:8081"
+    volumes:
+      - shared_cli_volume:/shared_data
+
+volumes:
+  shared_cli_volume:
