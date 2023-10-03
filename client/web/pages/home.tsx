@@ -3,6 +3,8 @@ import { useRouter }  from 'next/router';
 
 // Components
 import HomeHeader from '../components/HomeHeader';
+import ActionsContainer from '../components/ActionsContainer';
+import ServicesContainer from '../components/ServicesContainer';
 
 // Interfaces
 import { ProtectedPage } from '../interfaces/protectedPage';
@@ -24,8 +26,10 @@ const HomePage: React.FC = () => {
   }
 
   return (
-    <Background className="flex flex-col p-5">
+    <Background className="flex flex-col p-5 space-y-5">
       <HomeHeader />
+      <ActionsContainer />
+      <ServicesContainer />
       <div className="flex-grow">
         <button onClick={handleButtonClick} className="bg-blue-500 hover:bg-blue-300 font-bold rounded-xl p-3">Go to Login</button>
       </div>
