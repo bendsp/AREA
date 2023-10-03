@@ -1,10 +1,21 @@
+import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 const ActionsCard = () => {
     return (
-        <div className="bg-orange-400 p-5 rounded-2xl">
-            <h3 className="text-xl mb-2 font-bold">Action Card</h3>
-            <p>Card content</p>
-        </div>
-    )
-}
+        <Accordion sx={{ backgroundColor: "white", borderRadius: "5px" }}>
+            <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel-content"
+                id="panel-header"
+                >
+                <div className="text-xl font-bold">Actions Card</div>
+            </AccordionSummary>
+            <AccordionDetails>
+                <div>Card content</div>
+            </AccordionDetails>
+        </Accordion>
+    );
+};
 
 export default ActionsCard
