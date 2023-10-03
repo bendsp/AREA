@@ -9,13 +9,16 @@ services:
     build: ./client/mobile
     volumes:
       - shared_cli_volume:/shared_data
-    
+
   web:
     build: ./client/web
     ports:
       - "8081:3000"
     volumes:
       - shared_cli_volume:/shared_data
+    depends_on:
+      - server
+      - mobile
 
 volumes:
   shared_cli_volume:
