@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Service } from '../interfaces/service';
+import { Service } from './about.json.interfaces';
 
 interface AboutJson {
     client: {
