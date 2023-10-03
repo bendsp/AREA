@@ -17,7 +17,7 @@ const HomeHeader = () => {
             <a className="text-2xl font-bold">Hello User</a>
             <div className="relative group">
                 <button onClick={toggleDropdown} className="text-2xl group-hover:bg-gray-100 rounded-full w-10 h-10">
-                    { isDropdownOpen ? '-' : '+'}
+                    { isDropdownOpen ? '-' : '+' }
                 </button>
                 {isDropdownOpen && (
                     <div className="absolute right-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg w-[12em] p-3 space-y-2">
