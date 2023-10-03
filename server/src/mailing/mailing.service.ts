@@ -3,11 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { MailerService } from '@nestjs-modules/mailer';
 import { google } from 'googleapis';
 import { Options } from 'nodemailer/lib/smtp-transport';
-
-interface Mailing {
-    success: boolean;
-    message: string;
-}
+import { User } from './mailing.interface';
+import { Mailing } from './mailing.interface';
 
 @Injectable()
 export class MailingService {
@@ -16,17 +13,16 @@ export class MailingService {
     private readonly mailerService: MailerService,
   ) {}
 
-  public async sendMail(): Promise<Mailing>{
+  public async sendMail(body: User): Promise<Mailing>{
     try {
         await this.setTransport();
         const success = await this.mailerService.sendMail({
           transporterName: 'gmail',
-          to: 'kentinpaille@gmail.com',
-          from: 'nathanpaillet@gmail.com',
-          subject: 'Verification Code',
+          to: body.email,
+          subject: body.subject,
           template: 'action',
           context: {
-            code: '123456',
+            message: body.message,
           },
         });
         console.log(success);
