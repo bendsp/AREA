@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Service } from '../interfaces/service';
+import { Service } from './about.json.interfaces';
 
 interface AboutJson {
     client: {
@@ -24,13 +24,13 @@ export class AboutJsonService {
                 "services": [
                     {
                         "name": "Time",
-                        "actions": ["timer:get_city_time"],
+                        "actions": ["get_city_time"],
                         "reactions": []
                     }, 
                     {
-                        "name": "Outlook",
+                        "name": "gmail",
                         "actions": [] ,
-                        "reactions": []
+                        "reactions": ["send_email"]
                     }
                 ]
             }
