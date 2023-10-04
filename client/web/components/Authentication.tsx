@@ -17,23 +17,24 @@ const Authentication = ({ isProtected, children } : PropsWithChildren<Authentica
     console.log("authenticated: ", authenticated)
 
     useEffect(() => {
-        const keycloak = new Keycloak({
-            url: "http://localhost:8080/auth",
-            realm: "myrealm",
-            clientId: "myclient"
-        })
-        console.log("keycloak: ", keycloak)
+        // TODO setup keycloak
+        // const keycloak = new Keycloak({
+        //     url: "http://localhost:8080/auth",
+        //     realm: "myrealm",
+        //     clientId: "myclient"
+        // })
+        // console.log("keycloak: ", keycloak)
 
         const checkAuthentication = async () => {
-            try {
-                const authenticated = await keycloak.init({ onLoad: 'login-required' });
-                setAuthenticated(authenticated);
-                if (!authenticated) {
-                    router.push('/login')
-                }
-            } catch (error) {
-                console.log("Error authenticating: ", error)
-            }
+            // try {
+            //     const authenticated = await keycloak.init({ onLoad: 'login-required' });
+            //     setAuthenticated(authenticated);
+            //     if (!authenticated) {
+            //         router.push('/login')
+            //     }
+            // } catch (error) {
+            //     console.log("Error authenticating: ", error)
+            // }
         }
 
         if (isProtected) {
