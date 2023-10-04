@@ -31,7 +31,18 @@ services:
     volumes:
       - keycloak_data:/kl_data
 
+  postgres:
+    build: ./db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=toor
+      - POSTGRES_DB=mydatabase
+    volumes:  
+      - postgres_data:/pg_data
+
 volumes:
   shared_cli_volume: # Named volume for sharing app APK
   keycloak_data:  # Named volume for Keycloak
-  # postgres_data:  # Named volume for PostgreSQL
+  postgres_data:  # Named volume for PostgreSQL
