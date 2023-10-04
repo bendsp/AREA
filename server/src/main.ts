@@ -7,6 +7,7 @@ function delay(ms: number) {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
   await app.listen(8080);
   // while(true) {
   //   console.log('Hello world');
