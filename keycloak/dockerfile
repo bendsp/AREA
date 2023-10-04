@@ -1,0 +1,9 @@
+# Start from the Keycloak base image
+FROM quay.io/keycloak/keycloak:22.0.3
+
+# Set environment variables (if different from the base image)
+ENV KEYCLOAK_ADMIN=root
+ENV KEYCLOAK_ADMIN_PASSWORD=toor
+
+# Copy custom configuration file
+COPY ./keycloak_config.conf /etc/keycloak/keycloak_config.conf
