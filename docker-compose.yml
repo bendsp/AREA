@@ -37,7 +37,7 @@ services:
       - POSTGRES_PASSWORD=toor
       - POSTGRES_DB=mydatabase
     volumes:  
-      - postgres_data:/pg_data
+      - postgres_data:/var/lib/postgresql/data
 
 volumes:
   shared_cli_volume: # Named volume for sharing app APK
