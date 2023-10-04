@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { MailerService } from '@nestjs-modules/mailer';
 import { google } from 'googleapis';
 import { Options } from 'nodemailer/lib/smtp-transport';
 import { MailData } from './mailing.interface';
 import { Mailing } from './mailing.interface';
+import { User } from '../interfaces/user';
 
 @Injectable()
 export class MailingService {
@@ -12,7 +13,12 @@ export class MailingService {
         private readonly configService: ConfigService,
         private readonly mailerService: MailerService,
     ) {}
-        
+    
+    public async sendDataMail(body: User): Promise<Mailing>{
+        Logger.log(body);
+        return { success: true, message: 'Email Data receive' };
+    }
+
     public async sendMail(body: MailData): Promise<Mailing>{
         try {
             await this.setTransport();

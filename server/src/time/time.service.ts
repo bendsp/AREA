@@ -37,6 +37,11 @@ constructor(private readonly httpService: HttpService) {}
         timeZone: timeZoneResponse.data.timeZoneId,
         });
 
-        return `Current time in ${cityName}: ${formattedTime}`;
+        return `${formattedTime}`;
+    }
+
+    async sendData(body: any): Promise<string> {
+        Logger.log(body);
+        return 'Time Data receive';
     }
 }
