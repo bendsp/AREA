@@ -24,13 +24,19 @@ export class AboutJsonService {
                 "services": [
                     {
                         "name": "Time",
-                        "actions": ["get_city_time"],
+                        "actions": [{
+                            "name":"get_city_time",
+                            "description": "Get the current time of a city"
+                        }],
                         "reactions": []
                     }, 
                     {
                         "name": "gmail",
                         "actions": [] ,
-                        "reactions": ["send_email"]
+                        "reactions": [{
+                            "name": "send_email",
+                            "description": "Send an email to the destination email address with subject and body"
+                        }]
                     }
                 ]
             }

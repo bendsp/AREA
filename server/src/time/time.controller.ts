@@ -7,7 +7,7 @@ import  { TimeData } from './time.interface';
 export class TimeController {
   constructor(private readonly timeService: TimeService) {}
 
-  @Get(':city')
+  @Get('api/:city')
   async getCurrentTime(@Param('city') city: string): Promise<string> {
     return await this.timeService.getCurrentTimeByCity(city);
   }
