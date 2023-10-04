@@ -1,5 +1,3 @@
-export type Action = "timer:get_city_time" | "timer:get_city_time"
-export type Reaction = "outlook:send_email"
 
 export interface Service {
     name: string;
@@ -7,3 +5,12 @@ export interface Service {
     reactions: Reaction[];
 }
 
+export interface Action { 
+    name: "get_city_time",
+    description: string;
+}
+
+export interface Reaction {
+    name: "send_email",
+    description: string;
+}

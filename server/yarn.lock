@@ -719,9 +719,9 @@
   optionalDependencies:
     "@types/ejs" "^3.1.2"
     "@types/pug" "2.0.6"
-    "ejs" "^3.1.9"
-    "handlebars" "^4.7.7"
-    "pug" "^3.0.2"
+    ejs "^3.1.9"
+    handlebars "^4.7.7"
+    pug "^3.0.2"
 
 "@nestjs/cli@^10.0.0":
   "integrity" "sha512-jQtG47keLsACt7b4YwJbTBYRm90n82gJpMaiR1HGAyQ9pccbctjSYu592eT4bxqkUWxPgBE3mpNynXj7dWAfrw=="
@@ -751,10 +751,10 @@
     "webpack" "5.88.2"
     "webpack-node-externals" "3.0.0"
 
-"@nestjs/common@^10.0.0", "@nestjs/common@^7.0.9 || ^8.0.0 || ^9.0.0 || ^10.0.0", "@nestjs/common@^8.0.0 || ^9.0.0 || ^10.0.0":
-  "integrity" "sha512-2BfkPZKmTVxflm8bhmClKKcHwhlyweEfbM25g7ldXIK9+utCPVXqBfZGORj2L8QagiT6bei48FJmGc2S1tiFEQ=="
-  "resolved" "https://registry.npmjs.org/@nestjs/common/-/common-10.2.5.tgz"
-  "version" "10.2.5"
+"@nestjs/common@^10.0.0":
+  version "10.2.5"
+  resolved "https://registry.npmjs.org/@nestjs/common/-/common-10.2.5.tgz"
+  integrity sha512-2BfkPZKmTVxflm8bhmClKKcHwhlyweEfbM25g7ldXIK9+utCPVXqBfZGORj2L8QagiT6bei48FJmGc2S1tiFEQ==
   dependencies:
     "iterare" "1.2.1"
     "tslib" "2.6.2"
@@ -1580,20 +1580,20 @@
   dependencies:
     "tslib" "^2.0.1"
 
-"async@^3.2.3":
-  "integrity" "sha512-iAB+JbDEGXhyIUavoDl9WP/Jj106Kz9DEn1DPgYw5ruDn0e3Wgi3sKFm55sASdGBNOQB8F59d9qQ7deqrHA8wQ=="
-  "resolved" "https://registry.npmjs.org/async/-/async-3.2.4.tgz"
-  "version" "3.2.4"
+async@^3.2.3:
+  version "3.2.4"
+  resolved "https://registry.npmjs.org/async/-/async-3.2.4.tgz"
+  integrity sha512-iAB+JbDEGXhyIUavoDl9WP/Jj106Kz9DEn1DPgYw5ruDn0e3Wgi3sKFm55sASdGBNOQB8F59d9qQ7deqrHA8wQ==
 
-"asynckit@^0.4.0":
-  "integrity" "sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q=="
-  "resolved" "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz"
-  "version" "0.4.0"
+asynckit@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz"
+  integrity sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==
 
-"babel-jest@^29.0.0", "babel-jest@^29.7.0":
-  "integrity" "sha512-BrvGY3xZSwEcCzKvKsCi2GgHqDqsYkOP4/by5xCgIwGXQxIEh+8ew3gmrE1y7XRR6LHZIj6yLYnUi/mm2KXKBg=="
-  "resolved" "https://registry.npmjs.org/babel-jest/-/babel-jest-29.7.0.tgz"
-  "version" "29.7.0"
+babel-jest@^29.7.0:
+  version "29.7.0"
+  resolved "https://registry.npmjs.org/babel-jest/-/babel-jest-29.7.0.tgz"
+  integrity sha512-BrvGY3xZSwEcCzKvKsCi2GgHqDqsYkOP4/by5xCgIwGXQxIEh+8ew3gmrE1y7XRR6LHZIj6yLYnUi/mm2KXKBg==
   dependencies:
     "@jest/transform" "^29.7.0"
     "@types/babel__core" "^7.1.14"
@@ -3076,29 +3076,20 @@
     "extend-object" "^1.0.0"
     "rc" "^1.2.8"
 
-"flat-cache@^3.0.4":
-  "integrity" "sha512-OHx4Qwrrt0E4jEIcI5/Xb+f+QmJYNj2rrK8wiIdQOIrB9WrrJL8cjZvXdXuBTkkEwEqLycb5BeZDV1o2i9bTew=="
-  "resolved" "https://registry.npmjs.org/flat-cache/-/flat-cache-3.1.0.tgz"
-  "version" "3.1.0"
-  dependencies:
-    "flatted" "^3.2.7"
-    "keyv" "^4.5.3"
-    "rimraf" "^3.0.2"
+flat-util@^1.1.9:
+  version "1.1.9"
+  resolved "https://registry.npmjs.org/flat-util/-/flat-util-1.1.9.tgz"
+  integrity sha512-BOTMw/6rbbxVjv5JQvwgGMc2/6wWGd2VeyTvnzvvE49VRjS0tTxLbry/QVP1yPw8SaAOBYsnixmzruXoqjdUHA==
 
-"flat-util@^1.1.9":
-  "integrity" "sha512-BOTMw/6rbbxVjv5JQvwgGMc2/6wWGd2VeyTvnzvvE49VRjS0tTxLbry/QVP1yPw8SaAOBYsnixmzruXoqjdUHA=="
-  "resolved" "https://registry.npmjs.org/flat-util/-/flat-util-1.1.9.tgz"
-  "version" "1.1.9"
+flatted@^3.2.7:
+  version "3.2.9"
+  resolved "https://registry.npmjs.org/flatted/-/flatted-3.2.9.tgz"
+  integrity sha512-36yxDn5H7OFZQla0/jFJmbIKTdZAQHngCedGxiMmpNfEZM0sdEeT+WczLQrjK6D7o2aiyLYDnkw0R3JK0Qv1RQ==
 
-"flatted@^3.2.7":
-  "integrity" "sha512-36yxDn5H7OFZQla0/jFJmbIKTdZAQHngCedGxiMmpNfEZM0sdEeT+WczLQrjK6D7o2aiyLYDnkw0R3JK0Qv1RQ=="
-  "resolved" "https://registry.npmjs.org/flatted/-/flatted-3.2.9.tgz"
-  "version" "3.2.9"
-
-"foreground-child@^3.1.0":
-  "integrity" "sha512-TMKDUnIte6bfb5nWv7V/caI169OHgvwjb7V4WkeUvbQQdjr5rWKqHFiKWb/fcOwB+CzBT+qbWjvj+DVwRskpIg=="
-  "resolved" "https://registry.npmjs.org/foreground-child/-/foreground-child-3.1.1.tgz"
-  "version" "3.1.1"
+foreground-child@^3.1.0:
+  version "3.1.1"
+  resolved "https://registry.npmjs.org/foreground-child/-/foreground-child-3.1.1.tgz"
+  integrity sha512-TMKDUnIte6bfb5nWv7V/caI169OHgvwjb7V4WkeUvbQQdjr5rWKqHFiKWb/fcOwB+CzBT+qbWjvj+DVwRskpIg==
   dependencies:
     "cross-spawn" "^7.0.0"
     "signal-exit" "^4.0.1"
@@ -6058,10 +6049,10 @@
   dependencies:
     "queue-microtask" "^1.2.2"
 
-"rxjs@^7.1.0", "rxjs@^7.5.5", "rxjs@^7.8.1", "rxjs@7.8.1":
-  "integrity" "sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg=="
-  "resolved" "https://registry.npmjs.org/rxjs/-/rxjs-7.8.1.tgz"
-  "version" "7.8.1"
+rxjs@7.8.1, rxjs@^7.5.5, rxjs@^7.8.1:
+  version "7.8.1"
+  resolved "https://registry.npmjs.org/rxjs/-/rxjs-7.8.1.tgz"
+  integrity sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==
   dependencies:
     "tslib" "^2.1.0"
 
