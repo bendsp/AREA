@@ -1,9 +1,7 @@
+import { ServicesProps } from "../interfaces/services";
+
 interface ServicesCardProps {
-    service: {
-        name: string;
-        actions: Array<string>;
-        reactions: Array<string>;
-    };
+    service: ServicesProps;
 }
 
 const ServicesCard = ({ service }: ServicesCardProps) => {
@@ -15,7 +13,7 @@ const ServicesCard = ({ service }: ServicesCardProps) => {
                 <p className="font-bold">Actions:</p>
                 <ul>
                     {service.actions.map((action) => {
-                        return <li key={action} className="italic">{action}</li>
+                        return <li key={action.name}>- {action.description}</li>
                     })}
                 </ul>
             </div>
@@ -23,7 +21,7 @@ const ServicesCard = ({ service }: ServicesCardProps) => {
                 <p className="font-bold">Reactions:</p>
                 <ul>
                     {service.reactions.map((reaction) => {
-                        return <li key={reaction}>{reaction}</li>
+                        return <li key={reaction.name}>- {reaction.description}</li>
                     })}
                 </ul>
             </div>
