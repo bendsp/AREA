@@ -3,8 +3,8 @@ export interface Mailing {
     message: string;
 }
 
-export interface User {
+export interface MailData {
     email: string;
     subject: string;
     message: string;
-  }
+}
