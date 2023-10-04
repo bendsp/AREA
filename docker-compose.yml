@@ -20,5 +20,18 @@ services:
       - server
       - mobile
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:22.0.3
+    environment:
+      - KEYCLOAK_ADMIN=root
+      - KEYCLOAK_ADMIN_PASSWORD=toor
+    ports:
+      - "8082:8080"
+    command: start-dev
+    volumes:
+      - keycloak_data:/kl_data
+
 volumes:
-  shared_cli_volume:
+  shared_cli_volume: # Named volume for sharing app APK
+  keycloak_data:  # Named volume for Keycloak
+  # postgres_data:  # Named volume for PostgreSQL
