@@ -26,16 +26,30 @@ export class AboutJsonService {
                         "name": "Time",
                         "actions": [{
                             "name":"get_city_time",
-                            "description": "Get the current time of a city"
+                            "description": "Get the current time of a city",
+                            "params" : [{
+                                "name" : "city",
+                                "type" : "string"
+                            }]
                         }],
                         "reactions": []
                     }, 
                     {
-                        "name": "gmail",
+                        "name": "Gmail",
                         "actions": [] ,
                         "reactions": [{
                             "name": "send_email",
-                            "description": "Send an email to the destination email address with subject and body"
+                            "description": "Send an email to the destination email address with subject and body",
+                            "params": [{
+                                "name": "email-destination",
+                                "type": "string"
+                                },{
+                                "name": "subject",
+                                "type": "string"
+                                },{
+                                "name": "body",
+                                "type": "string"
+                            }]
                         }]
                     }
                 ]
