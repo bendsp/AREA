@@ -1,0 +1,7 @@
+# Use the official PostgreSQL image as the base image
+FROM postgres:latest
+
+# Add custom configuration
+COPY ./postgres_config.conf /etc/postgresql/
+
+EXPOSE 5432
