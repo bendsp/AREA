@@ -21,10 +21,7 @@ services:
       - mobile
 
   keycloak:
-    image: quay.io/keycloak/keycloak:22.0.3
-    environment:
-      - KEYCLOAK_ADMIN=root
-      - KEYCLOAK_ADMIN_PASSWORD=toor
+    build: ./keycloak
     ports:
       - "8082:8080"
     command: start-dev
