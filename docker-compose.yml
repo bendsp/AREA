@@ -26,7 +26,7 @@ services:
       - "8082:8080"
     command: start-dev
     volumes:
-      - keycloak_data:/kl_data
+      - keycloak_data:/opt/keycloak/data
 
   postgres:
     build: ./db
