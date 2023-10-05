@@ -1,4 +1,4 @@
-// LoginScreen.tsx
+//SettingsScreen.tsx
 import React from 'react';
 import {View} from 'react-native';
 import {Button, Text} from 'react-native-paper';
@@ -7,13 +7,13 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from './NavigationTypes';
 import {useTheme} from 'react-native-paper';
 
-type LoginScreenNavigationProp = StackNavigationProp<
+type SettingsScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
-  'Login'
+  'Settings'
 >;
 
-const LoginScreen = () => {
-  const navigation = useNavigation<LoginScreenNavigationProp>();
+const SettingsScreen = () => {
+  const navigation = useNavigation<SettingsScreenNavigationProp>();
   const theme = useTheme();
 
   return (
@@ -30,7 +30,7 @@ const LoginScreen = () => {
           marginBottom: 20,
           color: theme.colors.onBackground,
         }}>
-        Login Screen
+        Settings Screen
       </Text>
       <Button
         mode="contained"
@@ -45,4 +45,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default SettingsScreen;

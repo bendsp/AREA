@@ -36,6 +36,14 @@ const HomeScreen = () => {
       >
         Go to Login
       </Button>
+      <Button
+        mode="contained"
+        onPress={() => navigation.navigate('Settings')}
+        style={{width: 200, marginTop: 20}}
+        color={theme.colors.primary} // Use theme color for the button
+      >
+        Go to Settings
+      </Button>
     </View>
   );
 };
