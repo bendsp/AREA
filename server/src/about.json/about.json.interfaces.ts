@@ -7,7 +7,7 @@ export interface Service {
 
 export interface Param {
     name: string;
-    type: string;
+    type: "string" | "number" | "boolean";
 }
 
 export interface Action { 
