@@ -35,7 +35,7 @@ services:
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=toor
-      - POSTGRES_DB=mydatabase
+      - POSTGRES_DB=postgres
     volumes:  
       - postgres_data:/var/lib/postgresql/data
 
