@@ -1,0 +1,45 @@
+version: '3'
+services:
+  server:
+    build: ./server
+    ports:
+      - "8080:8080"
+
+  mobile: 
+    build: ./client/mobile
+    volumes:
+      - shared_cli_volume:/shared_data
+
+  web:
+    build: ./client/web
+    ports:
+      - "8081:3000"
+    volumes:
+      - shared_cli_volume:/shared_data
+    depends_on:
+      - server
+      - mobile
+
+  keycloak:
+    build: ./keycloak
+    ports:
+      - "8082:8080"
+    command: start-dev
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+
+  postgres:
+    build: ./db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=toor
+      - POSTGRES_DB=postgres
+    volumes:  
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  shared_cli_volume: # Named volume for sharing app APK
+  keycloak_data:  # Named volume for Keycloak
+  postgres_data:  # Named volume for PostgreSQL

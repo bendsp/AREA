@@ -1,25 +1,21 @@
+// App.tsx
 import React from 'react';
-import {SafeAreaView} from 'react-native';
-import Header from './src/components/Header';
-import {PaperProvider, Title, Surface, Button} from 'react-native-paper';
+import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
+import {LightTheme, DarkTheme} from './assets/theme';
+import Navigation from './src/screens/Navigation';
 
-interface AppProps {}
+const App = () => {
+  const [isDarkTheme, setIsDarkTheme] = React.useState(false); // Initially set to false for light theme
 
-const App: React.FC<AppProps> = () => {
+  const toggleTheme = () => {
+    setIsDarkTheme(!isDarkTheme);
+  };
+
+  const theme = isDarkTheme ? DarkTheme : LightTheme;
+
   return (
-    <PaperProvider>
-      <SafeAreaView style={{flex: 1}}>
-        <Header title="AREA" />
-        <Surface
-          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Title>Welcome to The AREA</Title>
-          <Button
-            mode="contained"
-            onPress={() => console.log('Button Pressed')}>
-            Press me
-          </Button>
-        </Surface>
-      </SafeAreaView>
+    <PaperProvider theme={theme}>
+      <Navigation />
     </PaperProvider>
   );
 };
