@@ -1,5 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, Put } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
+import { insertData } from 'src/db/db.insertData';
+import { PutData } from 'src/db/db.interface';
+import { TimeData } from './time.interface';
+import { Status } from 'src/main';
 
 @Injectable()
 export class TimeService {
@@ -40,8 +44,11 @@ constructor(private readonly httpService: HttpService) {}
         return `${formattedTime}`;
     }
 
-    async sendData(body: any): Promise<string> {
-        Logger.log(body);
-        return 'Time Data receive';
+    async sendData(body: TimeData, id: number): Promise<Status> {
+        let data: PutData = {id: id, TablesName: "Time", value: body};
+        if (await insertData(data) == false) {
+            return {"statusCode": 500, "message": "Data send well"};
+        }
+        return {"statusCode": 200, "message": "Data not send well"};
     }
 }

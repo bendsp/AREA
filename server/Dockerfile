@@ -10,6 +10,8 @@ COPY package*.json ./
 # Install the project's dependencies inside the container
 RUN npm install
 
+RUN yarn install
+
 # Copy the rest of the application to the container
 COPY . .
 

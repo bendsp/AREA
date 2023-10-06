@@ -4,8 +4,9 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { google } from 'googleapis';
 import { Options } from 'nodemailer/lib/smtp-transport';
 import { MailData } from './mailing.interface';
-import { Mailing } from './mailing.interface';
-import { User } from '../interfaces/user';
+import { insertData } from 'src/db/db.insertData';
+import { PutData } from 'src/db/db.interface';
+import { Status } from 'src/main';
 
 @Injectable()
 export class MailingService {
@@ -14,12 +15,15 @@ export class MailingService {
         private readonly mailerService: MailerService,
     ) {}
     
-    public async sendDataMail(body: User): Promise<Mailing>{
-        Logger.log(body);
-        return { success: true, message: 'Email Data receive' };
+    public async sendDataMail(body: MailData, id: number): Promise<Status>{
+        let data: PutData = {id: id, TablesName: "Mail", value: body};
+        if (await insertData(data) == false) {
+            return {"statusCode": 500, "message": "Data not send well"};
+        }
+        return {"statusCode": 200, "message": "Data send well"};
     }
 
-    public async sendMail(body: MailData): Promise<Mailing>{
+    public async sendMail(body: MailData): Promise<Status>{
         try {
             await this.setTransport();
             const success = await this.mailerService.sendMail({
@@ -32,10 +36,10 @@ export class MailingService {
             },
             });
             console.log(success);
-            return { success: true, message: 'Email sent' };
+            return {"statusCode": 200, "message": "email send well"};
         } catch (err) {
             console.error(err);
-            return { success: false, message: 'Email not sent' };
+            return {"statusCode": 500, "message": "email not send well"};
         }
     }
 

@@ -13,7 +13,7 @@ interface AboutJson {
 
 @Injectable()
 export class AboutJsonService {
-    getAboutJson(): AboutJson{
+    async getAboutJson(): Promise<AboutJson>{
         return {
             "client" : {
                 // I need to get the host IP address of the client here
