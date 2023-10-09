@@ -1,4 +1,4 @@
-import { ServicesProps } from "../interfaces/services";
+import { ServicesProps } from "../../../interfaces/services";
 
 import ActionCard from "./ActionCard";
 

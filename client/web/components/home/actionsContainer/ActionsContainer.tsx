@@ -1,7 +1,7 @@
 import ActionsCard from "./ActionsCard";
 import NewActionButton from "./NewActionButton";
 
-import { ServicesProps } from "../interfaces/services";
+import { ServicesProps } from "../../../interfaces/services";
 
 interface ActionsContainerProps {
     services: Array<ServicesProps>;

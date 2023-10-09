@@ -1,4 +1,4 @@
-import Background from '../components/Background'
+import Background from '../components/wrappers/Background'
 import { useRouter } from 'next/router';
 
 const NewAction = () => {

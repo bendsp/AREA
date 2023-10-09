@@ -2,13 +2,13 @@ import { useRouter }  from 'next/router';
 import { useState, useEffect } from 'react';
 
 // Components
-import HomeHeader from '../components/HomeHeader';
-import ActionsContainer from '../components/ActionsContainer';
-import ServicesContainer from '../components/ServicesContainer';
+import HomeHeader from '../components/home/HomeHeader';
+import ActionsContainer from '../components/home/actionsContainer/ActionsContainer';
+import ServicesContainer from '../components/home/servicesContainer/ServicesContainer';
 
 // Interfaces
 import { ProtectedPage } from '../interfaces/protectedPage';
-import Background from '../components/Background';
+import Background from '../components/wrappers/Background';
 
 // Methods
 import fetchAboutJson from '../methods/fetchAboutJson';

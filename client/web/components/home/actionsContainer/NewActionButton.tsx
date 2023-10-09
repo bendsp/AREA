@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-import { ServicesProps } from '../interfaces/services';
+import { ServicesProps } from '../../../interfaces/services';
 
 import NewActionModal from './NewActionModal';
 
