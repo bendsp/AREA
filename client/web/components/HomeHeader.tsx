@@ -13,7 +13,7 @@ const HomeHeader = () => {
     };
 
     return (
-        <div className="bg-white shadow-md p-5 sticky top-0 z-20 rounded-2xl flex justify-between items-center">
+        <div className="bg-white shadow-md p-5 rounded-2xl flex justify-between items-center">
             <a className="text-2xl font-bold">Hello User</a>
             <div className="relative group">
                 <button onClick={toggleDropdown} className="text-2xl group-hover:bg-gray-100 rounded-full w-10 h-10">

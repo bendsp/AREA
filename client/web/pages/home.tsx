@@ -37,7 +37,7 @@ const HomePage: React.FC = () => {
   return (
     <Background className="flex flex-col p-5 space-y-5">
       <HomeHeader />
-      <ActionsContainer />
+      <ActionsContainer services={services}/>
       <ServicesContainer services={services} />
       <div className="flex-grow">
         <button onClick={handleButtonClick} className="bg-blue-500 hover:bg-blue-300 font-bold rounded-xl p-3">Go to Login</button>

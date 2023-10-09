@@ -4,6 +4,10 @@ import dynamic from "next/dynamic"
 
 import Authentication from "../components/Authentication"
 
+import Modal from 'react-modal';
+
+Modal.setAppElement('#__next');
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Authentication isProtected={pageProps.isProtected}>

@@ -1,7 +1,13 @@
 import ActionsCard from "./ActionsCard";
 import NewActionButton from "./NewActionButton";
 
-const ActionsContainer = () => {
+import { ServicesProps } from "../interfaces/services";
+
+interface ActionsContainerProps {
+    services: Array<ServicesProps>;
+}
+
+const ActionsContainer = ({ services }: ActionsContainerProps) => {
     return (
         <div className="bg-yellow-500 rounded-xl p-5 space-y-3">
             <h2 className="text-2xl mb-4 font-bold">Actions Container</h2>
@@ -11,7 +17,7 @@ const ActionsContainer = () => {
                 <ActionsCard />
                 <ActionsCard />
                 <ActionsCard />
-                <NewActionButton />
+                <NewActionButton services={services}/>
         </div>
     )
 }

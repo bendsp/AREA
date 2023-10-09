@@ -1,13 +1,22 @@
 import Background from '../components/Background'
+import { useRouter } from 'next/router';
 
-const newAction = () => {
+const NewAction = () => {
+    const router = useRouter()
+
+    const services = router.query.services ? JSON.parse(router.query.services as string) : [];
+    console.log(services)
+
+    const actionName = router.query.name ? router.query.name : "";
+    console.log(actionName)
+
     return (
-        <Background className="p-5">
-            <div className="bg-white p-2 rounded-2xl">
-                New Action Page
+        <Background className="p-5 text-2xl font-bold">
+            <div className="bg-white p-5 rounded-2xl">
+                {actionName}
             </div>
         </Background>
     )
 }
 
-export default newAction
+export default NewAction
