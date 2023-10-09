@@ -9,7 +9,7 @@ interface ActionsContainerProps {
 
 const ActionsContainer = ({ services }: ActionsContainerProps) => {
     return (
-        <div className="bg-yellow-500 rounded-xl p-5 space-y-3">
+        <div className="bg-[#1e1e1e] rounded-xl p-5 space-y-3">
             <h2 className="text-2xl mb-4 font-bold">Actions Container</h2>
                 <ActionsCard />
                 <ActionsCard />
