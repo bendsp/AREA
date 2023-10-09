@@ -4,8 +4,6 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { google } from 'googleapis';
 import { Options } from 'nodemailer/lib/smtp-transport';
 import { MailData } from './mailing.interface';
-import { insertData } from 'src/db/db.insertData';
-import { PutData } from 'src/db/db.interface';
 import { Status } from 'src/main';
 
 @Injectable()
@@ -15,14 +13,6 @@ export class MailingService {
         private readonly mailerService: MailerService,
     ) {}
     
-    public async sendDataMail(body: MailData, id: number): Promise<Status>{
-        let data: PutData = {id: id, TablesName: "Mail", value: body};
-        if (await insertData(data) == false) {
-            return {"statusCode": 500, "message": "Data not send well"};
-        }
-        return {"statusCode": 200, "message": "Data send well"};
-    }
-
     public async sendMail(body: MailData): Promise<Status>{
         try {
             await this.setTransport();
@@ -65,14 +55,14 @@ export class MailingService {
         });
 
         const config: Options = {
-        service: 'gmail',
-        auth: {
-            type: 'OAuth2',
-            user: this.configService.get('EMAIL'),
-            clientId: this.configService.get('CLIENT_ID'),
-            clientSecret: this.configService.get('CLIENT_SECRET'),
-            accessToken,
-        },
+            service: 'gmail',
+            auth: {
+                type: 'OAuth2',
+                user: this.configService.get('EMAIL'),
+                clientId: this.configService.get('CLIENT_ID'),
+                clientSecret: this.configService.get('CLIENT_SECRET'),
+                accessToken,
+            },
         };
         this.mailerService.addTransporter('gmail', config);
     }

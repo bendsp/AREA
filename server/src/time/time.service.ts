@@ -44,11 +44,4 @@ constructor(private readonly httpService: HttpService) {}
         return `${formattedTime}`;
     }
 
-    async sendData(body: TimeData, id: number): Promise<Status> {
-        let data: PutData = {id: id, TablesName: "Time", value: body};
-        if (await insertData(data) == false) {
-            return {"statusCode": 500, "message": "Data send well"};
-        }
-        return {"statusCode": 200, "message": "Data not send well"};
-    }
 }

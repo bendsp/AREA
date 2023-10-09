@@ -3,21 +3,21 @@ import { PutData } from './db.interface';
 import { db } from './db.setup';
 
 function setQuery(data: PutData): string {
-    let query = `INSERT INTO "${data.TablesName}" (id`;
+    let query = `INSERT INTO "${data.TablesName}" (user_id, area_id`;
     const keys = Object.keys(data.value);
     keys.forEach((key) => {
         query += `, ${key}`;
     });
-    query += ') VALUES ($1';
+    query += ') VALUES ($1, $2';
     for (let i = 0; i < keys.length; i++) {
-        query += `, $${i + 2}`;
+        query += `, $${i + 3}`;
     }
     query += ');';
     return query;
 }
 
 function setValues(data: PutData): any[] {
-    const dataList = [data.id];
+    const dataList = [data.user_id, data.area_id];
     const values = Object.values(data.value);
     values.forEach((value) => {
         dataList.push(value);

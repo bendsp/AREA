@@ -12,11 +12,5 @@ export class MailingController {
   public async sendMail(@Body() body: MailData): Promise<Status> {    
     return await this.mailingService.sendMail(body);
   }
-  
-  @Post('send-data-mail')
-  public async sendDataMail(@Body() body: any): Promise<Status> {
-    let data: MailData = {email: body.email, subject: body.subject, message: body.message};
-    return await this.mailingService.sendDataMail(data, body.id);
-  }
 
 }

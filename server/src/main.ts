@@ -6,13 +6,16 @@ export interface Status {
     message: string;
 }
 
-// function delay(ms: number) {
-//   return new Promise((resolve) => setTimeout(resolve, ms));
-// }
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
   await app.listen(8080);
+  while (true) {
+    await delay(1000);
+  }
 }
 bootstrap();
