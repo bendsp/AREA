@@ -21,8 +21,8 @@ const NewActionModal = ({ isOpen, onRequestClose, onCreateAction }: NewActionMod
 
   return (
     <Modal isOpen={isOpen} onRequestClose={onRequestClose} className="w-[35%]">
-      <div className="bg-white p-4 rounded shadow-lg">
-        <h2 className="text-2xl mb-4">Create New Action</h2>
+      <div className="bg-[#1e1e1e] p-6 rounded-xl shadow-lg">
+        <h2 className="text-2xl mb-4 text-white font-bold">Create New Action</h2>
         <input
           type="text"
           value={name}
