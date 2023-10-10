@@ -1,6 +1,7 @@
 #!/bin/sh
 
-# import the config * TODO
+# import the config
+/opt/keycloak/bin/kc.sh import --file /etc/keycloak/realm-import.json
 
-# Keep the container running (replace this with whatever command you want to run)
+# Start Keycloak in development mode
 exec /opt/keycloak/bin/kc.sh start-dev
