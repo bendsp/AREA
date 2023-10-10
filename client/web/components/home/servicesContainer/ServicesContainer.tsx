@@ -1,6 +1,6 @@
 import ServicesCard from "./ServicesCard";
 
-import { ServicesProps } from "../interfaces/services";
+import { ServicesProps } from "../../../interfaces/services";
 
 interface ServicesContainerProps {
     services: Array<ServicesProps>;

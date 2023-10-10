@@ -1,4 +1,4 @@
-import { ActionsProps } from '../interfaces/services'
+import { ActionsProps } from '../../../interfaces/services'
 
 interface ActionCardProps {
     actions: Array<ActionsProps>;

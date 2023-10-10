@@ -13,3 +13,9 @@ export interface ServicesProps {
     actions: Array<ActionsProps>;
     reactions: Array<ActionsProps>;
 }
+
+export type ServicesType = "Time" | "Gmail"
+
+export type ActionsType = "get_city_time"
+
+export type ReactionsType = "send_email"
