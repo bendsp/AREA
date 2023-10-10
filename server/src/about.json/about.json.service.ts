@@ -26,8 +26,11 @@ export class AboutJsonService {
                         "name": "Time",
                         "actions": [{
                             "name":"get_city_time",
-                            "description": "Get the current time of a city",
+                            "description": "When time is reach in selected city",
                             "params" : [{
+                                "name" : "time",
+                                "type" : "number"
+                            },{
                                 "name" : "city",
                                 "type" : "string"
                             }]
