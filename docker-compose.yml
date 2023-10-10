@@ -24,7 +24,6 @@ services:
     build: ./keycloak
     ports:
       - "8082:8080"
-    command: start-dev
     volumes:
       - keycloak_data:/opt/keycloak/data
 
