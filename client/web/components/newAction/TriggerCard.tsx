@@ -59,7 +59,7 @@ const TriggerCard = ({ services }: TriggerCardProps) => {
                                 </option>
                             ))}
                     </select>
-                    <div className="bg-white rounded-sm p-3">
+                    <div className="bg-white rounded-sm p-3 space-y-2">
                         {services
                             .find((service) => service.name === selectedService)
                             ?.actions.find((action) => action.name === selectedAction)

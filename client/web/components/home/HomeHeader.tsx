@@ -20,7 +20,7 @@ const HomeHeader = () => {
                     { isDropdownOpen ? '-' : '+' }
                 </button>
                 {isDropdownOpen && (
-                    <div className="absolute right-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg w-[12em] p-3 space-y-2">
+                    <div className="absolute z-10 right-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg w-[12em] p-3 space-y-2">
                         <div className="">Content 1</div>
                         <div className="">Content 2</div>
                         <button onClick={handleSignOut} className="py-1 w-full rounded-xl bg-gray-200 hover:bg-gray-300">

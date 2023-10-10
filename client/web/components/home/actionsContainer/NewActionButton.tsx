@@ -32,9 +32,9 @@ const NewActionButton = ({ services }: NewActionButtonProps) => {
     <div>
       <button
         onClick={handleOpenModal}
-        className="w-full border-dashed border-2 border-black hover:bg-yellow-600 rounded-sm p-3"
+        className="w-full border-dashed border-2 border-white hover:bg-[#292929] rounded-sm p-3"
       >
-        <div className="text-center font-bold">
+        <div className="text-center font-bold text-white">
           Create New Action
         </div>
       </button>

@@ -20,7 +20,7 @@ const NewActionModal = ({ isOpen, onRequestClose, onCreateAction }: NewActionMod
   };
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={onRequestClose} className="z-20 flex items-center justify-center">
+    <Modal isOpen={isOpen} onRequestClose={onRequestClose} className="w-[35%]">
       <div className="bg-white p-4 rounded shadow-lg">
         <h2 className="text-2xl mb-4">Create New Action</h2>
         <input
