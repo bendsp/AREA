@@ -7,7 +7,7 @@ interface BackgroundProps {
 
 const Background = ({ children, className }: PropsWithChildren<BackgroundProps>) => {
     return (
-        <div className={classnames(className, "bg-[#050014] min-h-screen")}>
+        <div className={classnames(className, "bg-[#121212] min-h-screen")}>
             {children}
         </div>
     )
