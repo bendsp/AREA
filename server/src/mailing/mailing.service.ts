@@ -8,6 +8,9 @@ import { Status } from 'src/main';
 
 @Injectable()
 export class MailingService {
+    static sendMail(arg0: { email: string; subject: string; message: string; }) {
+        throw new Error('Method not implemented.');
+    }
     constructor(
         private readonly configService: ConfigService,
         private readonly mailerService: MailerService,
@@ -48,7 +51,7 @@ export class MailingService {
         const accessToken: string = await new Promise((resolve, reject) => {
         oauth2Client.getAccessToken((err, token) => {
             if (err) {
-            reject('Failed to create access token');
+                reject(err);
             }
             resolve(token);
         });

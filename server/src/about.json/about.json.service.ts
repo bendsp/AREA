@@ -26,10 +26,10 @@ export class AboutJsonService {
                         "name": "Time",
                         "actions": [{
                             "name":"get_city_time",
-                            "description": "When time is reach in selected city",
+                            "description": "When time is reached in selected city",
                             "params" : [{
                                 "name" : "time",
-                                "type" : "number"
+                                "type" : "string"
                             },{
                                 "name" : "city",
                                 "type" : "string"

@@ -1,19 +1,21 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ClientData } from './client.interface';
+import { ClientData, SelectAreaData } from './client.interface';
 import { Status } from 'src/main';
 import { insertData } from 'src/db/db.insertData';
 import { selectData } from 'src/db/db.selectData';
 import { UpdateData } from 'src/db/db.updateData';
 import { Area, AreaData, User } from 'src/db/db.interface';
-import { TimeData } from 'src/time/time.interface';
+import { SelectTimeData, TimeData } from 'src/time/time.interface';
+import { SelectEmailData } from 'src/mailing/mailing.interface';
+
 @Injectable()
 export class ClientService {
 
     public async getAllNodes(id: number): Promise<ClientData[]> {
         let result: ClientData[] = [];
-        const timeResults = await selectData(id, "Time");
-        const emailResults = await selectData(id, "Email");
-        const areaResults = await selectData(id, "Area");
+        const timeResults = await selectData("Time", id) as SelectTimeData[];
+        const emailResults = await selectData("Email", id) as SelectEmailData[];
+        const areaResults = await selectData("Area", id) as SelectAreaData[];
 
         areaResults.forEach((area:AreaData) => {
             result.push({
@@ -50,7 +52,7 @@ export class ClientService {
     }
 
     public async newNode(body: ClientData): Promise<Status> {
-        let nb_area: number = parseInt((await selectData(body.user_id, "User", "nb_area")), 10) + 1;
+        let nb_area: number = parseInt((await selectData("User", body.user_id, "nb_area") as string), 10) + 1;
 
         if (await insertData({user_id: body.user_id, area_id: nb_area, TablesName: "Area", value: {area_name: body.area_name}}) === false) {
             return {"statusCode": 500, "message": `Error while adding new area_name in Area`};

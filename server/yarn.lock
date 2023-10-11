@@ -775,7 +775,7 @@
     "lodash" "4.17.21"
     "uuid" "9.0.0"
 
-"@nestjs/core@^10.0.0", "@nestjs/core@^7.0.9 || ^8.0.0 || ^9.0.0 || ^10.0.0":
+"@nestjs/core@^10.0.0", "@nestjs/core@^7.0.9 || ^8.0.0 || ^9.0.0 || ^10.0.0", "@nestjs/core@^8.0.0 || ^9.0.0 || ^10.0.0":
   "integrity" "sha512-O9AycZc4MjzIFrvCxcQVqfSNuN9eHZrfyVcYkp9CMPj6lGd9TQCZX2MmaP1CWs4UJBmTKflPdtPJ0sj9iIuvLQ=="
   "resolved" "https://registry.npmjs.org/@nestjs/core/-/core-10.2.5.tgz"
   "version" "10.2.5"
@@ -797,6 +797,14 @@
     "express" "4.18.2"
     "multer" "1.4.4-lts.1"
     "tslib" "2.6.2"
+
+"@nestjs/schedule@^3.0.4":
+  "integrity" "sha512-uFJpuZsXfpvgx2y7/KrIZW9e1L68TLiwRodZ6+Gc8xqQiHSUzAVn+9F4YMxWFlHITZvvkjWziUFgRNCitDcTZQ=="
+  "resolved" "https://registry.npmjs.org/@nestjs/schedule/-/schedule-3.0.4.tgz"
+  "version" "3.0.4"
+  dependencies:
+    "cron" "2.4.3"
+    "uuid" "9.0.1"
 
 "@nestjs/schematics@^10.0.0", "@nestjs/schematics@^10.0.1":
   "integrity" "sha512-DaZZjymYoIfRqC5W62lnYXIIods1PDY6CGc8+IpRwyinzffjKxZ3DF3exu+mdyvllzkXo9DTXkoX4zOPSJHCkw=="
@@ -1062,6 +1070,11 @@
   "integrity" "sha512-RbSSoHliUbnXj3ny0CNFOoxrIDV6SUGyStHsvDqosw6CkdPV8TtWGlfecuK4ToyMEAql6pzNxgCFKanovUzlgQ=="
   "resolved" "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.13.tgz"
   "version" "7.0.13"
+
+"@types/luxon@~3.3.0":
+  "integrity" "sha512-l5cpE57br4BIjK+9BSkFBOsWtwv6J9bJpC7gdXIzZyI0vuKvNTk0wZZrkQxMGsUAuGW9+WMNWF2IJMD7br2yeQ=="
+  "resolved" "https://registry.npmjs.org/@types/luxon/-/luxon-3.3.2.tgz"
+  "version" "3.3.2"
 
 "@types/mime@*", "@types/mime@^1":
   "integrity" "sha512-YATxVxgRqNH6nHEIsvg6k2Boc1JHI9ZbH5iWFFv/MTkchz3b1ieGDa5T0a9RznNdI0KhVbdbWSN+KWWrQZRxTw=="
@@ -2255,6 +2268,14 @@
   "integrity" "sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ=="
   "resolved" "https://registry.npmjs.org/create-require/-/create-require-1.1.1.tgz"
   "version" "1.1.1"
+
+"cron@2.4.3":
+  "integrity" "sha512-YBvExkQYF7w0PxyeFLRyr817YVDhGxaCi5/uRRMqa4aWD3IFKRd+uNbpW1VWMdqQy8PZ7CElc+accXJcauPKzQ=="
+  "resolved" "https://registry.npmjs.org/cron/-/cron-2.4.3.tgz"
+  "version" "2.4.3"
+  dependencies:
+    "@types/luxon" "~3.3.0"
+    "luxon" "~3.3.0"
 
 "cross-spawn@^6.0.0":
   "integrity" "sha512-eTVLrBSt7fjbDygz805pMnstIs2VTBNkRm0qxZd+M7A5XDdxVRWO5MxGBXZhjY4cqLYLdtrGqRf8mBPmzwSpWQ=="
@@ -4614,6 +4635,11 @@
   "resolved" "https://registry.npmjs.org/lru-cache/-/lru-cache-10.0.1.tgz"
   "version" "10.0.1"
 
+"luxon@~3.3.0":
+  "integrity" "sha512-An0UCfG/rSiqtAIiBPO0Y9/zAnHUZxAMiCpTd5h2smgsj7GGmcenvrvww2cqNA8/4A5ZrD1gJpHN2mIHZQF+Mg=="
+  "resolved" "https://registry.npmjs.org/luxon/-/luxon-3.3.0.tgz"
+  "version" "3.3.0"
+
 "macos-release@^2.5.0":
   "integrity" "sha512-DXqXhEM7gW59OjZO8NIjBCz9AQ1BEMrfiOAl4AYByHCtVHRF4KoGNO8mqQeM8lRCtQe/UnJ4imO/d2HdkKsd+A=="
   "resolved" "https://registry.npmjs.org/macos-release/-/macos-release-2.5.1.tgz"
@@ -6932,7 +6958,7 @@
   "resolved" "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz"
   "version" "1.0.1"
 
-"uuid@^9.0.0":
+"uuid@^9.0.0", "uuid@9.0.1":
   "integrity" "sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA=="
   "resolved" "https://registry.npmjs.org/uuid/-/uuid-9.0.1.tgz"
   "version" "9.0.1"
