@@ -22,7 +22,6 @@ export class CheckTrigersService {
         TimeData.forEach((user) => {
             this.timeService.getCurrentTimeByCity(user.city).then((data) => {
                 let time = data.split(" ")[1];
-                 Logger.log("Time", time);
                 if ((data.split(" ")[2] === "PM" && parseInt(data.split(" ")[1].split(":")[0]) < 12) || (data.split(" ")[2] === "AM" && parseInt(data.split(" ")[1].split(":")[0]) === 12)) {
                     time = (parseInt(data.split(" ")[1].split(":")[0]) + 12).toString() + ":" + data.split(" ")[1].split(":")[1];
                 } else {
