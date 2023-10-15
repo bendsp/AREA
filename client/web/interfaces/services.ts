@@ -1,22 +1,10 @@
-export interface ActionParamsProps {
-    name: string;
-    type: string;
-    value: string;
-}
-export interface ActionsProps {
-    name: string;
-    description: string;
-    params: Array<ActionParamsProps>;
-}
+import { ActionProps } from "./actions";
 
 export interface ServicesProps {
     name: string;
-    actions: Array<ActionsProps>;
-    reactions: Array<ActionsProps>;
+    actions: Array<ActionProps>;
+    reactions: Array<ActionProps>;
 }
 
 export type ServicesType = "Time" | "Gmail"
 
-export type ActionsType = "get_city_time"
-
-export type ReactionsType = "send_email"

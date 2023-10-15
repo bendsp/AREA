@@ -1,5 +1,5 @@
-import { ServicesType, ReactionsType, ServicesProps } from "./services";
-import { ActionParamsProps } from "./services";
+import { ServicesType, ServicesProps } from "./services";
+import { ActionParamsProps } from "./actions";
 
 export interface ReactionProps {
     id: string;
@@ -14,3 +14,5 @@ export interface ReactionCardProps {
     onUpdate: (reactionCard: ReactionProps) => void;
     data: ReactionProps
 }
+
+export type ReactionsType = "send_email"

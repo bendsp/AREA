@@ -5,8 +5,11 @@ import NewReactionButton from '../components/newAction/NewReactionButton';
 import ReactionCard from '../components/newAction/ReactionCard';
 import { useState } from 'react';
 import { ReactionProps } from '../interfaces/reactions';
-import { ServicesProps, ActionParamsProps } from '../interfaces/services';
+import { ActionParamsProps } from '../interfaces/actions';
+import { ServicesProps } from '../interfaces/services';
 import { TriggerProps } from '../interfaces/triggers';
+import createNodeJson from '../methods/createNodeJson';
+import sendNewNode from '../methods/sendNewNode';
 
 const generateId = () => {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
@@ -15,7 +18,7 @@ const generateId = () => {
 const NewAction = () => {
     const router = useRouter()
     const services = router.query.services ? JSON.parse(router.query.services as string) : [];
-    const actionName = router.query.name ? router.query.name : "";
+    const actionName = router.query.name ? router.query.name as string : "";
 
     const servicesWithActions = services.filter((service: ServicesProps) => service.actions.length > 0);
 
@@ -67,10 +70,10 @@ const NewAction = () => {
         })
     }
 
-    const handleSaveArea = () => {
-        console.log('SAVING AREA');
-        console.log('triggerCardData: ', triggerCardData)
-        console.log('reactionCardsData: ', reactionCardsData)
+    const handleSaveArea = async () => {
+        console.log("save area button clicked")
+        const nodeJson = createNodeJson(actionName, triggerCardData, reactionCardsData);
+        await sendNewNode(nodeJson);
     }
 
     return (
@@ -78,7 +81,6 @@ const NewAction = () => {
             <div className="bg-[#ffffff] p-5 rounded-2xl">
                 {actionName}
             </div>
-            {/* // TODO: add onUpdate for TriggerCard */}
             <TriggerCard
                 services={servicesWithActions}
                 data={triggerCardData}

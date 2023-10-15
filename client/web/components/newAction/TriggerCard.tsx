@@ -1,13 +1,7 @@
-import { ActionsType, ServicesType, ServicesProps, ActionParamsProps } from "../../interfaces/services";
-import { useState, useEffect } from "react";
-import { TriggerProps } from "../../interfaces/triggers";
+import { ServicesType } from "../../interfaces/services";
+import { ActionParamsProps, ActionsType } from "../../interfaces/actions";
+import { TriggerProps, TriggerCardProps } from "../../interfaces/triggers";
 import { ChangeEvent } from "react";
-
-interface TriggerCardProps {
-    services: Array<ServicesProps>;
-    data: TriggerProps;
-    onUpdate: (triggerCard: TriggerProps) => void;
-}
 
 const TriggerCard = ({ services, data, onUpdate }: TriggerCardProps) => {
     const handleSelectService = (event: ChangeEvent<HTMLSelectElement>) => {

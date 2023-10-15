@@ -1,7 +1,8 @@
 import { ChangeEvent } from "react"
 
-import { ServicesType, ReactionsType, ActionParamsProps } from "../../interfaces/services"
-import { ReactionProps, ReactionCardProps } from "../../interfaces/reactions"
+import { ServicesType } from "../../interfaces/services"
+import { ActionParamsProps } from "../../interfaces/actions"
+import { ReactionProps, ReactionCardProps, ReactionsType } from "../../interfaces/reactions"
 
 const ReactionCard = ({ services, onDelete, onUpdate, data }: ReactionCardProps) => {
     const handleSelectService = (event: ChangeEvent<HTMLSelectElement>) => {
