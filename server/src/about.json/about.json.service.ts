@@ -44,13 +44,13 @@ export class AboutJsonService {
                             "name": "send_email",
                             "description": "Send an email to the destination email address with subject and body",
                             "params": [{
-                                "name": "email-destination",
+                                "name": "email",
                                 "type": "string"
                                 },{
                                 "name": "subject",
                                 "type": "string"
                                 },{
-                                "name": "body",
+                                "name": "message",
                                 "type": "string"
                             }]
                         }]

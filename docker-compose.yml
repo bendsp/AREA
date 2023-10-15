@@ -20,12 +20,12 @@ services:
       - server
       # - mobile
 
-  keycloak:
-    build: ./keycloak
-    ports:
-      - "8082:8080"
-    volumes:
-      - keycloak_data:/opt/keycloak/data
+  # keycloak:
+  #   build: ./keycloak
+  #   ports:
+  #     - "8082:8080"
+  #   volumes:
+  #     - keycloak_data:/opt/keycloak/data
 
   postgres:
     build: ./db
