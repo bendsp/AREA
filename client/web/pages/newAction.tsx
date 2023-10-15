@@ -71,9 +71,9 @@ const NewAction = () => {
     }
 
     const handleSaveArea = async () => {
-        console.log("save area button clicked")
-        const nodeJson = createNodeJson(actionName, triggerCardData, reactionCardsData);
-        await sendNewNode(nodeJson);
+        const nodeJson = createNodeJson(actionName, triggerCardData, reactionCardsData)
+        await sendNewNode(nodeJson)
+        router.push('/home')
     }
 
     return (
