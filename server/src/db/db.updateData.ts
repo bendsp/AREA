@@ -1,9 +1,9 @@
 import { Status } from 'src/main';
 import { db } from './db.setup';
 
-async function UpdateData(user_id: number, newValue:any, tableName:string, columnName:string): Promise<boolean> {
+async function UpdateData(user_id: string, newValue:any, tableName:string, columnName:string): Promise<boolean> {
     try {
-        let query = `UPDATE "${tableName}" SET "${columnName}" = ${newValue} WHERE user_id = ${user_id};`;
+        let query = `UPDATE "${tableName}" SET "${columnName}" = ${newValue} WHERE user_id = '${user_id}';`;
         const result = await db.result(query);
 
         if (result.rowCount === 1) {

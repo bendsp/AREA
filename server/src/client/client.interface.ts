@@ -3,7 +3,7 @@ import { MailData } from "src/mailing/mailing.interface";
 import { TableNames } from "src/db/db.interface";
 
 export interface ClientData {
-    user_id: number;
+    user_id: string;
     area_id: number;
     area_name: string;
     action: {
@@ -18,7 +18,7 @@ export interface ClientData {
 }
 
 export interface SelectAreaData {
-    user_id: number;
+    user_id: string;
     area_name: string;
     area_id: number;
 }

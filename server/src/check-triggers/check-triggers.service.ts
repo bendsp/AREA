@@ -1,32 +1,26 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { MailingService } from '../mailing/mailing.service';
-import { TimeService } from '../time/time.service'; 
+import { TimeService } from '../time/time.service'; // Corrected import path
 import { selectData } from '../db/db.selectData';
 import { SelectTimeData } from '../time/time.interface';
 import { SelectEmailData } from '../mailing/mailing.interface';
 
 @Injectable()
 export class CheckTriggersService {
+
     constructor(
-        public mailingServices: MailingService,
-        public timeServices: TimeService,
+        private readonly mailingService: MailingService,
+        private readonly timeService: TimeService,
     ) {}
 
     @Cron('0 */1 * * * *')
     async handleCron() {
-        const trigger = [this.checkTime]
-        const reaction = [this.launchEmail]
         try {
-            trigger.forEach(async func => {
-                const ListTrigger = await func();
-                Logger.log("ListTimeTrigger", ListTrigger);
-                if (ListTrigger.length != 0) {
-                    reaction.forEach(async func => {
-                        await func(ListTrigger);
-                    });
-                }
-            });
+            const ListTimeTrigger: number[] = await this.checkTime();
+            if (ListTimeTrigger.length > 0) {
+                await this.launchEmail(ListTimeTrigger);
+            }
         } catch (error) {
             // Handle any errors here
             Logger.error('Error in handleCron:', error);
@@ -39,14 +33,17 @@ export class CheckTriggersService {
             const ListTimeTrigger: number[] = [];
 
             for (const user of TimeData) {
-                Logger.log("user", user);
-                const data = await this.timeServices.getCurrentTimeByCity(user.city);
-                Logger.log("data", data);
+                Logger.log("user.city :"+ user.city);
+                const data = await this.timeService.getCurrentTimeByCity(user.city);
                 let time = data.split(" ")[1];
-
+                if ((data.split(" ")[2] === "PM" && parseInt(data.split(" ")[1].split(":")[0]) < 12) || (data.split(" ")[2] === "AM" && parseInt(data.split(" ")[1].split(":")[0]) === 12)) {
+                    time = (parseInt(data.split(" ")[1].split(":")[0]) + 12).toString() + ":" + data.split(" ")[1].split(":")[1];
+                } else {
+                    time = data.split(" ")[1].split(":")[0] + ":" + data.split(" ")[1].split(":")[1];
+                }
                 // Rest of your logic here
-                Logger.log("Time", time);
-                Logger.log("user.time", user.time);
+                Logger.log("Time"+ time);
+                Logger.log("user.time"+ user.time);
                 if (time === user.time) {
                     ListTimeTrigger.push(user.area_id);
                 }
@@ -54,7 +51,7 @@ export class CheckTriggersService {
             return ListTimeTrigger;
         } catch (error) {
             // Handle any errors here
-            Logger.error('Error in checkTime:', error);
+            Logger.error('Error in checkTime:'+ error );
             return [];
         }
     }
@@ -65,8 +62,8 @@ export class CheckTriggersService {
 
             for (const email of EmailData) {
                 for (const area_id of ListTimeTrigger) {
-                    if (email.area_id >= area_id && email.area_id < area_id + 1) {
-                        await this.mailingServices.sendMail({ email: email.email, subject: email.subject, message: email.message });
+                    if (email.area_id > area_id && email.area_id < area_id + 1) {
+                        await this.mailingService.sendMail(email);
                     }
                 }
             }

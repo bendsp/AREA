@@ -6,9 +6,9 @@ import { SelectEmailData } from 'src/mailing/mailing.interface';
 import { SelectAreaData } from 'src/client/client.interface';
 import { User } from './db.interface';
 
-async function selectData(tableName: TableNames, user_id: number = 0,  columnName:string = '*'): Promise<(SelectEmailData | User | SelectTimeData | SelectAreaData)[] | string | number> {
+async function selectData(tableName: TableNames, user_id: string = "0",  columnName:string = '*'): Promise<(SelectEmailData | User | SelectTimeData | SelectAreaData)[] | string | number> {
     try {
-        if (user_id === 0) {
+        if (user_id === "0") {
             let query = `SELECT ${columnName} FROM "${tableName}";`;
             const result = await db.result<SelectEmailData | SelectTimeData | SelectAreaData | User>(query);
             Logger.log(result.rows)
@@ -17,7 +17,7 @@ async function selectData(tableName: TableNames, user_id: number = 0,  columnNam
             else
                 return result.rows[0][columnName];
         }
-        let query = `SELECT ${columnName} FROM "${tableName}" WHERE user_id = ${user_id};`;
+        let query = `SELECT ${columnName} FROM "${tableName}" WHERE user_id = '${user_id}';`;
         const result = await db.result<SelectEmailData | SelectTimeData | SelectAreaData | User>(query);
         Logger.log(result.rows)
         if (columnName === '*')

@@ -5,7 +5,7 @@ export interface TimeData {
 
 export interface PostrgessTime {
     area_id: number;
-    user_id: number;
+    user_id: string;
 }
 
 

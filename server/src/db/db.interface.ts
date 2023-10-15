@@ -5,7 +5,7 @@ export type TableNames = 'Gmail' | 'Time' | 'User'| 'Area';
 export type serviceName = 'Gmail' | 'Time';
 
 export interface PutData {
-    user_id: number;
+    user_id: string;
     area_id: number;
     TablesName: TableNames | "";
     value: MailData | TimeData | User | Area | {};

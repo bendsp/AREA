@@ -11,7 +11,7 @@ import { SelectEmailData } from 'src/mailing/mailing.interface';
 @Injectable()
 export class ClientService {
 
-    public async getAllNodes(id: number): Promise<ClientData[]> {
+    public async getAllNodes(id: string): Promise<ClientData[]> {
         let result: ClientData[] = [];
         const timeResults = await selectData("Time", id) as SelectTimeData[];
         const emailResults = await selectData("Gmail", id) as SelectEmailData[];
@@ -53,7 +53,7 @@ export class ClientService {
 
     public async newNode(body: ClientData): Promise<Status> {
         let nb_area: number = parseInt((await selectData("User", body.user_id, "nb_area") as string), 10) + 1;
-
+        Logger.log(nb_area);
         if (await insertData({user_id: body.user_id, area_id: nb_area, TablesName: "Area", value: {area_name: body.area_name}}) === false) {
             return {"statusCode": 500, "message": `Error while adding new area_name in Area`};
         }
@@ -80,7 +80,7 @@ export class ClientService {
         return {"statusCode": 200, "message": "New user added"};
     }
 
-    public async getUser(id: number): Promise<User> {
+    public async getUser(id: string): Promise<User> {
         const user = await selectData("User", id) as User[];
         if (user.length === 0) {
             return {"user_id": "r", "email": "", "username": "", "nb_area": 0};

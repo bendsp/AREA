@@ -16,7 +16,7 @@ export class ClientController {
 
     @Post('user/:id')
     public async getUser(@Param('id') id: number): Promise<User> {
-        return await this.clientService.getUser(id);
+        return await this.clientService.getUser(id.toString());
     }
 
     @Post('new-node')
@@ -26,6 +26,6 @@ export class ClientController {
 
     @Get('all-nodes/:id')
     public async allNodes(@Param('id') id: number): Promise<ClientData[]> {
-        return await this.clientService.getAllNodes(id);
+        return await this.clientService.getAllNodes(id.toString());
     }
 }
