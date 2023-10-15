@@ -1,27 +1,36 @@
-import { ServicesProps } from "../../interfaces/services";
+import { ActionsType, ServicesType, ServicesProps, ActionParamsProps } from "../../interfaces/services";
 import { useState, useEffect } from "react";
 import { TriggerProps } from "../../interfaces/triggers";
+import { ChangeEvent } from "react";
 
 interface TriggerCardProps {
     services: Array<ServicesProps>;
+    data: TriggerProps;
     onUpdate: (triggerCard: TriggerProps) => void;
 }
 
-const TriggerCard = ({ services, onUpdate }: TriggerCardProps) => {
-    const [selectedService, setSelectedService] = useState('');
-    const [selectedAction, setSelectedAction] = useState('');
-    const [paramValues, setParamValues] = useState([])
+const TriggerCard = ({ services, data, onUpdate }: TriggerCardProps) => {
+    const handleSelectService = (event: ChangeEvent<HTMLSelectElement>) => {
+        const updatedService = event.target.value as ServicesType;
+        const updatedAction = services.find((service) => service.name === updatedService)?.actions?.[0]?.name ?? '';
+        onUpdate({ ...data, service: updatedService, action: updatedAction as TriggerProps['action'] });
+    }
 
-    const handleApplyClick = () => {
-        console.log(`Selected Service: ${selectedService}`);
-        console.log(`Selected Action: ${selectedAction}`);
-        console.log('ParamValues:', paramValues);
-    };
+    const handleSelectAction = (event: ChangeEvent<HTMLSelectElement>) => {
+        const updatedAction = event.target.value as ActionsType;
+        onUpdate({ ...data, action: updatedAction});
+    }
 
-    useEffect(() => {
-        setSelectedService(services[0]?.name || '');
-        setSelectedAction(services[0]?.actions[0]?.name || '');
-    }, [services]);
+    const handleSelectParam = (event: ChangeEvent<HTMLInputElement>, param: ActionParamsProps) => {
+        const updatedParamValues = data.paramValues.map(existingParam => {
+            if (existingParam.name === param.name) {
+                return { ...existingParam, value: event.target.value };
+            }
+            return existingParam;
+        });
+
+        onUpdate({ ...data, paramValues: updatedParamValues });
+    }
 
     return (
         <div className="flex flex-col bg-[#1e1e1e] text-[#121212] rounded-xl p-5 space-y-5">
@@ -36,8 +45,8 @@ const TriggerCard = ({ services, onUpdate }: TriggerCardProps) => {
                     <select
                         id="serviceDropdown"
                         className="border p-2 rounded"
-                        onChange={(e) => setSelectedService(e.target.value)}
-                        value={selectedService}
+                        onChange={handleSelectService}
+                        value={data.service}
                     >
                         {services.map((service, index) => (
                             <option key={index} value={service.name}>
@@ -50,11 +59,11 @@ const TriggerCard = ({ services, onUpdate }: TriggerCardProps) => {
                     <select
                         id="actionDropdown"
                         className="border p-2 rounded w-full"
-                        onChange={(e) => setSelectedAction(e.target.value)}
-                        value={selectedAction}
+                        onChange={handleSelectAction}
+                        value={data.action}
                     >
                         {services
-                            .find((service) => service.name === selectedService)
+                            .find((service) => service.name === data.service)
                             ?.actions.map((action, index) => (
                                 <option key={index} value={action.name}>
                                     {action.description}
@@ -63,8 +72,8 @@ const TriggerCard = ({ services, onUpdate }: TriggerCardProps) => {
                     </select>
                     <div className="bg-white rounded-sm p-3 space-y-2">
                         {services
-                            .find((service) => service.name === selectedService)
-                            ?.actions.find((action) => action.name === selectedAction)
+                            .find((service) => service.name === data.service)
+                            ?.actions.find((action) => action.name === data.action)
                             ?.params.map((param, index) => (
                               <div key={index} className="flex flex-line space-x-5">
                                 <label htmlFor={param.name} className="pt-2">
@@ -74,19 +83,13 @@ const TriggerCard = ({ services, onUpdate }: TriggerCardProps) => {
                                   type="text"
                                   id={param.name}
                                   className="border p-2 rounded w-full"
-                                  onChange={(e) => setParamValues({ ...paramValues, [param.name]: e.target.value })}
+                                  onChange={(event) => {handleSelectParam(event, param)}}
                                 />
                               </div>
                             ))}
                     </div>
                 </div>
             </div>
-            <button
-                className="bg-blue-500 text-white px-4 py-2 rounded w-[fit-content] self-end"
-                onClick={handleApplyClick}
-            >
-                Apply
-            </button>
         </div>
     );
 };

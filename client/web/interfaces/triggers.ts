@@ -1,7 +1,7 @@
-import { ActionParamsProps } from "./services";
+import { ActionParamsProps, ActionsType, ServicesType } from "./services";
 
 export interface TriggerProps {
-    service: string;
-    action: string;
+    service: ServicesType;
+    action: ActionsType;
     paramValues: Array<ActionParamsProps>;
 }

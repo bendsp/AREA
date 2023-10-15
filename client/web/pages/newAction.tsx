@@ -17,7 +17,19 @@ const NewAction = () => {
     const services = router.query.services ? JSON.parse(router.query.services as string) : [];
     const actionName = router.query.name ? router.query.name : "";
 
-    const [triggerCardData, setTriggerCardData] = useState<TriggerProps>();
+    const servicesWithActions = services.filter((service: ServicesProps) => service.actions.length > 0);
+
+    const servicesWithReactions = services.filter((service: ServicesProps) => service.reactions.length > 0);
+
+    // TODO: same here, default values
+    const [triggerCardData, setTriggerCardData] = useState<TriggerProps>({
+        service: "Time",
+        action: "get_city_time",
+        paramValues: [
+            { name: "time", value: "" },
+            { name: "city", value: "" }
+        ] as Array<ActionParamsProps>
+    });
 
     const [reactionCardsData, setReactionCardsData] = useState<Array<ReactionProps>>([]);
 
@@ -25,7 +37,7 @@ const NewAction = () => {
         setReactionCardsData(prevState => prevState.filter(card => card.id !== id));
     };
 
-    // TODO: if other services doesn't work, its coming from here (default values)
+    // TODO: if other services don't work, its coming from here (default values)
     const addReactionCard = () => {
         setReactionCardsData(prevState => [...prevState, {
             id: generateId(),
@@ -61,10 +73,6 @@ const NewAction = () => {
         console.log('reactionCardsData: ', reactionCardsData)
     }
 
-    const servicesWithActions = services.filter((service: ServicesProps) => service.actions.length > 0);
-
-    const servicesWithReactions = services.filter((service: ServicesProps) => service.reactions.length > 0);
-
     return (
         <Background className="flex flex-col p-5 text-2xl font-bold space-y-5">
             <div className="bg-[#ffffff] p-5 rounded-2xl">
@@ -73,6 +81,7 @@ const NewAction = () => {
             {/* // TODO: add onUpdate for TriggerCard */}
             <TriggerCard
                 services={servicesWithActions}
+                data={triggerCardData}
                 onUpdate={handleUpdateTriggerCard}
             />
             {reactionCardsData.map(cardData => (
