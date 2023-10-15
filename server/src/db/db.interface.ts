@@ -1,8 +1,8 @@
 import { TimeData } from "../time/time.interface";
 import { MailData } from "../mailing/mailing.interface";
 
-export type TableNames = 'Email' | 'Time' | 'User'| 'Area';
-export type serviceName = 'Email' | 'Time';
+export type TableNames = 'Gmail' | 'Time' | 'User'| 'Area';
+export type serviceName = 'Gmail' | 'Time';
 
 export interface PutData {
     user_id: number;
@@ -21,7 +21,7 @@ export interface AreaData {
 }
 
 export interface User {
-    user_id: number;
+    user_id: string;
     email: string;
     username: string;
     nb_area: number;

@@ -1,50 +1,78 @@
-import { Injectable, Logger, Inject } from '@nestjs/common';
-import { Cron, Interval } from '@nestjs/schedule';
+import { Injectable, Logger } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
 import { MailingService } from '../mailing/mailing.service';
-import { TimeService } from 'src/time/time.service';
-import { selectData } from 'src/db/db.selectData';
-import { SelectTimeData } from 'src/time/time.interface';
-import { SelectEmailData } from 'src/mailing/mailing.interface';
+import { TimeService } from '../time/time.service'; 
+import { selectData } from '../db/db.selectData';
+import { SelectTimeData } from '../time/time.interface';
+import { SelectEmailData } from '../mailing/mailing.interface';
 
 @Injectable()
 export class CheckTriggersService {
-    private readonly logger = new Logger(CheckTriggersService.name);
-
     constructor(
-      private readonly mailingService: MailingService,
-        private readonly timeService: TimeService,
+        public mailingServices: MailingService,
+        public timeServices: TimeService,
     ) {}
 
     @Cron('0 */1 * * * *')
     async handleCron() {
-        const TimeData: SelectTimeData[] = await selectData("Time") as SelectTimeData[];
-        const EmailData: SelectEmailData[] = await selectData("Email") as SelectEmailData[];
-        TimeData.forEach((user) => {
-            this.timeService.getCurrentTimeByCity(user.city).then((data) => {
-                let time = data.split(" ")[1];
-                if ((data.split(" ")[2] === "PM" && parseInt(data.split(" ")[1].split(":")[0]) < 12) || (data.split(" ")[2] === "AM" && parseInt(data.split(" ")[1].split(":")[0]) === 12)) {
-                    time = (parseInt(data.split(" ")[1].split(":")[0]) + 12).toString() + ":" + data.split(" ")[1].split(":")[1];
-                } else {
-                    time = data.split(" ")[1].split(":")[0] + ":" + data.split(" ")[1].split(":")[1];
-                }
-                Logger.log("Time", time);
-                Logger.log("user.time", user.time);
-                if (time === user.time) {
-                    EmailData.forEach((email) => {
-                        Logger.log("email.email", email.email);
-                        Logger.log("email.subject", email.subject);
-                        Logger.log("email.message", email.message);
-                        if (email.area_id > user.area_id && email.area_id < user.area_id + 1) {
-                            this.mailingService.sendMail({ email: email.email, subject: email.subject, message: email.message });
-                        }
+        const trigger = [this.checkTime]
+        const reaction = [this.launchEmail]
+        try {
+            trigger.forEach(async func => {
+                const ListTrigger = await func();
+                Logger.log("ListTimeTrigger", ListTrigger);
+                if (ListTrigger.length != 0) {
+                    reaction.forEach(async func => {
+                        await func(ListTrigger);
                     });
                 }
             });
+        } catch (error) {
+            // Handle any errors here
+            Logger.error('Error in handleCron:', error);
+        }
+    }
 
-        });
-        
-        this.logger.debug('Called when the current second is 10');
-    //Logger.log('Called when the current second is 45');
-    //this.mailingService.sendMail({ email: 'kentinpaille@gmail.com', subject: 'test', message: 'test' });
+    async checkTime(): Promise<number[]> {
+        try {
+            const TimeData: SelectTimeData[] = await selectData("Time") as SelectTimeData[];
+            const ListTimeTrigger: number[] = [];
+
+            for (const user of TimeData) {
+                Logger.log("user", user);
+                const data = await this.timeServices.getCurrentTimeByCity(user.city);
+                Logger.log("data", data);
+                let time = data.split(" ")[1];
+
+                // Rest of your logic here
+                Logger.log("Time", time);
+                Logger.log("user.time", user.time);
+                if (time === user.time) {
+                    ListTimeTrigger.push(user.area_id);
+                }
+            }
+            return ListTimeTrigger;
+        } catch (error) {
+            // Handle any errors here
+            Logger.error('Error in checkTime:', error);
+            return [];
+        }
+    }
+
+    async launchEmail(ListTimeTrigger: number[]) {
+        try {
+            const EmailData: SelectEmailData[] = await selectData("Gmail") as SelectEmailData[];
+
+            for (const email of EmailData) {
+                for (const area_id of ListTimeTrigger) {
+                    if (email.area_id >= area_id && email.area_id < area_id + 1) {
+                        await this.mailingServices.sendMail({ email: email.email, subject: email.subject, message: email.message });
+                    }
+                }
+            }
+        } catch (error) {
+            // Handle any errors here
+            Logger.error('Error in launchEmail:', error);
+        }
     }
 }

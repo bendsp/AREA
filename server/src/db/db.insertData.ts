@@ -39,4 +39,14 @@ async function insertData(data: PutData): Promise<boolean> {
     }
 }
 
-export { insertData };
+async function insertUser(user_id: string, email: string, username: string, nb_area: number = 0): Promise<boolean> {
+    try {
+        await db.none('INSERT INTO "User" (user_id, email, username, nb_area) VALUES ($1, $2, $3, $4);', [user_id, email, username, nb_area]);
+        return true;
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+export { insertData, insertUser };

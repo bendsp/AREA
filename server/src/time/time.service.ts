@@ -1,9 +1,6 @@
 import { Injectable, Logger, Put } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { insertData } from 'src/db/db.insertData';
-import { PutData } from 'src/db/db.interface';
-import { TimeData } from './time.interface';
-import { Status } from 'src/main';
+
 
 @Injectable()
 export class TimeService {

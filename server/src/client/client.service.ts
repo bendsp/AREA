@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ClientData, SelectAreaData } from './client.interface';
 import { Status } from 'src/main';
-import { insertData } from 'src/db/db.insertData';
+import { insertData, insertUser } from 'src/db/db.insertData';
 import { selectData } from 'src/db/db.selectData';
 import { UpdateData } from 'src/db/db.updateData';
 import { Area, AreaData, User } from 'src/db/db.interface';
@@ -14,7 +14,7 @@ export class ClientService {
     public async getAllNodes(id: number): Promise<ClientData[]> {
         let result: ClientData[] = [];
         const timeResults = await selectData("Time", id) as SelectTimeData[];
-        const emailResults = await selectData("Email", id) as SelectEmailData[];
+        const emailResults = await selectData("Gmail", id) as SelectEmailData[];
         const areaResults = await selectData("Area", id) as SelectAreaData[];
 
         areaResults.forEach((area:AreaData) => {
@@ -40,11 +40,11 @@ export class ClientService {
         emailResults.forEach(async (user:any) => {
             result.forEach((area) => {
                 if (Number(area.area_id) === Number(user.area_id)) {
-                    area.action = {serviceName: "Email", body: {email: user.email, subject: user.subject, message: user.message}};
+                    area.action = {serviceName: "Gmail", body: {email: user.email, subject: user.subject, message: user.message}};
                 }
                 if (Number(area.area_id) < Number(user.area_id) && Number(user.area_id) < Number(area.area_id) + Number(1)) {
                     Logger.log('push');
-                    area.reaction.push({serviceName: "Email", body: {email: user.email, subject: user.subject, message: user.message}});
+                    area.reaction.push({serviceName: "Gmail", body: {email: user.email, subject: user.subject, message: user.message}});
                 }
             });
         });
@@ -74,13 +74,16 @@ export class ClientService {
     }
 
     public async newUser(body: User): Promise<Status> {
+        if (await insertUser(body.user_id, body.email, body.username) === false) {
+            return {"statusCode": 500, "message": `Error while adding new user ${body.user_id}`};
+        }
         return {"statusCode": 200, "message": "New user added"};
     }
 
     public async getUser(id: number): Promise<User> {
         const user = await selectData("User", id) as User[];
         if (user.length === 0) {
-            return {"user_id": 0, "email": "", "username": "", "nb_area": 0};
+            return {"user_id": "r", "email": "", "username": "", "nb_area": 0};
         }
         return user[0];
     }
