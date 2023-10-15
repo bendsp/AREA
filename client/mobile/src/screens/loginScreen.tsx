@@ -4,7 +4,7 @@ import {View} from 'react-native';
 import {Button, Text} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {RootStackParamList} from './NavigationTypes';
+import {RootStackParamList} from './navigationTypes';
 import {useTheme} from 'react-native-paper';
 
 type LoginScreenNavigationProp = StackNavigationProp<
