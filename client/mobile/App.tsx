@@ -2,7 +2,7 @@
 import React from 'react';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {LightTheme, DarkTheme} from './assets/theme';
-import Navigation from './src/screens/Navigation';
+import Navigation from './src/screens/navigation';
 
 const App = () => {
   const [isDarkTheme, setIsDarkTheme] = React.useState(false); // Initially set to false for light theme

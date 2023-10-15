@@ -1,4 +1,4 @@
-// NavigationTypes.ts
+// navigationTypes.ts
 export type RootStackParamList = {
   App: undefined;
   Login: undefined;

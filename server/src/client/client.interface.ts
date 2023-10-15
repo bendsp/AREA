@@ -16,3 +16,9 @@ export interface ClientData {
     }[]
 
 }
+
+export interface SelectAreaData {
+    user_id: number;
+    area_name: string;
+    area_id: number;
+}

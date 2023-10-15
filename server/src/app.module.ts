@@ -7,12 +7,16 @@ import { AboutJsonController } from './about.json/about.json.controller';
 import { MailingModule } from './mailing/mailing.module';
 import { TimeModule } from './time/time.module';
 import { ClientModule } from './client/client.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { CheckTriggersModule } from './check-triggers/check-triggers.module';
 
 @Module({
     imports: [
         MailingModule,
+        CheckTriggersModule,
         ClientModule,
         TimeModule,
+        ScheduleModule.forRoot(),
         ConfigModule.forRoot({
             isGlobal: true,
         }),

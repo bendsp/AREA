@@ -18,14 +18,14 @@ constructor(private readonly httpService: HttpService) {}
         if (!results || results.length === 0) {
             throw new Error('City not found.' + geocodingResponse.data.error_message);
         }
-        Logger.log(results);
+        // Logger.log(results);
         const location = results[0].geometry.location;
-        Logger.log(location);
+        // Logger.log(location);
         // Step 2: Get time zone information for the coordinates
         const timeZoneUrl = `https://maps.googleapis.com/maps/api/timezone/json?location=${location.lat},${location.lng}&timestamp=${Math.floor(Date.now() / 1000)}&key=AIzaSyAegpW4OTClidwljwK8RL0GqFXKJ_jrpGY`;
-        Logger.log(timeZoneUrl);
+        // Logger.log(timeZoneUrl);
         const timeZoneResponse = await this.httpService.get(timeZoneUrl).toPromise();
-        Logger.log(timeZoneResponse.data);
+        // Logger.log(timeZoneResponse.data);
         
         // Step 3: Calculate the current time in the city
         const currentTime = new Date();
