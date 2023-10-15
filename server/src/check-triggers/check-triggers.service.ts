@@ -14,7 +14,7 @@ export class CheckTriggersService {
       private readonly mailingService: MailingService,
         private readonly timeService: TimeService,
     ) {}
-  
+
     @Cron('0 */1 * * * *')
     async handleCron() {
         const TimeData: SelectTimeData[] = await selectData("Time") as SelectTimeData[];
