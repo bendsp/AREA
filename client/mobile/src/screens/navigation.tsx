@@ -4,11 +4,11 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import LoginScreen from './LoginScreen';
-import HomeScreen from './HomeScreen';
-import AppScreen from './AppScreen';
-import SettingsScreen from './SettingsScreen';
-import {RootStackParamList} from './NavigationTypes';
+import LoginScreen from './loginScreen';
+import HomeScreen from './homeScreen';
+import AppScreen from './appScreen';
+import SettingsScreen from './settingsScreen';
+import {RootStackParamList} from './navigationTypes';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
