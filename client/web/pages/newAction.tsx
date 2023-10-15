@@ -47,9 +47,9 @@ const NewAction = () => {
             service: "Gmail",
             reaction: "send_email",
             paramValues: [
-                { name: "email-destination", value: "" },
+                { name: "email", value: "" },
                 { name: "subject", value: "" },
-                { name: "body", value: "" }
+                { name: "message", value: "" }
             ] as Array<ActionParamsProps>
         }]);
     };
