@@ -1,13 +1,13 @@
 import { ChangeEvent } from "react"
 
-import { ServicesType, ReactionsType } from "../../interfaces/services"
-import { ReactionCardData, ReactionCardProps } from "../../interfaces/reactions"
+import { ServicesType, ReactionsType, ActionParamsProps } from "../../interfaces/services"
+import { ReactionProps, ReactionCardProps } from "../../interfaces/reactions"
 
 const ReactionCard = ({ services, onDelete, onUpdate, data }: ReactionCardProps) => {
     const handleSelectService = (event: ChangeEvent<HTMLSelectElement>) => {
         const updatedService = event.target.value as ServicesType;
         const updatedReaction = services.find((service) => service.name === updatedService)?.reactions?.[0]?.name ?? '';
-        onUpdate({ ...data, service: updatedService, reaction: updatedReaction as ReactionCardData['reaction'] });
+        onUpdate({ ...data, service: updatedService, reaction: updatedReaction as ReactionProps['reaction'] });
     }
 
     const handleSelectReaction = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -15,9 +15,15 @@ const ReactionCard = ({ services, onDelete, onUpdate, data }: ReactionCardProps)
         onUpdate({ ...data, reaction: updatedReaction});
     }
 
+    const handleSelectParam = (event: ChangeEvent<HTMLInputElement>, param: ActionParamsProps) => {
+        const updatedParamValues = data.paramValues.map(existingParam => {
+            if (existingParam.name === param.name) {
+                return { ...existingParam, value: event.target.value };
+            }
+            return existingParam;
+        });
 
-    const handleSelectParam = (event: ChangeEvent<HTMLInputElement>) => {
-        onUpdate({ ...data, paramValues: [event.target.value] });
+        onUpdate({ ...data, paramValues: updatedParamValues });
     }
 
     return (
@@ -71,7 +77,7 @@ const ReactionCard = ({ services, onDelete, onUpdate, data }: ReactionCardProps)
                                   type="text"
                                   id={param.name}
                                   className="border p-2 rounded w-full"
-                                  onChange={handleSelectParam}
+                                  onChange={(event) => handleSelectParam(event, param)}
                                 />
                               </div>
                             ))}

@@ -1,6 +1,7 @@
 export interface ActionParamsProps {
     name: string;
     type: string;
+    value: string;
 }
 export interface ActionsProps {
     name: string;

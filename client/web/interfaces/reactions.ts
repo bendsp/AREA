@@ -1,15 +1,16 @@
 import { ServicesType, ReactionsType, ServicesProps } from "./services";
+import { ActionParamsProps } from "./services";
 
-export interface ReactionCardData {
+export interface ReactionProps {
     id: string;
     service: ServicesType | '';
     reaction: ReactionsType | '';
-    paramValues: Array<string>;
+    paramValues: Array<ActionParamsProps>;
 }
 
 export interface ReactionCardProps {
     services: Array<ServicesProps>;
     onDelete: (id: string) => void;
-    onUpdate: (reactionCard: ReactionCardData) => void;
-    data: ReactionCardData
+    onUpdate: (reactionCard: ReactionProps) => void;
+    data: ReactionProps
 }

@@ -1,11 +1,13 @@
 import { ServicesProps } from "../../interfaces/services";
 import { useState, useEffect } from "react";
+import { TriggerProps } from "../../interfaces/triggers";
 
 interface TriggerCardProps {
     services: Array<ServicesProps>;
+    onUpdate: (triggerCard: TriggerProps) => void;
 }
 
-const TriggerCard = ({ services }: TriggerCardProps) => {
+const TriggerCard = ({ services, onUpdate }: TriggerCardProps) => {
     const [selectedService, setSelectedService] = useState('');
     const [selectedAction, setSelectedAction] = useState('');
     const [paramValues, setParamValues] = useState([])
