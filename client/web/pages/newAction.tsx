@@ -4,8 +4,12 @@ import TriggerCard from '../components/newAction/TriggerCard';
 import NewReactionButton from '../components/newAction/NewReactionButton';
 import ReactionCard from '../components/newAction/ReactionCard';
 import { useState } from 'react';
-import { ReactionCardData } from '../interfaces/reactions';
+import { ReactionProps } from '../interfaces/reactions';
+import { ActionParamsProps } from '../interfaces/actions';
 import { ServicesProps } from '../interfaces/services';
+import { TriggerProps } from '../interfaces/triggers';
+import createNodeJson from '../methods/createNodeJson';
+import sendNewNode from '../methods/sendNewNode';
 
 const generateId = () => {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
@@ -14,19 +18,47 @@ const generateId = () => {
 const NewAction = () => {
     const router = useRouter()
     const services = router.query.services ? JSON.parse(router.query.services as string) : [];
-    const actionName = router.query.name ? router.query.name : "";
+    const actionName = router.query.name ? router.query.name as string : "";
 
-    const [reactionCardsData, setReactionCardsData] = useState<Array<ReactionCardData>>([]);
+    const servicesWithActions = services.filter((service: ServicesProps) => service.actions.length > 0);
+
+    const servicesWithReactions = services.filter((service: ServicesProps) => service.reactions.length > 0);
+
+    // TODO: same here, default values
+    const [triggerCardData, setTriggerCardData] = useState<TriggerProps>({
+        service: "Time",
+        action: "get_city_time",
+        paramValues: [
+            { name: "time", value: "" },
+            { name: "city", value: "" }
+        ] as Array<ActionParamsProps>
+    });
+
+    const [reactionCardsData, setReactionCardsData] = useState<Array<ReactionProps>>([]);
 
     const removeReactionCard = (id: string) => {
         setReactionCardsData(prevState => prevState.filter(card => card.id !== id));
     };
 
+    // TODO: if other services don't work, its coming from here (default values)
     const addReactionCard = () => {
-        setReactionCardsData(prevState => [...prevState, { id: generateId(), service: "Gmail", reaction: "send_email", paramValues: [] }]);
+        setReactionCardsData(prevState => [...prevState, {
+            id: generateId(),
+            service: "Gmail",
+            reaction: "send_email",
+            paramValues: [
+                { name: "email-destination", value: "" },
+                { name: "subject", value: "" },
+                { name: "body", value: "" }
+            ] as Array<ActionParamsProps>
+        }]);
     };
 
-    const handleUpdateReactionCard = (reactionCard: ReactionCardData) => {
+    const handleUpdateTriggerCard = (triggerCard: TriggerProps) => {
+        setTriggerCardData(triggerCard);
+    }
+
+    const handleUpdateReactionCard = (reactionCard: ReactionProps) => {
         setReactionCardsData((prevState) => {
             return prevState.map((card) => {
                 if (card.id === reactionCard.id) {
@@ -38,18 +70,21 @@ const NewAction = () => {
         })
     }
 
-    const servicesWithActions = services.filter((service: ServicesProps) => service.actions.length > 0);
-
-    const servicesWithReactions = services.filter((service: ServicesProps) => service.reactions.length > 0);
+    const handleSaveArea = async () => {
+        console.log("save area button clicked")
+        const nodeJson = createNodeJson(actionName, triggerCardData, reactionCardsData);
+        await sendNewNode(nodeJson);
+    }
 
     return (
-        <Background className="p-5 text-2xl font-bold space-y-5">
+        <Background className="flex flex-col p-5 text-2xl font-bold space-y-5">
             <div className="bg-[#ffffff] p-5 rounded-2xl">
                 {actionName}
             </div>
-            {/* // TODO: add onUpdate for TriggerCard */}
             <TriggerCard
                 services={servicesWithActions}
+                data={triggerCardData}
+                onUpdate={handleUpdateTriggerCard}
             />
             {reactionCardsData.map(cardData => (
                 <ReactionCard
@@ -62,7 +97,13 @@ const NewAction = () => {
             ))}
             <NewReactionButton onClick={addReactionCard}/>
             {/* // TODO: add cancel & save buttons */}
-            </Background>
+            <button
+                className="bg-blue-500 text-white px-4 py-2 rounded w-[fit-content] self-end"
+                onClick={handleSaveArea}
+            >
+                Save AREA
+            </button>
+        </Background>
     )
 }
 
