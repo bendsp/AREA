@@ -83,7 +83,7 @@ export class ClientService {
     public async getUser(id: string): Promise<User> {
         const user = await selectData("User", id) as User[];
         if (user.length === 0) {
-            return {"user_id": "r", "email": "", "username": "", "nb_area": 0};
+            return {"user_id": "0", "email": "", "username": "", "nb_area": 0};
         }
         return user[0];
     }
