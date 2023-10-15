@@ -7,8 +7,8 @@ import { SelectTimeData } from 'src/time/time.interface';
 import { SelectEmailData } from 'src/mailing/mailing.interface';
 
 @Injectable()
-export class CheckTrigersService {
-    private readonly logger = new Logger(CheckTrigersService.name);
+export class CheckTriggersService {
+    private readonly logger = new Logger(CheckTriggersService.name);
 
     constructor(
       private readonly mailingService: MailingService,

@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CheckTrigersService } from './check-trigers.service';
+import { CheckTriggersService } from './check-triggers.service';
 
-describe('CheckTrigersService', () => {
-  let service: CheckTrigersService;
+describe('CheckTriggersService', () => {
+  let service: CheckTriggersService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [CheckTrigersService],
+      providers: [CheckTriggersService],
     }).compile();
 
-    service = module.get<CheckTrigersService>(CheckTrigersService);
+    service = module.get<CheckTriggersService>(CheckTriggersService);
   });
 
   it('should be defined', () => {

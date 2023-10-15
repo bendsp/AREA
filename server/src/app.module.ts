@@ -8,12 +8,12 @@ import { MailingModule } from './mailing/mailing.module';
 import { TimeModule } from './time/time.module';
 import { ClientModule } from './client/client.module';
 import { ScheduleModule } from '@nestjs/schedule';
-import { CheckTrigersModule } from './check-trigers/check-trigers.module';
+import { CheckTriggersModule } from './check-triggers/check-triggers.module';
 
 @Module({
     imports: [
         MailingModule,
-        CheckTrigersModule,
+        CheckTriggersModule,
         ClientModule,
         TimeModule,
         ScheduleModule.forRoot(),
