@@ -77,4 +77,12 @@ export class ClientService {
         return {"statusCode": 200, "message": "New user added"};
     }
 
+    public async getUser(id: number): Promise<User> {
+        const user = await selectData("User", id) as User[];
+        if (user.length === 0) {
+            return {"user_id": 0, "email": "", "username": "", "nb_area": 0};
+        }
+        return user[0];
+    }
+
 }
