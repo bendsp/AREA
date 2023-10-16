@@ -10,6 +10,7 @@ import { ServicesProps } from '../interfaces/services';
 import { TriggerProps } from '../interfaces/triggers';
 import createNodeJson from '../methods/createNodeJson';
 import sendNewNode from '../methods/sendNewNode';
+import { User } from '../interfaces/user';
 
 const generateId = () => {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
@@ -70,8 +71,10 @@ const NewAction = () => {
         })
     }
 
+    const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) as User : null;
+
     const handleSaveArea = async () => {
-        const nodeJson = createNodeJson(actionName, triggerCardData, reactionCardsData)
+        const nodeJson = createNodeJson((user?.sub ?? "1" ), actionName, triggerCardData, reactionCardsData)
         await sendNewNode(nodeJson)
         router.push('/home')
     }
