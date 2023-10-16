@@ -21,7 +21,7 @@ interface NodeReactionProps {
 
 //* Node
 export interface NodeProps {
-    user_id: number;
+    user_id: string;
     area_name: string;
     action: NodeActionProps;
     reaction: Array<NodeReactionProps>;

@@ -1,6 +1,11 @@
 import { useState } from 'react';
+import { User } from '../../interfaces/user';
 
-const HomeHeader = () => {
+interface HomeHeaderProps {
+    user: User | null;
+}
+
+const HomeHeader = ({ user }: HomeHeaderProps) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const toggleDropdown = () => {
@@ -8,13 +13,13 @@ const HomeHeader = () => {
     };
 
     const handleSignOut = () => {
-        // Add sign out logic here
+        // TODO: Add sign out logic here
         setIsDropdownOpen(false);
     };
 
     return (
         <div className="bg-white shadow-md p-5 rounded-2xl flex justify-between items-center">
-            <a className="text-2xl font-bold">Hello User</a>
+            <a className="text-2xl font-bold">Hello {user?.nickname}</a>
             <div className="relative group">
                 <button onClick={toggleDropdown} className="text-2xl group-hover:bg-gray-100 rounded-full w-10 h-10">
                     { isDropdownOpen ? '-' : '+' }
