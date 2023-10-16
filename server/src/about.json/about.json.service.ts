@@ -26,8 +26,11 @@ export class AboutJsonService {
                         "name": "Time",
                         "actions": [{
                             "name":"get_city_time",
-                            "description": "Get the current time of a city",
+                            "description": "When time is reached in selected city",
                             "params" : [{
+                                "name" : "time",
+                                "type" : "string"
+                            },{
                                 "name" : "city",
                                 "type" : "string"
                             }]
@@ -41,13 +44,13 @@ export class AboutJsonService {
                             "name": "send_email",
                             "description": "Send an email to the destination email address with subject and body",
                             "params": [{
-                                "name": "email-destination",
+                                "name": "email",
                                 "type": "string"
                                 },{
                                 "name": "subject",
                                 "type": "string"
                                 },{
-                                "name": "body",
+                                "name": "message",
                                 "type": "string"
                             }]
                         }]

@@ -2,13 +2,14 @@ import { useRouter }  from 'next/router';
 import { useState, useEffect } from 'react';
 
 // Components
-import HomeHeader from '../components/HomeHeader';
-import ActionsContainer from '../components/ActionsContainer';
-import ServicesContainer from '../components/ServicesContainer';
+import HomeHeader from '../components/home/HomeHeader';
+import ActionsContainer from '../components/home/actionsContainer/ActionsContainer';
+import ServicesContainer from '../components/home/servicesContainer/ServicesContainer';
 
 // Interfaces
 import { ProtectedPage } from '../interfaces/protectedPage';
-import Background from '../components/Background';
+import Background from '../components/wrappers/Background';
+import { User } from '../interfaces/user';
 
 // Methods
 import fetchAboutJson from '../methods/fetchAboutJson';
@@ -22,26 +23,20 @@ export function getStaticProps(): ProtectedPage {
 }
 
 const HomePage: React.FC = () => {
+  const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) as User: null;
+  console.log('user: ', user);
+
   const [services, setServices] = useState([]);
 
   useEffect(() => {
     fetchAboutJson({ setServices });
   }, [])
 
-  const router = useRouter();
-
-  const handleButtonClick = () => {
-    router.push('/login');
-  }
-
   return (
     <Background className="flex flex-col p-5 space-y-5">
-      <HomeHeader />
-      <ActionsContainer />
+      <HomeHeader user={user}/>
+      <ActionsContainer services={services}/>
       <ServicesContainer services={services} />
-      <div className="flex-grow">
-        <button onClick={handleButtonClick} className="bg-blue-500 hover:bg-blue-300 font-bold rounded-xl p-3">Go to Login</button>
-      </div>
     </Background>
   );
 };

@@ -1,7 +1,7 @@
-import { ActionsProps } from '../interfaces/services'
+import { ActionProps } from '../../../interfaces/actions'
 
 interface ActionCardProps {
-    actions: Array<ActionsProps>;
+    actions: Array<ActionProps>;
 }
 
 const ActionCard = ({ actions }: ActionCardProps) => {

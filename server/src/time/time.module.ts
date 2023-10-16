@@ -6,6 +6,7 @@ import { HttpModule } from '@nestjs/axios';
 @Module({
   imports: [HttpModule], 
   controllers: [TimeController],
-  providers: [TimeService]
+  providers: [TimeService],
+  exports: [TimeService]
 })
 export class TimeModule {}

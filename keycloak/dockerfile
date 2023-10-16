@@ -10,5 +10,10 @@ ENV DB_DATABASE=mydatabase
 ENV DB_USER=root
 ENV DB_PASSWORD=toor
 
-# Copy custom configuration file
-COPY ./keycloak_config.conf /etc/keycloak/keycloak_config.conf
+# Copy custom configuration file(s)
+COPY ./realm-import.json /etc/keycloak/realm-import.json
+
+# Copy entrypoint script
+COPY ./entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT [ "/entrypoint.sh" ]
