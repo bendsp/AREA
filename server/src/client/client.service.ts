@@ -53,7 +53,7 @@ export class ClientService {
 
     public async newNode(body: ClientData): Promise<Status> {
         let nb_area: number = parseInt((await selectData("User", body.user_id, "nb_area") as string), 10) + 1;
-        Logger.log(nb_area);
+        Logger.log('nb_area :'+nb_area);
         if (await insertData({user_id: body.user_id, area_id: nb_area, TablesName: "Area", value: {area_name: body.area_name}}) === false) {
             return {"statusCode": 500, "message": `Error while adding new area_name in Area`};
         }
@@ -67,7 +67,7 @@ export class ClientService {
                 return {"statusCode": 500, "message": `Error while adding new data in ${reaction.serviceName}`};
             }
         });
-        if (await UpdateData(body.user_id, nb_area, "User", "nb_area") === false) {
+        if (await UpdateData(body.user_id, nb_area, "User", 'nb_area') === false) {
             return {"statusCode": 500, "message": `Error while updating new nb_area in ${body.user_id}`};
         }
         return {"statusCode": 200, "message": "New node added"};

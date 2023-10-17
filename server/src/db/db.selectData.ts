@@ -22,8 +22,10 @@ async function selectData(tableName: TableNames, user_id: string = "0",  columnN
         Logger.log(result.rows)
         if (columnName === '*')
             return result.rows;
-        else
+        else {
+            Logger.log(" test : " + result.rows[0]);
             return result.rows[0][columnName];
+        }
     } catch (error) {
         console.error('Error selecting value:', error);
     }
