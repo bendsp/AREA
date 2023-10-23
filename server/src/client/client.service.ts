@@ -4,10 +4,8 @@ import { Status } from 'src/main';
 import { insertData, insertUser } from 'src/db/db.insertData';
 import {selectRow, selectRows} from 'src/db/db.selectData';
 import { UpdateData } from 'src/db/db.updateData';
-import { Area, SelectAreaData, User } from 'src/db/db.interface';
-import { SelectTimeData, TimeData } from 'src/time/time.interface';
-import { SelectEmailData } from 'src/mailing/mailing.interface';
-
+import { SelectAreaData, User } from 'src/db/db.interface';
+import { deleteData } from 'src/db/db.deleteData';
 @Injectable()
 export class ClientService {
 
@@ -86,6 +84,11 @@ export class ClientService {
             return {"user_id": "0", "email": "", "username": "", "nb_area": 0};
         }
         return user[0];
+    }
+
+    public async deleteNode(id: string): Promise<Status> {
+
+        return {"statusCode": 200, "message": "Node deleted"};
     }
 
 }
