@@ -14,11 +14,4 @@ export interface ClientData {
         serviceName: TableNames | "";
         body: TimeData | MailData | {};
     }[]
-
-}
-
-export interface SelectAreaData {
-    user_id: string;
-    area_name: string;
-    area_id: number;
 }

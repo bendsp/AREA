@@ -1,10 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ClientData, SelectAreaData } from './client.interface';
+import { ClientData } from './client.interface';
 import { Status } from 'src/main';
 import { insertData, insertUser } from 'src/db/db.insertData';
-import { selectData } from 'src/db/db.selectData';
+import {selectRow, selectRows} from 'src/db/db.selectData';
 import { UpdateData } from 'src/db/db.updateData';
-import { Area, AreaData, User } from 'src/db/db.interface';
+import { Area, SelectAreaData, User } from 'src/db/db.interface';
 import { SelectTimeData, TimeData } from 'src/time/time.interface';
 import { SelectEmailData } from 'src/mailing/mailing.interface';
 
@@ -13,11 +13,11 @@ export class ClientService {
 
     public async getAllNodes(id: string): Promise<ClientData[]> {
         let result: ClientData[] = [];
-        const timeResults = await selectData("Time", id) as SelectTimeData[];
-        const emailResults = await selectData("Gmail", id) as SelectEmailData[];
-        const areaResults = await selectData("Area", id) as SelectAreaData[];
+        const timeResults = await selectRows("Time", id);
+        const emailResults = await selectRows("Gmail", id);
+        const areaResults = await selectRows("Area", id);
 
-        areaResults.forEach((area:AreaData) => {
+        areaResults.forEach((area:SelectAreaData) => {
             result.push({
                 user_id: id,
                 area_id: area.area_id,
@@ -52,7 +52,7 @@ export class ClientService {
     }
 
     public async newNode(body: ClientData): Promise<Status> {
-        let nb_area: number = parseInt((await selectData("User", body.user_id, "nb_area") as string), 10) + 1;
+        let nb_area: number = parseInt((await selectRow("User", "nb_area", body.user_id)), 10) + 1;
         Logger.log('nb_area :'+nb_area);
         if (await insertData({user_id: body.user_id, area_id: nb_area, TablesName: "Area", value: {area_name: body.area_name}}) === false) {
             return {"statusCode": 500, "message": `Error while adding new area_name in Area`};
@@ -81,7 +81,7 @@ export class ClientService {
     }
 
     public async getUser(id: string): Promise<User> {
-        const user = await selectData("User", id) as User[];
+        const user = await selectRows("User", id);
         if (user.length === 0) {
             return {"user_id": "0", "email": "", "username": "", "nb_area": 0};
         }
