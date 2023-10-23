@@ -1,8 +1,6 @@
 import { UserProfile } from "@auth0/nextjs-auth0/client";
 
 const addNewUser = async (user: UserProfile) => {
-    console.log('user: ', user);
-
     const body = {
         email: user.email,
         username: user.nickname,
@@ -18,8 +16,6 @@ const addNewUser = async (user: UserProfile) => {
     })
 
     const data = await response.json()
-
-    console.log('addNewUser data: ', data);
 
     return data
 }
