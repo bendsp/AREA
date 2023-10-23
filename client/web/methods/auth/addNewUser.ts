@@ -19,7 +19,7 @@ const addNewUser = async (user: UserProfile) => {
 
     const data = await response.json()
 
-    console.log('data: ', data);
+    console.log('addNewUser data: ', data);
 
     return data
 }

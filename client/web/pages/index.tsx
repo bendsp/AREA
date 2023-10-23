@@ -34,6 +34,7 @@ export default function Index() {
       const isNew = await isNewUser(subId);
 
       if (!isNew) {
+        console.log('The user is new')
         addNewUser(user);
       }
 

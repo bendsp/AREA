@@ -11,9 +11,9 @@ const isNewUser = async (subId: string) => {
 
     const data = await response.json()
 
-    console.log('data: ', data);
+    console.log('isNewUser reponse: ', data);
 
-    if (data.user_id !== 0)
+    if (data.user_id !== "0")
         return true
     return false
 }
