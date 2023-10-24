@@ -18,7 +18,7 @@ services:
       - shared_cli_volume:/shared_data
     depends_on:
       - server
-      # - mobile
+      - mobile
 
   postgres:
     build: ./db
