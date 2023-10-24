@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import isNewUser from '../methods/auth/isNewUser';
 import addNewUser from '../methods/auth/addNewUser';
+import Background from '../components/wrappers/Background';
 
 export default function Index() {
   const { user, error, isLoading } = useUser();
@@ -29,5 +30,20 @@ export default function Index() {
 
   handleUserData();
 
-  return <Link href="/api/auth/login">Login</Link>;
+  return (
+    <Background>
+      <div className="flex flex-col items-center justify-center h-screen">
+        <h1 className="text-5xl mb-4 text-white font-bold">Welcome to Area</h1>
+        <div className="flex flex-col p-5">
+          <div className="flex-grow">
+            <Link href="/api/auth/login">
+              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-2xl">
+                Login
+              </button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </Background>
+  )
 }
