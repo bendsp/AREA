@@ -1,14 +1,15 @@
+// HomeScreen.tsx
 import React from 'react';
-import {View, Text} from 'react-native';
-import {Button, useTheme} from 'react-native-paper'; // Import Button and useTheme from Paper UI
+import {View} from 'react-native';
+import {Button, Text, useTheme} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {RootStackParamList} from './NavigationTypes';
+import {RootStackParamList} from './navigationTypes';
 
-type AppScreenNavigationProp = StackNavigationProp<RootStackParamList, 'App'>;
+type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
-const AppScreen = () => {
-  const navigation = useNavigation<AppScreenNavigationProp>();
+const HomeScreen = () => {
+  const navigation = useNavigation<HomeScreenNavigationProp>();
   const theme = useTheme(); // Get the current theme
 
   return (
@@ -25,7 +26,7 @@ const AppScreen = () => {
           marginBottom: 20,
           color: theme.colors.onBackground,
         }}>
-        Welcome to AREA
+        Home Screen
       </Text>
       <Button
         mode="contained"
@@ -35,8 +36,16 @@ const AppScreen = () => {
       >
         Go to Login
       </Button>
+      <Button
+        mode="contained"
+        onPress={() => navigation.navigate('Settings')}
+        style={{width: 200, marginTop: 20}}
+        color={theme.colors.primary} // Use theme color for the button
+      >
+        Go to Settings
+      </Button>
     </View>
   );
 };
 
-export default AppScreen;
+export default HomeScreen;
