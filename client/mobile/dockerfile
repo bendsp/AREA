@@ -19,9 +19,6 @@ RUN cd android && ./gradlew assembleRelease
 # Start a new stage to setup Nginx server
 FROM nginx:alpine
 
-# Copy Nginx configuration file
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
 # Copy the APK from the previous stage
 COPY --from=builder /app/android/app/build/outputs/apk/release/app-release.apk /usr/share/nginx/html/client.apk
 
