@@ -2,6 +2,8 @@ import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DeleteForever } from '@mui/icons-material';
 import { NodeProps, NodeActionProps, NodeReactionProps } from '../../../interfaces/nodes';
+import ConfirmDeleteModal from './ConfirmDeleteModal';
+import { useState } from 'react';
 
 interface TriggerContainerProps {
     action: NodeActionProps;
@@ -39,12 +41,23 @@ const ReactionContainer = ({ reaction }: ReactionContainerProps) => {
     )
 }
 
-const handleDelete = (areaId: string) => {
-    console.log('DELETE', areaId);
-}
-
 const ActionsCard = (userNode: NodeProps) => {
-    console.log('------> ', userNode);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    }
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    }
+
+    const confirmDelete = () => {
+        // TODO: call delete node function
+        console.log('DELETE', userNode.area_id);
+        setIsModalOpen(false);
+    };
+
     return (
         <Accordion sx={{ backgroundColor: "white", borderRadius: "5px" }}>
             <AccordionSummary
@@ -68,10 +81,16 @@ const ActionsCard = (userNode: NodeProps) => {
 
                     <button
                         className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-3 rounded w-fit ml-auto"
-                        onClick={() => handleDelete(userNode.area_id)}
+                        onClick={handleOpenModal}
                     >
                         <DeleteForever />
                     </button>
+
+                    <ConfirmDeleteModal
+                        isOpen={isModalOpen}
+                        onClose={handleCloseModal}
+                        onConfirm={confirmDelete}
+                    />
                 </div>
             </AccordionDetails>
         </Accordion>
