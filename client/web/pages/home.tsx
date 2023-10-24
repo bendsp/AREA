@@ -23,8 +23,7 @@ export function getStaticProps(): ProtectedPage {
 }
 
 const HomePage: React.FC = () => {
-  const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) as User: null;
-  console.log('user: ', user);
+  const user = JSON.parse(localStorage.getItem('user') as string) as User;
 
   const [services, setServices] = useState([]);
 
@@ -35,7 +34,7 @@ const HomePage: React.FC = () => {
   return (
     <Background className="flex flex-col p-5 space-y-5">
       <HomeHeader user={user}/>
-      <ActionsContainer services={services}/>
+      <ActionsContainer services={services} user={user}/>
       <ServicesContainer services={services} />
     </Background>
   );
