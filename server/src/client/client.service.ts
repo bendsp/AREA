@@ -1,21 +1,21 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ClientData } from './client.interface';
 import { Status } from 'src/main';
-import { insertData } from 'src/db/db.insertData';
-import { selectData } from 'src/db/db.selectData';
+import { insertData, insertUser } from 'src/db/db.insertData';
+import {selectRow, selectRows} from 'src/db/db.selectData';
 import { UpdateData } from 'src/db/db.updateData';
-import { Area, AreaData, User } from 'src/db/db.interface';
-import { TimeData } from 'src/time/time.interface';
+import { SelectAreaData, User } from 'src/db/db.interface';
+import { deleteData } from 'src/db/db.deleteData';
 @Injectable()
 export class ClientService {
 
-    public async getAllNodes(id: number): Promise<ClientData[]> {
+    public async getAllNodes(id: string): Promise<ClientData[]> {
         let result: ClientData[] = [];
-        const timeResults = await selectData(id, "Time");
-        const emailResults = await selectData(id, "Email");
-        const areaResults = await selectData(id, "Area");
+        const timeResults = await selectRows("Time", id);
+        const emailResults = await selectRows("Gmail", id);
+        const areaResults = await selectRows("Area", id);
 
-        areaResults.forEach((area:AreaData) => {
+        areaResults.forEach((area:SelectAreaData) => {
             result.push({
                 user_id: id,
                 area_id: area.area_id,
@@ -38,11 +38,11 @@ export class ClientService {
         emailResults.forEach(async (user:any) => {
             result.forEach((area) => {
                 if (Number(area.area_id) === Number(user.area_id)) {
-                    area.action = {serviceName: "Email", body: {email: user.email, subject: user.subject, message: user.message}};
+                    area.action = {serviceName: "Gmail", body: {email: user.email, subject: user.subject, message: user.message}};
                 }
                 if (Number(area.area_id) < Number(user.area_id) && Number(user.area_id) < Number(area.area_id) + Number(1)) {
                     Logger.log('push');
-                    area.reaction.push({serviceName: "Email", body: {email: user.email, subject: user.subject, message: user.message}});
+                    area.reaction.push({serviceName: "Gmail", body: {email: user.email, subject: user.subject, message: user.message}});
                 }
             });
         });
@@ -50,8 +50,8 @@ export class ClientService {
     }
 
     public async newNode(body: ClientData): Promise<Status> {
-        let nb_area: number = parseInt((await selectData(body.user_id, "User", "nb_area")), 10) + 1;
-
+        let nb_area: number = parseInt((await selectRow("User", "nb_area", body.user_id)), 10) + 1;
+        Logger.log('nb_area :'+nb_area);
         if (await insertData({user_id: body.user_id, area_id: nb_area, TablesName: "Area", value: {area_name: body.area_name}}) === false) {
             return {"statusCode": 500, "message": `Error while adding new area_name in Area`};
         }
@@ -65,14 +65,30 @@ export class ClientService {
                 return {"statusCode": 500, "message": `Error while adding new data in ${reaction.serviceName}`};
             }
         });
-        if (await UpdateData(body.user_id, nb_area, "User", "nb_area") === false) {
+        if (await UpdateData(body.user_id, nb_area, "User", 'nb_area') === false) {
             return {"statusCode": 500, "message": `Error while updating new nb_area in ${body.user_id}`};
         }
         return {"statusCode": 200, "message": "New node added"};
     }
 
     public async newUser(body: User): Promise<Status> {
+        if (await insertUser(body.user_id, body.email, body.username) === false) {
+            return {"statusCode": 500, "message": `Error while adding new user ${body.user_id}`};
+        }
         return {"statusCode": 200, "message": "New user added"};
+    }
+
+    public async getUser(id: string): Promise<User> {
+        const user = await selectRows("User", id);
+        if (user.length === 0) {
+            return {"user_id": "0", "email": "", "username": "", "nb_area": 0};
+        }
+        return user[0];
+    }
+
+    public async deleteNode(id: string): Promise<Status> {
+
+        return {"statusCode": 200, "message": "Node deleted"};
     }
 
 }

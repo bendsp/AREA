@@ -9,18 +9,29 @@ import { User } from 'src/db/db.interface';
 export class ClientController {
     constructor(readonly clientService: ClientService) {}
 
+    @Post('delete-node/:id')
+    public async deleteNode(@Param('id') id: number): Promise<Status> {
+        return await this.clientService.deleteNode(id.toString());
+    }
+
     @Post('new-user')
     public async newUser(@Body() body: User): Promise<Status> {
         return await this.clientService.newUser(body);
     }
 
+    @Get('user/:id')
+    public async getUser(@Param('id') id: string): Promise<User> {
+        return await this.clientService.getUser(id);
+    }
+
     @Post('new-node')
     public async newNode(@Body() body: ClientData): Promise<Status> {
+        body.user_id = "1";
         return await this.clientService.newNode(body);
     }
 
     @Get('all-nodes/:id')
     public async allNodes(@Param('id') id: number): Promise<ClientData[]> {
-        return await this.clientService.getAllNodes(id);
+        return await this.clientService.getAllNodes(id.toString());
     }
 }
