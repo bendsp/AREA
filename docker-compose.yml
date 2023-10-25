@@ -5,7 +5,7 @@ services:
     ports:
       - "8080:8080"
 
-  mobile: 
+  mobile:
     build: ./client/mobile
     volumes:
       - shared_cli_volume:/shared_data
@@ -13,7 +13,7 @@ services:
   web:
     build: ./client/web
     ports:
-      - "8081:3000"
+      - "8081:8081"
     volumes:
       - shared_cli_volume:/shared_data
     depends_on:
@@ -28,7 +28,7 @@ services:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=toor
       - POSTGRES_DB=postgres
-    volumes:  
+    volumes:
       - postgres_data:/var/lib/postgresql/data
 
 volumes:
