@@ -1,46 +1,12 @@
 import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DeleteForever } from '@mui/icons-material';
-import { NodeProps, NodeActionProps, NodeReactionProps } from '../../../interfaces/nodes';
+import { NodeProps } from '../../../interfaces/nodes';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
 import { useState } from 'react';
 import deleteNode from '../../../methods/deleteNode';
-
-interface TriggerContainerProps {
-    action: NodeActionProps;
-}
-
-const TriggerContainer = ({ action }: TriggerContainerProps) => {
-    return (
-        <div className="flex flex-line items-center space-x-2">
-            <div className="bg-blue-500 w-fit rounded-xl px-2 text-lg font-bold text-[#1e1e1e]">
-                TRIGGER
-            </div>
-            <div>-&gt;</div>
-            <div className="font-bold border-dotted border-2 border-black rounded-xl px-2">
-                {action.serviceName}
-            </div>
-        </div>
-    )
-}
-
-interface ReactionContainerProps {
-    reaction: NodeReactionProps;
-}
-
-const ReactionContainer = ({ reaction }: ReactionContainerProps) => {
-    return (
-        <div className="flex flex-line items-center space-x-2">
-            <div className="bg-red-500 w-fit rounded-xl px-2 text-lg font-bold text-[#1e1e1e]">
-                REACTION
-            </div>
-            <div>-&gt;</div>
-            <div className="font-bold border-dotted border-2 border-black rounded-xl px-2">
-                {reaction.serviceName}
-            </div>
-        </div>
-    )
-}
+import TriggerContainer from './TriggerContainer';
+import ReactionContainer from './ReactionContainer';
 
 interface ActionCardProps {
     userNode: NodeProps;
