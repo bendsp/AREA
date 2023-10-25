@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ClientData } from './client.interface';
 import { Status } from 'src/main';
 import { insertData, insertUser } from 'src/db/db.insertData';
-import {selectRow, selectRows} from 'src/db/db.selectData';
+import {selectRow, selectRows, selectData} from 'src/db/db.selectData';
 import { UpdateData } from 'src/db/db.updateData';
 import { SelectAreaData, User } from 'src/db/db.interface';
 import { deleteData } from 'src/db/db.deleteData';
@@ -86,8 +86,10 @@ export class ClientService {
         return user[0];
     }
 
-    public async deleteNode(id: string): Promise<Status> {
-
+    public async deleteNode(id: string, area_id: number): Promise<Status> {
+        deleteData({user_id: id, area_id: area_id, TablesName: "Area"});
+        deleteData({user_id: id, area_id: area_id, TablesName: "Time"});
+        deleteData({user_id: id, area_id: area_id, TablesName: "Gmail"});
         return {"statusCode": 200, "message": "Node deleted"};
     }
 
