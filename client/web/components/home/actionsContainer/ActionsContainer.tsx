@@ -30,10 +30,10 @@ const ActionsContainer = ({ services, user }: ActionsContainerProps) => {
                 ACTION CONTAINER
             </div>
             <div className="space-y-3">
-                {userNodes?.map((userNode: NodeProps) => {
+                {userNodes?.map((userNode: NodeProps, index) => {
                     return (
-                        <div key={userNode.area_name}>
-                            <ActionsCard {...userNode} />
+                        <div key={index}>
+                            <ActionsCard userNode={userNode} userId={user.sub} />
                         </div>
                     )})
                 }
