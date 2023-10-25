@@ -10,7 +10,7 @@ export class ClientController {
     constructor(readonly clientService: ClientService) {}
 
     @Post('delete-node')
-    public async deleteNode(@Param('id') id: any): Promise<Status> {
+    public async deleteNode(@Body()  id: any): Promise<Status> {
         return await this.clientService.deleteNode(id.user_id,Number(id.area_id));
     }
 
