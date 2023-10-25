@@ -11,6 +11,7 @@ import { TriggerProps } from '../interfaces/triggers';
 import createNodeJson from '../methods/createNodeJson';
 import sendNewNode from '../methods/sendNewNode';
 import { User } from '../interfaces/user';
+import { NodeProps } from '../interfaces/nodes';
 
 const generateId = () => {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
@@ -75,7 +76,7 @@ const NewAction = () => {
 
     const handleSaveArea = async () => {
         const nodeJson = createNodeJson((user?.sub ?? "1" ), actionName, triggerCardData, reactionCardsData)
-        await sendNewNode(nodeJson)
+        await sendNewNode(nodeJson as NodeProps)
         router.push('/home')
     }
 

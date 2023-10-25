@@ -4,6 +4,7 @@ import { DeleteForever } from '@mui/icons-material';
 import { NodeProps, NodeActionProps, NodeReactionProps } from '../../../interfaces/nodes';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
 import { useState } from 'react';
+import deleteNode from '../../../methods/deleteNode';
 
 interface TriggerContainerProps {
     action: NodeActionProps;
@@ -41,7 +42,12 @@ const ReactionContainer = ({ reaction }: ReactionContainerProps) => {
     )
 }
 
-const ActionsCard = (userNode: NodeProps) => {
+interface ActionCardProps {
+    userNode: NodeProps;
+    userId: string;
+}
+
+const ActionsCard = ({ userNode, userId }: ActionCardProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleOpenModal = () => {
@@ -53,8 +59,8 @@ const ActionsCard = (userNode: NodeProps) => {
     }
 
     const confirmDelete = () => {
-        // TODO: call delete node function
-        console.log('DELETE', userNode.area_id);
+        deleteNode(userId, userNode.area_id);
+        // window.location.reload();
         setIsModalOpen(false);
     };
 
