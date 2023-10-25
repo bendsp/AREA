@@ -5,9 +5,9 @@ services:
     ports:
       - "8080:8080"
 
-  mobile: 
+  mobile:
     build: ./client/mobile
-    volumes: 
+    volumes:
       - shared_cli_volume:/shared_data
 
   web:
