@@ -1,10 +1,5 @@
-// interface DeleteNodeProps {
-//     userId: string
-//     areaId: string
-// }
-
 const deleteNode = async (userId: string, areaId: string) => {
-    const url = 'http://localhost:3000/client/delete-node'
+    const url = 'http://localhost:8080/client/delete-node'
 
     const body = {
         user_id: userId,

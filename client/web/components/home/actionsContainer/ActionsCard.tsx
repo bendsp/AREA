@@ -11,9 +11,10 @@ import ReactionContainer from './ReactionContainer';
 interface ActionCardProps {
     userNode: NodeProps;
     userId: string;
+    updateAllNodes: (userId: string) => void;
 }
 
-const ActionsCard = ({ userNode, userId }: ActionCardProps) => {
+const ActionsCard = ({ userNode, userId, updateAllNodes }: ActionCardProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleOpenModal = () => {
@@ -26,6 +27,8 @@ const ActionsCard = ({ userNode, userId }: ActionCardProps) => {
 
     const confirmDelete = () => {
         deleteNode(userId, userNode.area_id);
+        // TODO: check if behaves as expected (reload nodes after delete)
+        updateAllNodes(userId);
         // window.location.reload();
         setIsModalOpen(false);
     };
