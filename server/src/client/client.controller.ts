@@ -9,9 +9,9 @@ import { User } from 'src/db/db.interface';
 export class ClientController {
     constructor(readonly clientService: ClientService) {}
 
-    @Post('delete-node/:id')
-    public async deleteNode(@Param('id') id: number): Promise<Status> {
-        return await this.clientService.deleteNode(id.toString());
+    @Post('delete-node')
+    public async deleteNode(@Param('id') id: any): Promise<Status> {
+        return await this.clientService.deleteNode(id.user_id,Number(id.area_id));
     }
 
     @Post('new-user')
