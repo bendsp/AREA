@@ -27,12 +27,12 @@ const NewActionModal = ({ isOpen, onRequestClose, onCreateAction }: NewActionMod
           type="text"
           value={name}
           onChange={handleInputChange}
-          className="border border-gray-300 p-2 mb-4 rounded w-full"
+          className="border border-gray-300 p-2 mb-4 rounded-xl w-full"
           placeholder='Give your action a name'
         />
         <button
           onClick={handleCreateAction}
-          className={`bg-blue-500 text-white px-4 py-2 rounded ${name ? 'cursor-pointer' : 'cursor-not-allowed'} ${name ? 'hover:bg-blue-600' : 'opacity-50'}`}
+          className={`bg-blue-500 text-white px-4 py-2 rounded-xl ${name ? 'cursor-pointer' : 'cursor-not-allowed'} ${name ? 'hover:bg-blue-600' : 'opacity-50'}`}
           disabled={!name}
         >
           Create

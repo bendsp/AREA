@@ -26,7 +26,6 @@ export class ClientController {
 
     @Post('new-node')
     public async newNode(@Body() body: ClientData): Promise<Status> {
-        body.user_id = "1";
         return await this.clientService.newNode(body);
     }
 
