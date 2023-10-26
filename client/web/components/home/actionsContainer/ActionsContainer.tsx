@@ -15,11 +15,21 @@ interface ActionsContainerProps {
 const ActionsContainer = ({ services, user }: ActionsContainerProps) => {
     const [userNodes, setUserNodes] = useState([]);
 
-    useEffect(() => {
-        fetchAllUserNodes(user.sub)
+    // TODO: check if behaves as expected (reload nodes after delete)
+    const updateNodes = (userId: string) => {
+        console.log('update user nodes: ', userId)
+        fetchAllUserNodes(userId)
         .then((userNodes) => {
             setUserNodes(userNodes);
         })
+    }
+
+    useEffect(() => {
+        updateNodes(user.sub);
+        // fetchAllUserNodes(user.sub)
+        // .then((userNodes) => {
+        //     setUserNodes(userNodes);
+        // })
     }, [user.sub])
 
     console.log('userNodes: ', userNodes)
@@ -30,10 +40,10 @@ const ActionsContainer = ({ services, user }: ActionsContainerProps) => {
                 ACTION CONTAINER
             </div>
             <div className="space-y-3">
-                {userNodes?.map((userNode: NodeProps) => {
+                {userNodes?.map((userNode: NodeProps, index) => {
                     return (
-                        <div key={userNode.area_name}>
-                            <ActionsCard {...userNode} />
+                        <div key={index}>
+                            <ActionsCard userNode={userNode} userId={user.sub} updateAllNodes={updateNodes} />
                         </div>
                     )})
                 }
