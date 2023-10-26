@@ -80,6 +80,10 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        manifestPlaceholders = [
+            auth0Domain: "dev-i4fb32lnpthmvwbm.us.auth0.com",
+            auth0Scheme: "https"
+        ]
     }
     signingConfigs {
         debug {
