@@ -33,5 +33,4 @@ services:
 
 volumes:
   shared_cli_volume: # Named volume for sharing app APK
-  keycloak_data:  # Named volume for Keycloak
   postgres_data:  # Named volume for PostgreSQL
