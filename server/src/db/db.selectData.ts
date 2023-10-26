@@ -49,8 +49,10 @@ export async function selectRows<T extends TableNames, U extends ExtractTable<T>
 
 export async function selectRow<T extends string>(tableName: TableNames, columnName:string, user_id?: string ): Promise<T | null> {
     try {
+        Logger.log('columnName : ' + columnName + ' tableName : ' + tableName + ' user_id : ' + user_id);
         const query = user_id ? `SELECT ${columnName} FROM "${tableName}" WHERE user_id = '${user_id}';` : `SELECT ${columnName} FROM "${tableName}";`;
         const result = await db.result<T>(query);
+        Logger.log(result.rows)
         return result.rows[0][columnName];
     } catch (error) {
         console.error('Error selecting value:', error);
