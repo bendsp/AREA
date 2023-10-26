@@ -15,7 +15,7 @@ const deleteNode = async (userId: string, areaId: string) => {
     })
 
     const result = await response.json()
-
+    window.location.reload()
     return result
 }
 
