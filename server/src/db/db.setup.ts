@@ -3,7 +3,7 @@ import { IDatabase } from 'pg-promise';
 const pgp = require('pg-promise')();
 
 const dbConfig = {
-  host: 'postgres',
+  host: 'localhost',
   port: 5432,
   database: 'postgres',
   user: 'root',

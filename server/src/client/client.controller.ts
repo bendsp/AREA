@@ -5,13 +5,18 @@ import { ClientData } from './client.interface';
 import { Status } from 'src/main';
 import { User } from 'src/db/db.interface';
 
+interface DeleteNode {
+    user_id: string;
+    area_id: number;
+}
+
 @Controller('client')
 export class ClientController {
     constructor(readonly clientService: ClientService) {}
 
     @Post('delete-node')
-    public async deleteNode(@Body() id: any): Promise<Status> {
-        return await this.clientService.deleteNode(id.user_id,Number(id.area_id));
+    public async deleteNode(@Body() id: DeleteNode): Promise<Status> {
+        return await this.clientService.deleteNode(id.user_id, Number(id.area_id));
     }
 
     @Post('new-user')

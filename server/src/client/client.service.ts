@@ -52,7 +52,7 @@ export class ClientService {
     public async newNode(body: ClientData): Promise<Status> {
         let nb_area: number = parseInt((await selectRow("User", "nb_area", body.user_id)), 10) + 1;
         Logger.log('nb_area :'+nb_area);
-        if (await insertData({user_id: body.user_id, area_id: nb_area, TablesName: "Area", value: {area_name: body.area_name}}) === false) {
+        if (await insertData({user_id: body.user_id, area_id: nb_area, TablesName: "Area", value: {area_name: body.area_name, nb_reaction: body.reaction.length}}) === false) {
             return {"statusCode": 500, "message": `Error while adding new area_name in Area`};
         }
         if (await insertData({user_id: body.user_id, area_id: nb_area, TablesName: body.action.serviceName, value: body.action.body}) === false) {
@@ -87,9 +87,25 @@ export class ClientService {
     }
 
     public async deleteNode(id: string, area_id: number): Promise<Status> {
-        deleteData({user_id: id, area_id: area_id, TablesName: "Area"});
-        deleteData({user_id: id, area_id: area_id, TablesName: "Time"});
-        deleteData({user_id: id, area_id: area_id, TablesName: "Gmail"});
+        let nb_reaction:number = 0;
+        selectRows("Area", id)
+        .then(async (area) => {
+            area.forEach(async (area) => {
+                Logger.log('area.area_id : ' + area.area_id + ' area_id : ' + area_id);
+                if (area.area_id == area_id) {
+                    Logger.log("nb_reaction : " + area.nb_reaction);
+                    nb_reaction = area.nb_reaction;
+                }
+            })
+            Logger.log('nb_reaction : ' + nb_reaction);
+            deleteData({user_id: id, area_id: area_id, TablesName: "Area"});
+            deleteData({user_id: id, area_id: area_id, TablesName: "Time"});
+            // deleteData({user_id: id, area_id: area_id, TablesName: "Gmail"});
+        })
+        .catch((err) => {
+            Logger.log(err);
+        })
+
         return {"statusCode": 200, "message": "Node deleted"};
     }
 

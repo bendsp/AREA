@@ -37,12 +37,14 @@ export type Tables = GmailTable | TimeTable | UserTable | AreaTable;
 
 export interface Area {
     area_name: string
+    nb_reaction: number;
 }
 
 export interface SelectAreaData {
     user_id: string;
-    area_id: number;//"auth0|652bde86ab01a819c304f8a7"
+    area_id: number;
     area_name: string;
+    nb_reaction: number;
 }
 
 export interface User {
