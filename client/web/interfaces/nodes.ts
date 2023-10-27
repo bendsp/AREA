@@ -14,9 +14,14 @@ interface EmailBodyProps {
     subject: string;
     message: string;
 }
+
+interface PokemonBodyProps {
+    email: string;
+}
+
 export interface NodeReactionProps {
     serviceName: string;
-    body: EmailBodyProps | any;
+    body: EmailBodyProps | PokemonBodyProps | any;
 }
 
 //* Node

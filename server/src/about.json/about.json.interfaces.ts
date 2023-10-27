@@ -17,7 +17,7 @@ export interface Action {
 }
 
 export interface Reaction {
-    name: "send_email",
+    name: "send_email" | "send_random_pokemon",
     description: string,
     params: Param[];
 }

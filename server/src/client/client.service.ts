@@ -13,8 +13,9 @@ export class ClientService {
         let result: ClientData[] = [];
         const timeResults = await selectRows("Time", id);
         const emailResults = await selectRows("Gmail", id);
+        const randomPokemonResults = await selectRows("SendRandomPokemon", id);
         const areaResults = await selectRows("Area", id);
-
+        
         areaResults.forEach((area:SelectAreaData) => {
             result.push({
                 user_id: id,
@@ -24,6 +25,16 @@ export class ClientService {
                 reaction:[]
             });
         })
+        randomPokemonResults.forEach(async (user:any) => {
+            result.forEach((area) => {
+                if (Number(area.area_id) === Number(user.area_id)) {
+                    area.action = {serviceName: "SendRandomPokemon", body: {email: user.email, subject: user.subject, message: user.message}};
+                }
+                if (Number(area.area_id) < Number(user.area_id) && Number(user.area_id) < Number(area.area_id) + 1) {
+                    area.reaction.push({serviceName: "SendRandomPokemon", body: {email: user.email, subject: user.subject, message: user.message}});
+                }
+            });
+        });
         timeResults.forEach(async (user:any) => {
             result.forEach((area) => {
                 if (Number(area.area_id) === Number(user.area_id)) {
