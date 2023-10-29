@@ -20,20 +20,20 @@ export class CheckTriggersService {
     @Cron('0 */5 * * * *')
     async handleCron() {
         // Logger.log('Called when the current second is 0');
-        try {
-            this.triggers.forEach(async function (trigger) {
-                const ListTimeTrigger = await trigger.call(this);
-                if (ListTimeTrigger.length !== 0) {
-                    this.reactions.forEach(async function (reaction) {
-                        await reaction.call(this, ListTimeTrigger);
-                    }, this);
-                }
-            }, this);
+        // try {
+        //     this.triggers.forEach(async function (trigger) {
+        //         const ListTimeTrigger = await trigger.call(this);
+        //         if (ListTimeTrigger.length !== 0) {
+        //             this.reactions.forEach(async function (reaction) {
+        //                 await reaction.call(this, ListTimeTrigger);
+        //             }, this);
+        //         }
+        //     }, this);
 
-        } catch (error) {
-            // Handle any errors here
-            Logger.error('Error in handleCron:', error);
-        }
+        // } catch (error) {
+        //     // Handle any errors here
+        //     Logger.error('Error in handleCron:', error);
+        // }
     }
 
     async checkTime(): Promise<number[]> {
