@@ -1,12 +1,18 @@
 import { SelectTimeData, TimeData } from "../time/time.interface";
 import { SelectEmailData, MailData } from "../mailing/mailing.interface";
+import { PokemonData } from "src/pokemon/pokemon.interface";
 
-export type TableNames = 'Gmail' | 'Time' | 'User'| 'Area';
+export type TableNames = 'Gmail' | 'Time' | 'User'| 'Area' | 'SendRandomPokemon';
 export type serviceName = 'Gmail' | 'Time';
 
 export interface GmailTable  {
     TablesName: "Gmail";
     value: SelectEmailData;
+}
+
+export interface SendRandomPokemonTable  {
+    TablesName: "SendRandomPokemon";
+    value: SelectPokemonData;
 }
 
 export interface TimeTable  {
@@ -24,6 +30,11 @@ export interface AreaTable{
     value: SelectAreaData;
 }
 
+export interface SelectPokemonData {
+    TablesName: "SendRandomPokemon";
+    value: PokemonData;
+}
+
 export interface PutData {
     user_id: string;
     area_id: number;
@@ -33,7 +44,7 @@ export interface PutData {
 
 // export type PutData = {user_id: string; area_id: number;} & (GmailTable | TimeTable | UserTable | AreaTable | {TablesName: ""; value: {}});
 
-export type Tables = GmailTable | TimeTable | UserTable | AreaTable;
+export type Tables = GmailTable | TimeTable | UserTable | AreaTable | SelectPokemonData;
 
 export interface Area {
     area_name: string

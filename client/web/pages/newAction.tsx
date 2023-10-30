@@ -55,6 +55,7 @@ const NewAction = () => {
             ] as Array<ActionParamsProps>
         }]);
     };
+    console.log(reactionCardsData, "reactionCardsData")
 
     const handleUpdateTriggerCard = (triggerCard: TriggerProps) => {
         setTriggerCardData(triggerCard);
