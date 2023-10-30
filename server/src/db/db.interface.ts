@@ -13,6 +13,7 @@ export type TableNames =
   | 'send_random_nba_player'
   | 'send_random_nba_team'
   | 'send_random_nba_game';
+
 export type serviceName = 'Gmail' | 'Time';
 
 export interface GmailTable {
@@ -86,7 +87,10 @@ export type Tables =
   | AreaTable
   | SelectPokemonData
   | SelectPokemonGenData
-  | SelectPokemonItemData;
+  | SelectPokemonItemData
+  | SelectNbaPlayerData
+  | SelectNbaTeamData
+  | SelectNbaGameData;
 
 export interface Area {
   area_name: string;

@@ -5,29 +5,38 @@ import { TimeService } from '../time/time.service';
 import { selectRows } from '../db/db.selectData';
 
 import { PokemonService } from '../pokemon/pokemon.service';
-
+import { NbaService } from 'src/nba/nba.service';
 @Injectable()
 export class CheckTriggersService {
   triggers = [this.checkTime];
-  reactions = [this.launchEmail, this.launchRandomPokemon];
+  reactions = [
+    this.launchEmail,
+    this.launchRandomPokemon,
+    this.launchRandomPokemonFromGen,
+    this.launchRandomPotion,
+    this.launchRandomNbaPlayer,
+    this.launchRandomNbaTeam,
+    this.launchRandomNbaGame,
+  ];
   constructor(
     private readonly mailingService: MailingService,
     private readonly timeService: TimeService,
     private readonly pokemonService: PokemonService,
+    private readonly nbaService: NbaService,
   ) {}
 
   @Cron('0 */5 * * * *')
   async handleCron() {
     Logger.log('Called every 5 minutes');
     try {
-      //     this.triggers.forEach(async function (trigger) {
-      //         const ListTimeTrigger = await trigger.call(this);
-      //         if (ListTimeTrigger.length !== 0) {
-      //             this.reactions.forEach(async function (reaction) {
-      //                 await reaction.call(this, ListTimeTrigger);
-      //             }, this);
-      //         }
+      // this.triggers.forEach(async function (trigger) {
+      //   const ListTimeTrigger = await trigger.call(this);
+      //   if (ListTimeTrigger.length !== 0) {
+      //     this.reactions.forEach(async function (reaction) {
+      //       await reaction.call(this, ListTimeTrigger);
       //     }, this);
+      //   }
+      // }, this);
     } catch (error) {
       // Handle any errors here
       Logger.error('Error in handleCron:', error);
@@ -105,37 +114,91 @@ export class CheckTriggersService {
     }
   }
 
-  // async launchRandomPokemonFromGen(ListTimeTrigger: number[]) {
-  //     try {
-  //         const PokemonData = await selectRows("SendRandomPokemonFromGen");
+  async launchRandomPokemonFromGen(ListTimeTrigger: number[]) {
+    try {
+      const PokemonData = await selectRows('send_random_gen_pokemon');
 
-  //         for (const pokemon of PokemonData) {
-  //             for (const area_id of ListTimeTrigger) {
-  //                 if (pokemon.area_id > area_id && pokemon.area_id < area_id + 1) {
-  //                     await this.pokemonService.getRandomPokemonFromGen(pokemon.gen);
-  //                 }
-  //             }
-  //         }
-  //     } catch (error) {
-  //         // Handle any errors here
-  //         Logger.error('Error in launchRandomPokemonFromGen:', error);
-  //     }
-  // }
+      for (const pokemon of PokemonData) {
+        for (const area_id of ListTimeTrigger) {
+          if (pokemon.area_id > area_id && pokemon.area_id < area_id + 1) {
+            await this.pokemonService.sendRandomPokemonFromGen(
+              pokemon.generation,
+              pokemon.email,
+            );
+          }
+        }
+      }
+    } catch (error) {
+      // Handle any errors here
+      Logger.error('Error in launchRandomPokemonFromGen:', error);
+    }
+  }
 
-  // async launchRandomPotion(ListTimeTrigger: number[]) {
-  //     try {
-  //         const PokemonData = await selectRows("SendRandomPotion");
+  async launchRandomPotion(ListTimeTrigger: number[]) {
+    try {
+      const PotionData = await selectRows('send_random_item');
 
-  //         for (const pokemon of PokemonData) {
-  //             for (const area_id of ListTimeTrigger) {
-  //                 if (pokemon.area_id > area_id && pokemon.area_id < area_id + 1) {
-  //                     await this.pokemonService.getrandomPotionData();
-  //                 }
-  //             }
-  //         }
-  //     } catch (error) {
-  //         // Handle any errors here
-  //         Logger.error('Error in launchRandomPotion:', error);
-  //     }
-  // }
+      for (const potion of PotionData) {
+        for (const area_id of ListTimeTrigger) {
+          if (potion.area_id > area_id && potion.area_id < area_id + 1) {
+            await this.pokemonService.sendRandomItemData(potion.email);
+          }
+        }
+      }
+    } catch (error) {
+      // Handle any errors here
+      Logger.error('Error in launchRandomPotion:', error);
+    }
+  }
+
+  async launchRandomNbaPlayer(ListTimeTrigger: number[]) {
+    try {
+      const NbaPlayerData = await selectRows('send_random_nba_player');
+
+      for (const player of NbaPlayerData) {
+        for (const area_id of ListTimeTrigger) {
+          if (player.area_id > area_id && player.area_id < area_id + 1) {
+            await this.nbaService.sendRandomNbaPlayer(player.email);
+          }
+        }
+      }
+    } catch (error) {
+      // Handle any errors here
+      Logger.error('Error in launchRandomNbaPlayer:', error);
+    }
+  }
+
+  async launchRandomNbaTeam(ListTimeTrigger: number[]) {
+    try {
+      const NbaTeamData = await selectRows('send_random_nba_team');
+
+      for (const team of NbaTeamData) {
+        for (const area_id of ListTimeTrigger) {
+          if (team.area_id > area_id && team.area_id < area_id + 1) {
+            await this.nbaService.sendRandomNbaTeam(team.email);
+          }
+        }
+      }
+    } catch (error) {
+      // Handle any errors here
+      Logger.error('Error in launchRandomNbaTeam:', error);
+    }
+  }
+
+  async launchRandomNbaGame(ListTimeTrigger: number[]) {
+    try {
+      const NbaGameData = await selectRows('send_random_nba_game');
+
+      for (const game of NbaGameData) {
+        for (const area_id of ListTimeTrigger) {
+          if (game.area_id > area_id && game.area_id < area_id + 1) {
+            await this.nbaService.sendRandomNbaGame(game.email);
+          }
+        }
+      }
+    } catch (error) {
+      // Handle any errors here
+      Logger.error('Error in launchRandomNbaGame:', error);
+    }
+  }
 }
