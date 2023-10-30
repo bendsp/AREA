@@ -54,6 +54,18 @@ export class AboutJsonService {
                                 "type": "string"
                             }]
                         }]
+                    },
+                    {
+                        "name": "SendRandomPokemon",
+                        "actions": [] ,
+                        "reactions": [{
+                            "name": "send_random_pokemon",
+                            "description": "Send an email to the destination email address with a random pokemon",
+                            "params": [{
+                                "name": "email",
+                                "type": "string"
+                            }]
+                        }]
                     }
                 ]
             }

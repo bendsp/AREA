@@ -6,7 +6,7 @@ const createNodeJson = (userId: string, actionName: string, trigger: TriggerProp
     trigger.paramValues.forEach(param => {
         triggerBody[param.name] = param.value;
     });
-
+    console.log("reactions", reactions)
     let nodeJson = {
         user_id: userId,
         area_name: actionName,

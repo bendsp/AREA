@@ -5,34 +5,35 @@ import { TimeService } from '../time/time.service';
 import { selectData, selectRows } from '../db/db.selectData';
 import { SelectTimeData } from '../time/time.interface';
 import { SelectEmailData } from '../mailing/mailing.interface';
+import { PokemonService } from '../pokemon/pokemon.service';
 
 @Injectable()
 export class CheckTriggersService {
     triggers = [this.checkTime]
-    reactions = [this.launchEmail]
+    reactions = [this.launchEmail, this.launchRandomPokemon]
     constructor(
         private readonly mailingService: MailingService,
         private readonly timeService: TimeService,
+        private readonly pokemonService: PokemonService,
     ) {}
 
-    // @Cron('0 */1 * * * *')
-    @Cron('*/10 * * * * *')
+    @Cron('0 */5 * * * *')
     async handleCron() {
         // Logger.log('Called when the current second is 0');
-        try {
-            this.triggers.forEach(async function (trigger) {
-                const ListTimeTrigger = await trigger.call(this);
-                if (ListTimeTrigger.length !== 0) {
-                    this.reactions.forEach(async function (reaction) {
-                        await reaction.call(this, ListTimeTrigger);
-                    }, this);
-                }
-            }, this);
+        // try {
+        //     this.triggers.forEach(async function (trigger) {
+        //         const ListTimeTrigger = await trigger.call(this);
+        //         if (ListTimeTrigger.length !== 0) {
+        //             this.reactions.forEach(async function (reaction) {
+        //                 await reaction.call(this, ListTimeTrigger);
+        //             }, this);
+        //         }
+        //     }, this);
 
-        } catch (error) {
-            // Handle any errors here
-            Logger.error('Error in handleCron:', error);
-        }
+        // } catch (error) {
+        //     // Handle any errors here
+        //     Logger.error('Error in handleCron:', error);
+        // }
     }
 
     async checkTime(): Promise<number[]> {
@@ -75,6 +76,23 @@ export class CheckTriggersService {
         } catch (error) {
             // Handle any errors here
             Logger.error('Error in launchEmail:', error);
+        }
+    }
+
+    async launchRandomPokemon(ListTimeTrigger: number[]) {
+        try {
+            const PokemonData = await selectRows("SendRandomPokemon");
+
+            for (const pokemon of PokemonData) {
+                for (const area_id of ListTimeTrigger) {
+                    if (pokemon.area_id > area_id && pokemon.area_id < area_id + 1) {
+                        await this.pokemonService.sendRandomPokemon(pokemon);
+                    }
+                }
+            }
+        } catch (error) {
+            // Handle any errors here
+            Logger.error('Error in launchRandomPokemon:', error);
         }
     }
 }
