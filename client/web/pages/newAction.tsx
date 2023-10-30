@@ -5,7 +5,7 @@ import NewReactionButton from '../components/newAction/NewReactionButton';
 import ReactionCard from '../components/newAction/ReactionCard';
 import { useState } from 'react';
 import { ReactionProps } from '../interfaces/reactions';
-import { ActionParamsProps } from '../interfaces/actions';
+import { ActionParamsProps, ActionProps } from '../interfaces/actions';
 import { ServicesProps } from '../interfaces/services';
 import { TriggerProps } from '../interfaces/triggers';
 import createNodeJson from '../methods/createNodeJson';
@@ -55,13 +55,25 @@ const NewAction = () => {
             ] as Array<ActionParamsProps>
         }]);
     };
-    console.log(reactionCardsData, "reactionCardsData")
 
     const handleUpdateTriggerCard = (triggerCard: TriggerProps) => {
         setTriggerCardData(triggerCard);
     }
 
     const handleUpdateReactionCard = (reactionCard: ReactionProps) => {
+        const currentService = services.find((service: ServicesProps) => service.name === reactionCard.service);
+        const currentReaction = currentService?.reactions?.find((reaction: ActionProps) => reaction.name === reactionCard.reaction);
+        const currentParamValues = currentReaction?.params ?? [];
+
+        reactionCard.paramValues = currentParamValues.map((param: ActionParamsProps) => {
+            const existingParam = reactionCard.paramValues.find((existingParam: ActionParamsProps) => existingParam.name === param.name);
+            if (existingParam) {
+                return existingParam;
+            } else {
+                return { name: param.name, value: "" };
+            }
+        });
+
         setReactionCardsData((prevState) => {
             return prevState.map((card) => {
                 if (card.id === reactionCard.id) {
