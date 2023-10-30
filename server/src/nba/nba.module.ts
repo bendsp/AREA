@@ -7,6 +7,6 @@ import { MailingModule } from 'src/mailing/mailing.module';
   imports: [MailingModule],
   controllers: [NbaController],
   providers: [NbaService],
-  exports: [],
+  exports: [NbaService],
 })
 export class NbaModule {}
