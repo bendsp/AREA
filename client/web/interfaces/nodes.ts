@@ -27,6 +27,7 @@ export interface NodeReactionProps {
 //* Node
 export interface NodeProps {
     user_id: string;
+    area_id: string;
     area_name: string;
     action: NodeActionProps;
     reaction: Array<NodeReactionProps>;
