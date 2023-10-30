@@ -9,6 +9,7 @@ import HomeScreen from './homeScreen';
 import AppScreen from './appScreen';
 import SettingsScreen from './settingsScreen';
 import {RootStackParamList} from './navigationTypes';
+import CreateArea from './createAreaScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -26,7 +27,7 @@ const BottomTabNavigator = () => {
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons name="home" color={color} size={26} />
+            <MaterialCommunityIcons name="home" size={26} />
           ),
         }}
       />
@@ -70,6 +71,14 @@ const Navigation = () => {
           component={SettingsScreen}
           options={{
             headerLeft: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="CreateArea"
+          component={CreateArea}
+          options={{
+            headerShown: true, // Show the header for this screen
+            title: 'Create Area', // Set the title of the header
           }}
         />
       </Stack.Navigator>
