@@ -16,6 +16,7 @@ import HomeHeader from '../components/HomeHeader';
 import {useNavigation} from '@react-navigation/native'; // Import useNavigation
 import fetchAllUserNodes from '../../methods/fetchAllUserNodes'; // Import fetchAllUserNodes
 import {black} from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // Define the HomeScreen component
 const HomeScreen = () => {
