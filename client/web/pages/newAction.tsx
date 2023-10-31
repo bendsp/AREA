@@ -5,7 +5,7 @@ import NewReactionButton from '../components/newAction/NewReactionButton';
 import ReactionCard from '../components/newAction/ReactionCard';
 import { useState } from 'react';
 import { ReactionProps } from '../interfaces/reactions';
-import { ActionParamsProps } from '../interfaces/actions';
+import { ActionParamsProps, ActionProps } from '../interfaces/actions';
 import { ServicesProps } from '../interfaces/services';
 import { TriggerProps } from '../interfaces/triggers';
 import createNodeJson from '../methods/createNodeJson';
@@ -19,13 +19,15 @@ const generateId = () => {
 
 const NewAction = () => {
     const router = useRouter()
+    console.log("router.query", router)
     const services = router.query.services ? JSON.parse(router.query.services as string) : [];
     const actionName = router.query.name ? router.query.name as string : "";
-
+    console.log("actionName", actionName)
+    console.log("services", services)
     const servicesWithActions = services.filter((service: ServicesProps) => service.actions.length > 0);
 
     const servicesWithReactions = services.filter((service: ServicesProps) => service.reactions.length > 0);
-
+    console.log("servicesWithReactions", servicesWithReactions)
     // TODO: same here, default values
     const [triggerCardData, setTriggerCardData] = useState<TriggerProps>({
         service: "Time",
@@ -55,18 +57,32 @@ const NewAction = () => {
             ] as Array<ActionParamsProps>
         }]);
     };
-    console.log(reactionCardsData, "reactionCardsData")
 
     const handleUpdateTriggerCard = (triggerCard: TriggerProps) => {
         setTriggerCardData(triggerCard);
     }
 
     const handleUpdateReactionCard = (reactionCard: ReactionProps) => {
+        const currentService = services.find((service: ServicesProps) => service.name === reactionCard.service);
+        const currentReaction = currentService?.reactions?.find((reaction: ActionProps) => reaction.name === reactionCard.reaction);
+        const currentParamValues = currentReaction?.params ?? [];
+
+        reactionCard.paramValues = currentParamValues.map((param: ActionParamsProps) => {
+            const existingParam = reactionCard.paramValues.find((existingParam: ActionParamsProps) => existingParam.name === param.name);
+            if (existingParam) {
+                return existingParam;
+            } else {
+                return { name: param.name, value: "" };
+            }
+        });
+
         setReactionCardsData((prevState) => {
             return prevState.map((card) => {
                 if (card.id === reactionCard.id) {
+                    console.log("reactionCard", reactionCard)
                     return reactionCard;
                 } else {
+                    console.log("card", card)
                     return card;
                 }
             })
@@ -76,6 +92,7 @@ const NewAction = () => {
     const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) as User : null;
 
     const handleSaveArea = async () => {
+        console.log("triggerCardData", triggerCardData)
         const nodeJson = createNodeJson((user?.sub ?? "1" ), actionName, triggerCardData, reactionCardsData)
         await sendNewNode(nodeJson as NodeProps)
         router.push('/home')

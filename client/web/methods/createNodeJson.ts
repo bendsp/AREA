@@ -2,6 +2,7 @@ import { TriggerProps } from "../interfaces/triggers";
 import { ReactionProps } from "../interfaces/reactions";
 
 const createNodeJson = (userId: string, actionName: string, trigger: TriggerProps, reactions: Array<ReactionProps>) => {
+    console.log("trigger", trigger)
     const triggerBody: { [key: string]: string } = {};
     trigger.paramValues.forEach(param => {
         triggerBody[param.name] = param.value;
@@ -11,7 +12,7 @@ const createNodeJson = (userId: string, actionName: string, trigger: TriggerProp
         user_id: userId,
         area_name: actionName,
         action: {
-            serviceName: trigger.service,
+            serviceName: trigger.action,
             body: triggerBody
         },
         reaction: reactions.map((reaction) => {
@@ -20,7 +21,7 @@ const createNodeJson = (userId: string, actionName: string, trigger: TriggerProp
                 body[param.name] = param.value;
             });
             return {
-                serviceName: reaction.service,
+                serviceName: reaction.reaction,
                 body: body
             };
         })
