@@ -2,7 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import LoginScreen from './loginScreen';
 import HomeScreen from './homeScreen';
@@ -27,7 +27,7 @@ const BottomTabNavigator = () => {
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons name="home" size={26} />
+            <Icon name="home" size={26} color={color}/>
           ),
         }}
       />
@@ -37,7 +37,7 @@ const BottomTabNavigator = () => {
         options={{
           tabBarLabel: 'Settings',
           tabBarIcon: ({color}) => (
-            <FontAwesome name="cog" color={color} size={26} />
+            <Icon name="cog" color={color} size={26} />
           ),
         }}
       />

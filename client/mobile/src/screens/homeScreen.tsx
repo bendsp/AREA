@@ -16,6 +16,14 @@ import {
   useTheme,
   Button,
 } from 'react-native-paper';
+import fetchAboutJson from '../../methods/fetchAboutJson'; // Adjust the path to where fetchAboutJson.ts is located
+import HomeHeader from '../components/HomeHeader';
+import {useNavigation} from '@react-navigation/native'; // Import useNavigation
+import fetchAllUserNodes from '../../methods/fetchAllUserNodes'; // Import fetchAllUserNodes
+import {black} from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+// Define the HomeScreen component
 import fetchAboutJson from '../../methods/fetchAboutJson';
 import {useNavigation} from '@react-navigation/native';
 import fetchAllUserNodes from '../../methods/fetchAllUserNodes';
