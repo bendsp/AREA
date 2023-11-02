@@ -25,6 +25,9 @@ Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _roo
 ### For Android
 
 ```bash
+export RCT_METRO_PORT=8083
+adb reverse tcp:8080 tcp:8080
+adb reverse tcp:8081 tcp:8081
 # using npm
 npm run android
 
