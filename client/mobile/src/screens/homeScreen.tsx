@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import {
   List,
@@ -23,17 +24,13 @@ import fetchAllUserNodes from '../../methods/fetchAllUserNodes'; // Import fetch
 import {black} from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-// Define the HomeScreen component
-import fetchAboutJson from '../../methods/fetchAboutJson';
-import {useNavigation} from '@react-navigation/native';
-import fetchAllUserNodes from '../../methods/fetchAllUserNodes';
-
 const HomeScreen = () => {
   const [userAreas, setUserAreas] = useState([]);
   const [services, setServices] = useState([]);
   const [visible, setVisible] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   const theme = useTheme();
   const navigation = useNavigation();
@@ -49,6 +46,20 @@ const HomeScreen = () => {
       .catch(error => {
         console.error(error);
         setLoading(false);
+      });
+  }, []);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchAboutJson({setServices});
+    fetchAllUserNodes('google-oauth2|114479912414647541183')
+      .then(data => {
+        setUserAreas(data);
+        setRefreshing(false);
+      })
+      .catch(error => {
+        console.error(error);
+        setRefreshing(false);
       });
   }, []);
 
@@ -71,7 +82,11 @@ const HomeScreen = () => {
   }
 
   return (
-    <ScrollView style={{flex: 1, padding: 16}}>
+    <ScrollView
+      style={{flex: 1, padding: 16}}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <Card style={{marginBottom: 16}}>
         <Card.Content>
           <View
