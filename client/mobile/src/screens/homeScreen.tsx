@@ -1,6 +1,11 @@
 // Import necessary libraries
 import React, {useEffect, useState} from 'react';
-import {ScrollView, View, TouchableOpacity} from 'react-native';
+import {
+  ScrollView,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import {
   List,
   Card,
@@ -11,58 +16,56 @@ import {
   useTheme,
   Button,
 } from 'react-native-paper';
-import fetchAboutJson from '../../methods/fetchAboutJson'; // Adjust the path to where fetchAboutJson.ts is located
-import HomeHeader from '../components/HomeHeader';
-import {useNavigation} from '@react-navigation/native'; // Import useNavigation
-import fetchAllUserNodes from '../../methods/fetchAllUserNodes'; // Import fetchAllUserNodes
-import {black} from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
+import fetchAboutJson from '../../methods/fetchAboutJson';
+import {useNavigation} from '@react-navigation/native';
+import fetchAllUserNodes from '../../methods/fetchAllUserNodes';
 
-// Define the HomeScreen component
 const HomeScreen = () => {
-  // Define state hooks
-  const [userAreas, setUserAreas] = useState([]); // State hook for user areas
-  const [services, setServices] = useState([]); // State hook for services
-  const [visible, setVisible] = useState(false); // State hook for modal visibility
-  const [selectedService, setSelectedService] = useState(null); // State hook for selected service
+  const [userAreas, setUserAreas] = useState([]);
+  const [services, setServices] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // Get the current theme and navigation prop
   const theme = useTheme();
   const navigation = useNavigation();
 
-  // Define useEffect hook to fetch data
   useEffect(() => {
-    // Fetch service data
+    setLoading(true);
     fetchAboutJson({setServices});
-
-    // Fetch user areas
-    // Assume subId is available, replace 'your-sub-id' with actual subId or get it dynamically
     fetchAllUserNodes('google-oauth2|114479912414647541183')
       .then(data => {
         setUserAreas(data);
-        console.log(data);
+        setLoading(false);
       })
-      .catch(error => console.error(error));
+      .catch(error => {
+        console.error(error);
+        setLoading(false);
+      });
   }, []);
 
-  // Define function to show the modal
   const showModal = service => {
     setSelectedService(service);
     setVisible(true);
   };
 
-  // Define function to hide the modal
   const hideModal = () => {
     setSelectedService(null);
     setVisible(false);
   };
 
-  // Define the JSX to be rendered
+  if (loading) {
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+      </View>
+    );
+  }
+
   return (
     <ScrollView style={{flex: 1, padding: 16}}>
-      {/* Areas Container */}
       <Card style={{marginBottom: 16}}>
         <Card.Content>
-          {/* Title and Add Button */}
           <View
             style={{
               flexDirection: 'row',
@@ -74,15 +77,15 @@ const HomeScreen = () => {
             <Button
               icon="plus"
               compact
-              onPress={() => navigation.navigate('CreateArea')} // Replace 'CreateArea' with the name of your create area screen
-            >
+              onPress={() => navigation.navigate('CreateArea')}
+              color={theme.colors.primary}>
               Add
             </Button>
           </View>
           {userAreas.length > 0 ? (
             userAreas.map((area, index) => (
               <List.Item
-                key={area.area_id || index} // Use area_id if available, otherwise use index
+                key={area.area_id || index}
                 title={area.area_name}
                 description={`${area.action.serviceName} - ${JSON.stringify(
                   area.action.body,
@@ -97,23 +100,21 @@ const HomeScreen = () => {
         </Card.Content>
       </Card>
 
-      {/* Services Container */}
       <Card>
         <Card.Content>
           <Title>Services</Title>
           {services.map((service, index) => (
             <TouchableOpacity key={index} onPress={() => showModal(service)}>
               <List.Item
-                key={index} // Use index as key
+                key={index}
                 title={service.name}
-                left={props => <List.Icon {...props} icon="folder" />}
+                left={props => <List.Icon {...props} icon="star" />}
               />
             </TouchableOpacity>
           ))}
         </Card.Content>
       </Card>
 
-      {/* Modal for displaying service actions and reactions */}
       <Portal>
         <Modal
           visible={visible}
@@ -152,5 +153,4 @@ const HomeScreen = () => {
   );
 };
 
-// Export the HomeScreen component
 export default HomeScreen;

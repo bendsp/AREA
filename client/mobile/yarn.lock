@@ -5753,7 +5753,7 @@ react-native-gesture-handler@^2.13.1, "react-native-gesture-handler@>= 1.0.0":
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
-react-native-paper@^5.10.6:
+react-native-paper@^5.11.1:
   version "5.11.1"
   resolved "https://registry.npmjs.org/react-native-paper/-/react-native-paper-5.11.1.tgz"
   integrity sha512-axqRTagGL8LtuYh172cx2Q2THOVJ3PTpPjCKhL5ECRdpJs2ceiboVecSiOIBuO3H7dVpaneptBA0vJr9HeVHwg==

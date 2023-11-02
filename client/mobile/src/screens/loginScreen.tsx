@@ -8,8 +8,9 @@ import { useTheme } from 'react-native-paper';
 import Auth0 from 'react-native-auth0';
 import { auth0Config } from '../../auth0';
 
-// const auth0 = new Auth0(auth0);
+const auth0 = new Auth0(auth0Config);
 
+type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
 
 const LoginScreen = () => {
   const navigation = useNavigation<LoginScreenNavigationProp>();
@@ -17,11 +18,13 @@ const LoginScreen = () => {
 
   const loginHandler = async () => {
     try {
-      // const credentials = await auth0.webAuth.authorize({scope: 'openid profile email'});
+      console.log('Login attempt');
+      const credentials = await auth0.webAuth.authorize({scope: 'openid profile email'});
       console.log('Login successful');
-      // console.log(credentials);
+      console.log(credentials);
       navigation.navigate('BottomTabNavigator', {screen: 'HomeTab'});
     } catch (error) {
+      console.log('Login failed');
       console.log(error);
     }
   };
@@ -52,29 +55,5 @@ const LoginScreen = () => {
     </View>
   );
 };
-
-// import {useAuth0, Auth0Provider} from 'react-native-auth0';
-
-
-// const LoginScreen = () => {
-//   const {authorize} = useAuth0();
-//   const navigation = useNavigation<LoginScreenNavigationProp>();
-
-//   const onPress = async () => {
-//       try {
-//         console.log('Login attempt');
-//           const balls = await authorize();
-//           console.log(balls);
-//           console.log('Login successful');
-//           navigation.navigate('BottomTabNavigator', {screen: 'HomeTab'});
-
-//       } catch (e) {
-//         console.log('Login failed');
-//           console.log(e);
-//       }
-//   };
-
-//   return <Button onPress={onPress}> ma bite </Button>;
-// }
 
 export default LoginScreen;
