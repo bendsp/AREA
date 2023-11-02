@@ -23,6 +23,7 @@ import {useNavigation} from '@react-navigation/native'; // Import useNavigation
 import fetchAllUserNodes from '../../methods/fetchAllUserNodes'; // Import fetchAllUserNodes
 import {black} from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import deleteNode from '../../methods/deleteNode'; // Adjust the path to where deleteNode.ts is located
 
 const HomeScreen = () => {
   const [userAreas, setUserAreas] = useState([]);
@@ -62,6 +63,18 @@ const HomeScreen = () => {
         setRefreshing(false);
       });
   }, []);
+
+  const handleDelete = async areaId => {
+    try {
+      const userId = 'google-oauth2|114479912414647541183'; // Replace with the actual user ID
+      const result = await deleteNode(userId, areaId);
+      console.log('Delete result:', result);
+      // Optionally, refresh the list of areas after deletion:
+      onRefresh();
+    } catch (error) {
+      console.error('Failed to delete area:', error);
+    }
+  };
 
   const showModal = service => {
     setSelectedService(service);
@@ -113,6 +126,12 @@ const HomeScreen = () => {
                 description={`${area.action.serviceName} - ${JSON.stringify(
                   area.action.body,
                 )} / ${JSON.stringify(area.reaction)}`}
+                right={props => (
+                  <Button
+                    icon="delete"
+                    onPress={() => handleDelete(area.area_id)}
+                  />
+                )}
               />
             ))
           ) : (
