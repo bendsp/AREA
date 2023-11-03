@@ -18,10 +18,10 @@ const LoginScreen = () => {
 
   const loginHandler = async () => {
     try {
-      console.log('Login attempt');
-      const credentials = await auth0.webAuth.authorize({scope: 'openid profile email'});
-      console.log('Login successful');
-      console.log(credentials);
+      // console.log('Login attempt');
+      // const credentials = await auth0.webAuth.authorize({scope: 'openid profile email'});
+      // console.log('Login successful');
+      // console.log(credentials);
       navigation.navigate('BottomTabNavigator', {screen: 'HomeTab'});
     } catch (error) {
       console.log('Login failed');

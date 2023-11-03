@@ -15,4 +15,4 @@ export interface ReactionCardProps {
     data: ReactionProps
 }
 
-export type ReactionsType = "send_email"
+export type ReactionsType = "send_email" | "send_random_pokemon";

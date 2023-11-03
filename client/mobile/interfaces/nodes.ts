@@ -3,7 +3,7 @@ interface TimeBodyProps {
     city: string;
     time: string;
 }
-interface NodeActionProps {
+export interface NodeActionProps {
     serviceName: string;
     body: TimeBodyProps | any;
 }
@@ -19,7 +19,7 @@ interface PokemonBodyProps {
     email: string;
 }
 
-interface NodeReactionProps {
+export interface NodeReactionProps {
     serviceName: string;
     body: EmailBodyProps | PokemonBodyProps | any;
 }
@@ -27,6 +27,7 @@ interface NodeReactionProps {
 //* Node
 export interface NodeProps {
     user_id: string;
+    area_id: string;
     area_name: string;
     action: NodeActionProps;
     reaction: Array<NodeReactionProps>;

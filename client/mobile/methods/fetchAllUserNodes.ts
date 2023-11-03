@@ -1,5 +1,5 @@
 const fetchAllUserNodes = async (subId: string) => {
-    const url = `http://10.116.120.163:8080/client/all-nodes/${subId}` //google-oauth2|114479912414647541183
+    const url = `http://localhost:8080/client/all-nodes/${subId}` //google-oauth2|114479912414647541183
 
     const response = await fetch(url, {
         method: 'GET',
@@ -9,7 +9,6 @@ const fetchAllUserNodes = async (subId: string) => {
     })
 
     const data = await response.json()
-
     return data
 }
 

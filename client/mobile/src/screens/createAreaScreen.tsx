@@ -4,6 +4,7 @@ import {List, useTheme} from 'react-native-paper';
 import createNodeJson from '../../methods/createNodeJson';
 import sendNewNode from '../../methods/sendNewNode';
 import fetchAboutJson from '../../methods/fetchAboutJson';
+import Navigation from './navigation';
 
 const CreateArea = () => {
   const [servicesData, setServicesData] = useState([]);
@@ -33,11 +34,17 @@ const CreateArea = () => {
       selectedTrigger.name === action.name &&
       selectedTrigger.service === service.name
     ) {
-      // If the same action is selected again, deselect it
-      setSelectedTrigger(null);
+      setSelectedTrigger(null); // Deselecting action
+      setSelectedActions(prev => ({
+        ...prev,
+        [service.name]: null,
+      })); // Deselecting action in selectedActions state
     } else {
-      // Else, select the new action as the trigger
-      setSelectedTrigger({service: service.name, ...action});
+      setSelectedTrigger({service: service.name, ...action}); // Selecting new action
+      setSelectedActions(prev => ({
+        ...prev,
+        [service.name]: action.name,
+      })); // Updating selectedActions state
     }
   };
 
@@ -66,9 +73,15 @@ const CreateArea = () => {
         [actionName]: {...(prev[actionName] || {}), [paramName]: value},
       }));
     }
+    console.log(
+      'Updated Params:',
+      selectedActionParams,
+      selectedReactionParams,
+    );
   };
 
   const renderParamInputs = (params, actionName, isReaction = false) => {
+    console.log('Rendering param inputs for:', actionName, params); // Log the action and params
     return params.map(param => (
       <TextInput
         key={param.name}
@@ -82,15 +95,6 @@ const CreateArea = () => {
   };
 
   const handleCreateArea = () => {
-    console.log('selectedTrigger:', selectedTrigger);
-    console.log(
-      'selectedReactionServices length:',
-      Object.keys(selectedReactionParams).length,
-    );
-    console.log(
-      'selectedActionServices length:',
-      Object.keys(selectedActionParams).length,
-    );
     console.log('areaTitle:', areaTitle);
     const selectedReactionServices = Object.keys(selectedReactionParams);
     const selectedActionServices = Object.keys(selectedActionParams);
@@ -105,15 +109,25 @@ const CreateArea = () => {
         'google-oauth2|114479912414647541183',
         areaTitle,
         {
-          service: selectedTrigger.service,
-          body: selectedActionParams[selectedTrigger.service], // Updated line
+          service: selectedTrigger.name, // Updated from selectedTrigger.service to selectedTrigger.name
+          paramValues: Object.entries(
+            selectedActionParams[selectedTrigger.service] || {},
+          ).map(([name, value]) => ({name, value})),
         },
         selectedReactionServices.map(serviceName => ({
-          serviceName: serviceName,
-          body: selectedReactionParams[serviceName], // Updated line
+          service: serviceName,
+          paramValues: Object.entries(
+            selectedReactionParams[serviceName] || {},
+          ).map(([name, value]) => ({name, value})),
         })),
       );
+      console.log('selectedActionParams:', selectedActionParams);
+      console.log('selectedTrigger:', selectedTrigger);
+      console.log('selectedReactionParams:', selectedReactionParams);
+      console.log('nodeJson:', nodeJson);
+
       sendNewNode(nodeJson);
+      // navigation.navigate('BottomTabNavigator', {screen: 'HomeTab'});
     } else {
       alert('Please complete all fields.');
     }
@@ -137,6 +151,7 @@ const CreateArea = () => {
                   description={action.description}
                   onPress={() => handleActionToggle(action, service)}
                 />
+                {/* Ensure the condition here is correct for displaying the parameter inputs: */}
                 {selectedActions[service.name] === action.name &&
                   renderParamInputs(action.params, action.name)}
               </View>
@@ -148,6 +163,7 @@ const CreateArea = () => {
                   description={reaction.description}
                   onPress={() => handleReactionToggle(reaction, service)}
                 />
+                {/* Ensure the condition here is correct for displaying the parameter inputs: */}
                 {selectedReactions[service.name] === reaction.name &&
                   renderParamInputs(reaction.params, reaction.name, true)}
               </View>

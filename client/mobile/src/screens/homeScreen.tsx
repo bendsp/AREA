@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import {
   List,
@@ -22,11 +23,7 @@ import {useNavigation} from '@react-navigation/native'; // Import useNavigation
 import fetchAllUserNodes from '../../methods/fetchAllUserNodes'; // Import fetchAllUserNodes
 import {black} from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
-// Define the HomeScreen component
-import fetchAboutJson from '../../methods/fetchAboutJson';
-import {useNavigation} from '@react-navigation/native';
-import fetchAllUserNodes from '../../methods/fetchAllUserNodes';
+import deleteNode from '../../methods/deleteNode'; // Adjust the path to where deleteNode.ts is located
 
 const HomeScreen = () => {
   const [userAreas, setUserAreas] = useState([]);
@@ -34,6 +31,7 @@ const HomeScreen = () => {
   const [visible, setVisible] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   const theme = useTheme();
   const navigation = useNavigation();
@@ -51,6 +49,32 @@ const HomeScreen = () => {
         setLoading(false);
       });
   }, []);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchAboutJson({setServices});
+    fetchAllUserNodes('google-oauth2|114479912414647541183')
+      .then(data => {
+        setUserAreas(data);
+        setRefreshing(false);
+      })
+      .catch(error => {
+        console.error(error);
+        setRefreshing(false);
+      });
+  }, []);
+
+  const handleDelete = async areaId => {
+    try {
+      const userId = 'google-oauth2|114479912414647541183'; // Replace with the actual user ID
+      const result = await deleteNode(userId, areaId);
+      console.log('Delete result:', result);
+      // Optionally, refresh the list of areas after deletion:
+      onRefresh();
+    } catch (error) {
+      console.error('Failed to delete area:', error);
+    }
+  };
 
   const showModal = service => {
     setSelectedService(service);
@@ -71,7 +95,11 @@ const HomeScreen = () => {
   }
 
   return (
-    <ScrollView style={{flex: 1, padding: 16}}>
+    <ScrollView
+      style={{flex: 1, padding: 16}}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <Card style={{marginBottom: 16}}>
         <Card.Content>
           <View
@@ -98,6 +126,12 @@ const HomeScreen = () => {
                 description={`${area.action.serviceName} - ${JSON.stringify(
                   area.action.body,
                 )} / ${JSON.stringify(area.reaction)}`}
+                right={props => (
+                  <Button
+                    icon="delete"
+                    onPress={() => handleDelete(area.area_id)}
+                  />
+                )}
               />
             ))
           ) : (
