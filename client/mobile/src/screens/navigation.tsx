@@ -3,24 +3,32 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import LoginScreen from './loginScreen';
 import HomeScreen from './homeScreen';
 import AppScreen from './appScreen';
 import SettingsScreen from './settingsScreen';
 import {RootStackParamList} from './navigationTypes';
 import CreateArea from './createAreaScreen';
+import { useThemeContext } from '../components/themeContext';
+import { useTheme } from 'react-native-paper';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
+  const { isDarkTheme } = useThemeContext();
+  const theme = useTheme();
+
   return (
     <Tab.Navigator
       initialRouteName="HomeTab"
-      activeColor="#e91e63"
-      barStyle={{backgroundColor: 'tomato'}}
-      screenOptions={{headerShown: false}}>
+      screenOptions={{
+        tabBarActiveTintColor: theme.colors.primary,
+        tabBarInactiveTintColor: theme.colors.surfaceDisabled,
+        tabBarStyle: { 
+          backgroundColor: theme.colors.surface,
+        },
+        headerShown: false,}}>
       <Tab.Screen
         name="HomeTab"
         component={HomeScreen}
@@ -77,8 +85,8 @@ const Navigation = () => {
           name="CreateArea"
           component={CreateArea}
           options={{
-            headerShown: true, // Show the header for this screen
-            title: 'Create Area', // Set the title of the header
+            headerShown: true,
+            title: 'Create Area',
           }}
         />
       </Stack.Navigator>
