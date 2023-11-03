@@ -1,7 +1,7 @@
 import { NodeProps } from "../interfaces/nodes"
 
 const sendNewNode = async (node: NodeProps) => {
-    const response = await fetch('http://10.116.120.163:8080/client/new-node', {
+    const response = await fetch('http://127.0.0.1:8080/client/new-node', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -11,7 +11,7 @@ const sendNewNode = async (node: NodeProps) => {
 
     const data = await response.json();
 
-    console.log(data);
+    console.log('node', node);
 }
 
 export default sendNewNode

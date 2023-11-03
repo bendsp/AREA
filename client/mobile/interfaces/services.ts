@@ -6,5 +6,5 @@ export interface ServicesProps {
     reactions: Array<ActionProps>;
 }
 
-export type ServicesType = "Time" | "Gmail"
+export type ServicesType = "Time" | "Gmail" | "SendRandomPokemon";
 

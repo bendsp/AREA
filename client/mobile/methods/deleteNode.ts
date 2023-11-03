@@ -1,5 +1,5 @@
 const deleteNode = async (userId: string, areaId: string) => {
-    const url = 'http://10.116.120.163:8080/client/delete-node'
+    const url = 'http://localhost:8080/client/delete-node'
 
     const body = {
         user_id: userId,
