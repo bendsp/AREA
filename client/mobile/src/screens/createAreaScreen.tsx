@@ -4,6 +4,7 @@ import {List, useTheme} from 'react-native-paper';
 import createNodeJson from '../../methods/createNodeJson';
 import sendNewNode from '../../methods/sendNewNode';
 import fetchAboutJson from '../../methods/fetchAboutJson';
+import Navigation from './navigation';
 
 const CreateArea = () => {
   const [servicesData, setServicesData] = useState([]);
@@ -33,11 +34,17 @@ const CreateArea = () => {
       selectedTrigger.name === action.name &&
       selectedTrigger.service === service.name
     ) {
-      // If the same action is selected again, deselect it
-      setSelectedTrigger(null);
+      setSelectedTrigger(null); // Deselecting action
+      setSelectedActions(prev => ({
+        ...prev,
+        [service.name]: null,
+      })); // Deselecting action in selectedActions state
     } else {
-      // Else, select the new action as the trigger
-      setSelectedTrigger({service: service.name, ...action});
+      setSelectedTrigger({service: service.name, ...action}); // Selecting new action
+      setSelectedActions(prev => ({
+        ...prev,
+        [service.name]: action.name,
+      })); // Updating selectedActions state
     }
   };
 
@@ -69,6 +76,7 @@ const CreateArea = () => {
   };
 
   const renderParamInputs = (params, actionName, isReaction = false) => {
+    console.log('Rendering param inputs for:', actionName, params); // Log the action and params
     return params.map(param => (
       <TextInput
         key={param.name}
@@ -114,10 +122,24 @@ const CreateArea = () => {
         })),
       );
       sendNewNode(nodeJson);
+      // navigation.navigate('BottomTabNavigator', {screen: 'HomeTab'});
     } else {
       alert('Please complete all fields.');
     }
   };
+
+  useEffect(() => {
+    console.log('Fetching service data...');
+    fetchAboutJson({setServices: setServicesData});
+  }, []);
+
+  useEffect(() => {
+    console.log('selectedActions:', selectedActions);
+  }, [selectedActions]);
+
+  useEffect(() => {
+    console.log('selectedReactions:', selectedReactions);
+  }, [selectedReactions]);
 
   return (
     <ScrollView style={styles.container}>
@@ -137,6 +159,7 @@ const CreateArea = () => {
                   description={action.description}
                   onPress={() => handleActionToggle(action, service)}
                 />
+                {/* Ensure the condition here is correct for displaying the parameter inputs: */}
                 {selectedActions[service.name] === action.name &&
                   renderParamInputs(action.params, action.name)}
               </View>
@@ -148,6 +171,7 @@ const CreateArea = () => {
                   description={reaction.description}
                   onPress={() => handleReactionToggle(reaction, service)}
                 />
+                {/* Ensure the condition here is correct for displaying the parameter inputs: */}
                 {selectedReactions[service.name] === reaction.name &&
                   renderParamInputs(reaction.params, reaction.name, true)}
               </View>
