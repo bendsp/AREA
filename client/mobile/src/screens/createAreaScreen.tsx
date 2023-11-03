@@ -73,6 +73,11 @@ const CreateArea = () => {
         [actionName]: {...(prev[actionName] || {}), [paramName]: value},
       }));
     }
+    console.log(
+      'Updated Params:',
+      selectedActionParams,
+      selectedReactionParams,
+    );
   };
 
   const renderParamInputs = (params, actionName, isReaction = false) => {
@@ -90,15 +95,6 @@ const CreateArea = () => {
   };
 
   const handleCreateArea = () => {
-    console.log('selectedTrigger:', selectedTrigger);
-    console.log(
-      'selectedReactionServices length:',
-      Object.keys(selectedReactionParams).length,
-    );
-    console.log(
-      'selectedActionServices length:',
-      Object.keys(selectedActionParams).length,
-    );
     console.log('areaTitle:', areaTitle);
     const selectedReactionServices = Object.keys(selectedReactionParams);
     const selectedActionServices = Object.keys(selectedActionParams);
@@ -113,33 +109,29 @@ const CreateArea = () => {
         'google-oauth2|114479912414647541183',
         areaTitle,
         {
-          service: selectedTrigger.service,
-          body: selectedActionParams[selectedTrigger.service], // Updated line
+          service: selectedTrigger.name, // Updated from selectedTrigger.service to selectedTrigger.name
+          paramValues: Object.entries(
+            selectedActionParams[selectedTrigger.service] || {},
+          ).map(([name, value]) => ({name, value})),
         },
         selectedReactionServices.map(serviceName => ({
-          serviceName: serviceName,
-          body: selectedReactionParams[serviceName], // Updated line
+          service: serviceName,
+          paramValues: Object.entries(
+            selectedReactionParams[serviceName] || {},
+          ).map(([name, value]) => ({name, value})),
         })),
       );
+      console.log('selectedActionParams:', selectedActionParams);
+      console.log('selectedTrigger:', selectedTrigger);
+      console.log('selectedReactionParams:', selectedReactionParams);
+      console.log('nodeJson:', nodeJson);
+
       sendNewNode(nodeJson);
       // navigation.navigate('BottomTabNavigator', {screen: 'HomeTab'});
     } else {
       alert('Please complete all fields.');
     }
   };
-
-  useEffect(() => {
-    console.log('Fetching service data...');
-    fetchAboutJson({setServices: setServicesData});
-  }, []);
-
-  useEffect(() => {
-    console.log('selectedActions:', selectedActions);
-  }, [selectedActions]);
-
-  useEffect(() => {
-    console.log('selectedReactions:', selectedReactions);
-  }, [selectedReactions]);
 
   return (
     <ScrollView style={styles.container}>

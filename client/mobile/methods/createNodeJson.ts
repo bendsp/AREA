@@ -31,6 +31,8 @@ const createNodeJson = (
       };
     }),
   };
+  console.log('action arg:', nodeJson.action);
+  console.log('reaction arg:', nodeJson.reaction);
   return nodeJson;
 };
 
