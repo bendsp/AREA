@@ -7,6 +7,7 @@ import { PokemonService } from '../pokemon/pokemon.service';
 import { NbaService } from 'src/nba/nba.service';
 import { ChuckService } from 'src/chuck/chuck.service';
 import { CoingekoService } from 'src/coingeko/coingeko.service';
+import { UpdateData } from 'src/db/db.updateData';
 
 @Injectable()
 export class CheckTriggersService {
@@ -33,18 +34,18 @@ export class CheckTriggersService {
     private readonly coingekoService: CoingekoService,
   ) {}
 
-  @Cron('0 */5 * * * *')
+  @Cron('0 */1 * * * *')
   async handleCron() {
     Logger.log('Called every 5 minutes');
     try {
-      // this.triggers.forEach(async function (trigger) {
-      //   const ListTimeTrigger = await trigger.call(this);
-      //   if (ListTimeTrigger.length !== 0) {
-      //     this.reactions.forEach(async function (reaction) {
-      //       await reaction.call(this, ListTimeTrigger);
-      //     }, this);
-      //   }
-      // }, this);
+      this.triggers.forEach(async function (trigger) {
+        const ListTimeTrigger = await trigger.call(this);
+        if (ListTimeTrigger.length !== 0) {
+          this.reactions.forEach(async function (reaction) {
+            await reaction.call(this, ListTimeTrigger);
+          }, this);
+        }
+      }, this);
     } catch (error) {
       // Handle any errors here
       Logger.error('Error in handleCron:', error);
@@ -54,33 +55,64 @@ export class CheckTriggersService {
   async checkTime(): Promise<number[]> {
     try {
       const TimeData = await selectRows('get_city_time');
-
       const ListTimeTrigger: number[] = [];
+      const currentTime = new Date();
 
       for (const user of TimeData) {
-        const data = await this.timeService.getCurrentTimeByCity(user.city);
-        let time = data.split(' ')[1];
+        let diffInHours = user.diff;
 
-        if (
-          (data.split(' ')[2] === 'PM' &&
-            parseInt(data.split(' ')[1].split(':')[0]) < 12) ||
-          (data.split(' ')[2] === 'AM' &&
-            parseInt(data.split(' ')[1].split(':')[0]) === 12)
-        ) {
-          time =
-            (parseInt(data.split(' ')[1].split(':')[0]) + 12).toString() +
-            ':' +
-            data.split(' ')[1].split(':')[1];
-        } else {
-          time =
-            data.split(' ')[1].split(':')[0] +
-            ':' +
-            data.split(' ')[1].split(':')[1];
+        if (user.diff === null) {
+          console.log('time null');
+          const currentTime = new Date();
+
+          const current_time_in_other_country = '11/3/2023, 8:33:00 PM';
+          // const current_time_in_other_country =
+          //   await this.timeService.getCurrentTimeByCity(user.city);
+          const [datePart, timeWithAmpm] =
+            current_time_in_other_country.split(', ');
+          const [timePart, ampmPart] = timeWithAmpm.split(' ');
+          const [month, day, year] = datePart.split('/').map(Number);
+          const [hour, minute, second] = timePart.split(':').map(Number);
+          const cityTime = new Date(
+            year,
+            month - 1,
+            day,
+            hour + (ampmPart === 'PM' && hour !== 12 ? 12 : 0),
+            minute,
+            second,
+          );
+
+          console.log(currentTime, cityTime);
+
+          // Calculate the difference in hours
+          const diffInMs = cityTime.getTime() - currentTime.getTime();
+          diffInHours = diffInMs / (1000 * 60 * 60);
+          console.log('diffInHours : ' + diffInHours);
+          await UpdateData(
+            user.user_id,
+            diffInHours,
+            'get_city_time',
+            'diff',
+            user.area_id,
+          );
         }
-        if (time === user.time) {
+        const expectedLaunchTime = new Date(
+          currentTime.getTime() + diffInHours * 60 * 60 * 1000,
+        );
+        const hours = expectedLaunchTime.getHours().toString().padStart(2, '0');
+        const minutes = expectedLaunchTime
+          .getMinutes()
+          .toString()
+          .padStart(2, '0');
+        const formattedTime = `${hours}:${minutes}`;
+        console.log('formattedTime : ' + formattedTime);
+        console.log('user.time : ' + user.time);
+        if (formattedTime === user.time) {
           ListTimeTrigger.push(user.area_id);
         }
       }
+
+      console.log('ListTimeTrigger : ' + ListTimeTrigger);
       return ListTimeTrigger;
     } catch (error) {
       Logger.error('Error in checkTime:' + error);
