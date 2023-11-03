@@ -7,6 +7,6 @@ import { MailingModule } from 'src/mailing/mailing.module';
   imports: [MailingModule],
   controllers: [CoingekoController],
   providers: [CoingekoService],
-  exports: [],
+  exports: [CoingekoService],
 })
 export class CoingekoModule {}
