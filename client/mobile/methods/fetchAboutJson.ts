@@ -1,14 +1,13 @@
-// Define the interface for function parameters
 interface FetchAboutJsonParams {
-  setServices: React.Dispatch<React.SetStateAction<any>>;
+    setServices: React.Dispatch<React.SetStateAction<never[]>>;
+  }
+
+const fetchAboutJson = async ({ setServices }: FetchAboutJsonParams) => {
+    const response = await fetch('http://10.116.120.163:8080/about.json');
+
+    const data = await response.json();
+
+    setServices(data.server.services);
 }
 
-const fetchAboutJson = async ({setServices}: FetchAboutJsonParams) => {
-  // const response = await fetch('http://localhost:8080/about.json');
-
-  const data = require('./about.json'); // Adjust the path to where about.json is located
-  console.log(data);
-  setServices(data.server.services);
-};
-
-export default fetchAboutJson;
+export default fetchAboutJson
