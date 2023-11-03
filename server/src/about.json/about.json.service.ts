@@ -149,6 +149,62 @@ export class AboutJsonService {
               },
             ],
           },
+          {
+            name: 'Coingeko',
+            actions: [],
+            reactions: [
+              {
+                name: 'send_random_token',
+                description:
+                  'Send an email to the destination email address with a random token',
+                params: [
+                  {
+                    name: 'email',
+                    type: 'string',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'Chuck Norris',
+            actions: [],
+            reactions: [
+              {
+                name: 'send_random_chuck_norris_dev_joke',
+                description:
+                  'Send an email to the destination email address with a random Chuck Norris dev joke',
+                params: [
+                  {
+                    name: 'email',
+                    type: 'string',
+                  },
+                ],
+              },
+              {
+                name: 'send_random_chuck_norris_religion_joke',
+                description:
+                  'Send an email to the destination email address with a random Chuck Norris religion joke',
+                params: [
+                  {
+                    name: 'email',
+                    type: 'string',
+                  },
+                ],
+              },
+              {
+                name: 'send_random_chuck_norris_political_joke',
+                description:
+                  'Send an email to the destination email address with a random Chuck Norris political joke',
+                params: [
+                  {
+                    name: 'email',
+                    type: 'string',
+                  },
+                ],
+              },
+            ],
+          },
         ],
       },
     };

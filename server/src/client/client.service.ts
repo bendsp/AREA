@@ -45,6 +45,19 @@ export class ClientService {
     );
     const randomNbaTeamResults = await selectRows('send_random_nba_team', id);
     const randomNbaGameResults = await selectRows('send_random_nba_game', id);
+    const randomTokenResults = await selectRows('send_random_token', id);
+    const randomChuckNorrisDevJokeResults = await selectRows(
+      'send_random_chuck_norris_dev_joke',
+      id,
+    );
+    const randomChuckNorrisReligionJokeResults = await selectRows(
+      'send_random_chuck_norris_religion_joke',
+      id,
+    );
+    const randomChuckNorrisPoliticalJokeResults = await selectRows(
+      'send_random_chuck_norris_political_joke',
+      id,
+    );
     const areaResults = await selectRows('Area', id);
 
     areaResults.forEach((area: SelectAreaData) => {
@@ -68,6 +81,22 @@ export class ClientService {
     result = this.addResult(result, randomNbaPlayerResults, 'NBA_Player');
     result = this.addResult(result, randomNbaTeamResults, 'NBA_Team');
     result = this.addResult(result, randomNbaGameResults, 'NBA_Game');
+    result = this.addResult(result, randomTokenResults, 'Coingeko');
+    result = this.addResult(
+      result,
+      randomChuckNorrisDevJokeResults,
+      'Chuck Norris',
+    );
+    result = this.addResult(
+      result,
+      randomChuckNorrisReligionJokeResults,
+      'Chuck Norris',
+    );
+    result = this.addResult(
+      result,
+      randomChuckNorrisPoliticalJokeResults,
+      'Chuck Norris',
+    );
     return result;
   }
 

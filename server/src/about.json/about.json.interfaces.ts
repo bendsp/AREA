@@ -23,7 +23,11 @@ export interface Reaction {
     | 'send_random_item'
     | 'send_random_nba_player'
     | 'send_random_nba_team'
-    | 'send_random_nba_game';
+    | 'send_random_nba_game'
+    | 'send_random_token'
+    | 'send_random_chuck_norris_dev_joke'
+    | 'send_random_chuck_norris_religion_joke'
+    | 'send_random_chuck_norris_political_joke';
   description: string;
   params: Param[];
 }

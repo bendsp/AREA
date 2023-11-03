@@ -3,9 +3,11 @@ import { Cron } from '@nestjs/schedule';
 import { MailingService } from '../mailing/mailing.service';
 import { TimeService } from '../time/time.service';
 import { selectRows } from '../db/db.selectData';
-
 import { PokemonService } from '../pokemon/pokemon.service';
 import { NbaService } from 'src/nba/nba.service';
+import { ChuckService } from 'src/chuck/chuck.service';
+import { CoingekoService } from 'src/coingeko/coingeko.service';
+
 @Injectable()
 export class CheckTriggersService {
   triggers = [this.checkTime];
@@ -17,12 +19,18 @@ export class CheckTriggersService {
     this.launchRandomNbaPlayer,
     this.launchRandomNbaTeam,
     this.launchRandomNbaGame,
+    this.launchRandomToken,
+    this.launchRandomChuckNorrisDevJoke,
+    this.launchRandomChuckNorrisReligionJoke,
+    this.launchRandomChuckNorrisPoliticalJoke,
   ];
   constructor(
     private readonly mailingService: MailingService,
     private readonly timeService: TimeService,
     private readonly pokemonService: PokemonService,
     private readonly nbaService: NbaService,
+    private readonly chuckService: ChuckService,
+    private readonly coingekoService: CoingekoService,
   ) {}
 
   @Cron('0 */5 * * * *')
@@ -199,6 +207,80 @@ export class CheckTriggersService {
     } catch (error) {
       // Handle any errors here
       Logger.error('Error in launchRandomNbaGame:', error);
+    }
+  }
+
+  async launchRandomToken(ListTimeTrigger: number[]) {
+    try {
+      const TokenData = await selectRows('send_random_token');
+
+      for (const token of TokenData) {
+        for (const area_id of ListTimeTrigger) {
+          if (token.area_id > area_id && token.area_id < area_id + 1) {
+            await this.coingekoService.sendRandomToken(token.email);
+          }
+        }
+      }
+    } catch (error) {
+      // Handle any errors here
+      Logger.error('Error in launchRandomToken:', error);
+    }
+  }
+
+  async launchRandomChuckNorrisDevJoke(ListTimeTrigger: number[]) {
+    try {
+      const ChuckNorrisDevJokeData = await selectRows(
+        'send_random_chuck_norris_dev_joke',
+      );
+
+      for (const joke of ChuckNorrisDevJokeData) {
+        for (const area_id of ListTimeTrigger) {
+          if (joke.area_id > area_id && joke.area_id < area_id + 1) {
+            await this.chuckService.sendRandomDevJoke(joke.email);
+          }
+        }
+      }
+    } catch (error) {
+      // Handle any errors here
+      Logger.error('Error in launchRandomChuckNorrisDevJoke:', error);
+    }
+  }
+
+  async launchRandomChuckNorrisReligionJoke(ListTimeTrigger: number[]) {
+    try {
+      const ChuckNorrisReligionJokeData = await selectRows(
+        'send_random_chuck_norris_religion_joke',
+      );
+
+      for (const joke of ChuckNorrisReligionJokeData) {
+        for (const area_id of ListTimeTrigger) {
+          if (joke.area_id > area_id && joke.area_id < area_id + 1) {
+            await this.chuckService.sendRandomReligionJoke(joke.email);
+          }
+        }
+      }
+    } catch (error) {
+      // Handle any errors here
+      Logger.error('Error in launchRandomChuckNorrisReligionJoke:', error);
+    }
+  }
+
+  async launchRandomChuckNorrisPoliticalJoke(ListTimeTrigger: number[]) {
+    try {
+      const ChuckNorrisPoliticalJokeData = await selectRows(
+        'send_random_chuck_norris_political_joke',
+      );
+
+      for (const joke of ChuckNorrisPoliticalJokeData) {
+        for (const area_id of ListTimeTrigger) {
+          if (joke.area_id > area_id && joke.area_id < area_id + 1) {
+            await this.chuckService.sendRandomPoliticalJoke(joke.email);
+          }
+        }
+      }
+    } catch (error) {
+      // Handle any errors here
+      Logger.error('Error in launchRandomChuckNorrisPoliticalJoke:', error);
     }
   }
 }

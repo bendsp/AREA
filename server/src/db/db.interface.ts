@@ -12,7 +12,11 @@ export type TableNames =
   | 'send_random_item'
   | 'send_random_nba_player'
   | 'send_random_nba_team'
-  | 'send_random_nba_game';
+  | 'send_random_nba_game'
+  | 'send_random_token'
+  | 'send_random_chuck_norris_dev_joke'
+  | 'send_random_chuck_norris_religion_joke'
+  | 'send_random_chuck_norris_political_joke';
 
 export type serviceName = 'Gmail' | 'Time';
 
@@ -71,6 +75,26 @@ export interface SelectNbaGameData {
   value: PokemonData;
 }
 
+export interface SelectTokenData {
+  TablesName: 'send_random_token';
+  value: PokemonData;
+}
+
+export interface SelectChuckNorrisDevJokeData {
+  TablesName: 'send_random_chuck_norris_dev_joke';
+  value: PokemonData;
+}
+
+export interface SelectChuckNorrisReligionJokeData {
+  TablesName: 'send_random_chuck_norris_religion_joke';
+  value: PokemonData;
+}
+
+export interface SelectChuckNorrisPoliticalJokeData {
+  TablesName: 'send_random_chuck_norris_political_joke';
+  value: PokemonData;
+}
+
 export interface PutData {
   user_id: string;
   area_id: number;
@@ -90,7 +114,11 @@ export type Tables =
   | SelectPokemonItemData
   | SelectNbaPlayerData
   | SelectNbaTeamData
-  | SelectNbaGameData;
+  | SelectNbaGameData
+  | SelectTokenData
+  | SelectChuckNorrisDevJokeData
+  | SelectChuckNorrisReligionJokeData
+  | SelectChuckNorrisPoliticalJokeData;
 
 export interface Area {
   area_name: string;
