@@ -86,10 +86,8 @@ const NewAction = () => {
         setReactionCardsData((prevState) => {
             return prevState.map((card) => {
                 if (card.id === reactionCard.id) {
-                    console.log("reactionCard", reactionCard)
                     return reactionCard;
                 } else {
-                    console.log("card", card)
                     return card;
                 }
             })
