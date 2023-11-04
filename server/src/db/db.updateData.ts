@@ -8,11 +8,15 @@ async function UpdateData(
   area_id?: number,
 ): Promise<boolean> {
   try {
-    console.log('area_id : ' + area_id);
-    const query =
-      area_id == null
-        ? `UPDATE "${tableName}" SET "${columnName}" = ${newValue} WHERE user_id = '${user_id}';`
-        : `UPDATE "${tableName}" SET "${columnName}" = ${newValue} WHERE user_id = '${user_id}' AND area_id = ${area_id};`;
+    let query: string;
+    if (columnName === 'github_token' && area_id === undefined) {
+      query = `UPDATE "${tableName}" SET "${columnName}" = '${newValue}' WHERE user_id = '${user_id}';`;
+    } else {
+      query =
+        area_id === undefined
+          ? `UPDATE "${tableName}" SET "${columnName}" = ${newValue} WHERE user_id = '${user_id}';`
+          : `UPDATE "${tableName}" SET "${columnName}" = ${newValue} WHERE user_id = '${user_id}' AND area_id = ${area_id};`;
+    }
     const result = await db.result(query);
 
     if (result.rowCount === 1) {
