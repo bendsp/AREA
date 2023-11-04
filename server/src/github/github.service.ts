@@ -1,29 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { UpdateData } from 'src/db/db.updateData';
+import { selectRow, selectRows } from 'src/db/db.selectData';
 
 @Injectable()
 export class GithubService {
-  async fetchNotifications(access_token: string): Promise<any | null> {
-    const url = 'https://api.github.com/notifications';
-    const headers = {
-      Authorization: `token ${access_token}`,
-      Accept: 'application/vnd.github.v3+json',
-    };
-
-    try {
-      const response = await axios.get(url, { headers: headers });
-
-      if (response.status === 200) {
-        return response.data;
-      } else {
-        // Handle non-200 status codes if needed
-        throw new Error(`Received status code: ${response.status}`);
+  async fetchNotifications(): Promise<number[]> {
+    const user = await selectRows('get_github_notifications');
+    let TriggerID: number[];
+    user.forEach(async (element) => {
+      const github_token = selectRow('User', element.user_id, 'github_token');
+      if (!github_token) {
+        return;
       }
-    } catch (error) {
-      console.error(`Error fetching notifications: ${error.message}`);
-      return null;
-    }
+      const url = `https://api.github.com/notifications?access_token=${github_token}`;
+      const response = await axios.get(url);
+      console.log(response.data);
+      if (response.data.length > 0) {
+        TriggerID.push(element.area_id);
+      }
+    });
+    return TriggerID;
   }
 
   async exchangeCodeForToken(code: string, user_id: string): Promise<string> {

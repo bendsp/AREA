@@ -54,16 +54,8 @@ export class CheckTriggersService {
   }
   async checkGithubNotification(): Promise<number[]> {
     try {
-      // const GithubData = await selectRows();
       const ListGithubTrigger: number[] = [];
-      // for (const user of GithubData) {
-      //   const githubNotification =
-      //     await this.githubService.getGithubNotification(user.access_token);
-      //   if (githubNotification.length > 0) {
-      //     ListGithubTrigger.push(user.area_id);
-      //   }
-      // }
-      // console.log('ListGithubTrigger : ' + ListGithubTrigger);
+      
       return ListGithubTrigger;
     } catch (error) {
       // Handle any errors here
