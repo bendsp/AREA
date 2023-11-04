@@ -7,6 +7,7 @@ import { PokemonModule } from 'src/pokemon/pokemon.module';
 import { NbaModule } from 'src/nba/nba.module';
 import { ChuckModule } from 'src/chuck/chuck.module';
 import { CoingekoModule } from 'src/coingeko/coingeko.module';
+import { GithubModule } from 'src/github/github.module';
 @Module({
   imports: [
     MailingModule,
@@ -15,6 +16,7 @@ import { CoingekoModule } from 'src/coingeko/coingeko.module';
     NbaModule,
     ChuckModule,
     CoingekoModule,
+    GithubModule,
   ],
   controllers: [CheckTriggersController],
   providers: [CheckTriggersService],

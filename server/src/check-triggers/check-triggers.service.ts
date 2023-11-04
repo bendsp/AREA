@@ -8,10 +8,10 @@ import { NbaService } from 'src/nba/nba.service';
 import { ChuckService } from 'src/chuck/chuck.service';
 import { CoingekoService } from 'src/coingeko/coingeko.service';
 import { UpdateData } from 'src/db/db.updateData';
-
+import { GithubService } from 'src/github/github.service';
 @Injectable()
 export class CheckTriggersService {
-  triggers = [this.checkTime];
+  triggers = [this.checkTime, this.checkGithubNotification];
   reactions = [
     this.launchEmail,
     this.launchRandomPokemon,
@@ -32,6 +32,7 @@ export class CheckTriggersService {
     private readonly nbaService: NbaService,
     private readonly chuckService: ChuckService,
     private readonly coingekoService: CoingekoService,
+    private readonly githubService: GithubService,
   ) {}
 
   @Cron('0 */1 * * * *')
@@ -49,6 +50,24 @@ export class CheckTriggersService {
     } catch (error) {
       // Handle any errors here
       Logger.error('Error in handleCron:', error);
+    }
+  }
+  async checkGithubNotification(): Promise<number[]> {
+    try {
+      // const GithubData = await selectRows();
+      const ListGithubTrigger: number[] = [];
+      // for (const user of GithubData) {
+      //   const githubNotification =
+      //     await this.githubService.getGithubNotification(user.access_token);
+      //   if (githubNotification.length > 0) {
+      //     ListGithubTrigger.push(user.area_id);
+      //   }
+      // }
+      // console.log('ListGithubTrigger : ' + ListGithubTrigger);
+      return ListGithubTrigger;
+    } catch (error) {
+      // Handle any errors here
+      Logger.error('Error in checkGithubNotification:', error);
     }
   }
 

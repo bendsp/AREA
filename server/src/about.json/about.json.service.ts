@@ -204,6 +204,18 @@ export class AboutJsonService {
               },
             ],
           },
+          {
+            name: 'Github',
+            actions: [
+              {
+                name: 'get_github_notifications',
+                description:
+                  'Trigger notifications from github and launch the reaction',
+                params: [],
+              },
+            ],
+            reactions: [],
+          },
         ],
       },
     };
