@@ -1,13 +1,16 @@
-interface FetchAboutJsonParams {
-    setServices: React.Dispatch<React.SetStateAction<never[]>>;
-  }
+import { ServicesProps } from "../interfaces/services";
+import { Dispatch, SetStateAction } from "react";
 
-const fetchAboutJson = async ({ setServices }: FetchAboutJsonParams) => {
+interface FetchAboutJsonParams {
+    setServices: Dispatch<SetStateAction<ServicesProps[]>>
+}
+
+const fetchAboutJson = async () => {
     const response = await fetch('http://localhost:8080/about.json');
 
     const data = await response.json();
 
-    setServices(data.server.services);
+    return data.server.services;
 }
 
 export default fetchAboutJson

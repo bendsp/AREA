@@ -64,24 +64,27 @@ const TriggerCard = ({ services, data, onUpdate }: TriggerCardProps) => {
                                 </option>
                             ))}
                     </select>
-                    <div className="bg-white rounded-sm p-3 space-y-2">
-                        {services
-                            .find((service) => service.name === data.service)
-                            ?.actions.find((action) => action.name === data.action)
-                            ?.params.map((param, index) => (
-                              <div key={index} className="flex flex-line space-x-5">
-                                <label htmlFor={param.name} className="pt-2">
-                                  {param.name}
-                                </label>
-                                <input
-                                  type="text"
-                                  id={param.name}
-                                  className="border p-2 rounded w-full"
-                                  onChange={(event) => {handleSelectParam(event, param)}}
-                                />
-                              </div>
-                            ))}
-                    </div>
+                    {
+                        data.paramValues.length > 0 &&
+                        <div className="bg-white rounded-sm p-3 space-y-2">
+                            {services
+                                .find((service) => service.name === data.service)
+                                ?.actions.find((action) => action.name === data.action)
+                                ?.params.map((param, index) => (
+                                  <div key={index} className="flex flex-line space-x-5">
+                                    <label htmlFor={param.name} className="pt-2">
+                                      {param.name}
+                                    </label>
+                                    <input
+                                      type="text"
+                                      id={param.name}
+                                      className="border p-2 rounded w-full"
+                                      onChange={(event) => {handleSelectParam(event, param)}}
+                                    />
+                                  </div>
+                                ))}
+                        </div>
+                    }
                 </div>
             </div>
         </div>
