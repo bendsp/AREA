@@ -96,7 +96,7 @@ const HomeScreen = () => {
 
   return (
     <ScrollView
-      style={{flex: 1, padding: 16}}
+      style={{flex: 1, padding: 16, backgroundColor: theme.colors.background}}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>

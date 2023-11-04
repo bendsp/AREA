@@ -82,7 +82,7 @@ android {
         versionName "1.0"
         manifestPlaceholders = [
             auth0Domain: "dev-i4fb32lnpthmvwbm.us.auth0.com",
-            auth0Scheme: "https"
+            auth0Scheme: "${applicationId}.auth0"
         ]
     }
     signingConfigs {

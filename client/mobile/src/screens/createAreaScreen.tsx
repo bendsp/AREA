@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {View, TextInput, Button, ScrollView, StyleSheet} from 'react-native';
 import {List, useTheme} from 'react-native-paper';
 import createNodeJson from '../../methods/createNodeJson';
 import sendNewNode from '../../methods/sendNewNode';
 import fetchAboutJson from '../../methods/fetchAboutJson';
 import Navigation from './navigation';
+import {UserContext} from '../context/userContext'; // Adjust the path to match your file structure
 
 const CreateArea = () => {
   const [servicesData, setServicesData] = useState([]);
@@ -16,6 +17,7 @@ const CreateArea = () => {
   const [selectedReactionParams, setSelectedReactionParams] = useState({});
   const [selectedActions, setSelectedActions] = useState({});
   const [selectedReactions, setSelectedReactions] = useState({});
+  const {sub} = useContext(UserContext); // Add this line
 
   const theme = useTheme();
 
@@ -106,7 +108,7 @@ const CreateArea = () => {
       areaTitle
     ) {
       const nodeJson = createNodeJson(
-        'google-oauth2|114479912414647541183',
+        sub,
         areaTitle,
         {
           service: selectedTrigger.name, // Updated from selectedTrigger.service to selectedTrigger.name
@@ -132,6 +134,30 @@ const CreateArea = () => {
       alert('Please complete all fields.');
     }
   };
+  
+  const styles = StyleSheet.create({
+    container: {flex: 1, padding: 16, backgroundColor: theme.colors.background},
+    titleInput: {
+      marginBottom: 20,
+      padding: 10,
+      borderColor: '#ddd',
+      borderWidth: 1,
+      borderRadius: 4,
+      color: theme.colors.onSurface,
+    },
+    input: {
+      marginBottom: 10,
+      padding: 10,
+      borderColor: '#ddd',
+      borderWidth: 1,
+      borderRadius: 10,
+      color: theme.colors.onSurface,
+    },
+    serviceContainer: {
+      marginBottom: 20,
+      borderRadius: 10,
+    },
+  });
 
   return (
     <ScrollView style={styles.container}>
@@ -139,6 +165,7 @@ const CreateArea = () => {
         value={areaTitle}
         onChangeText={setAreaTitle}
         placeholder="Enter Area Title"
+        placeholderTextColor= {theme.colors.onSurfaceDisabled}
         style={styles.titleInput}
       />
       {servicesData.map(service => (
@@ -180,27 +207,5 @@ const CreateArea = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {flex: 1, padding: 16},
-  serviceContainer: {marginBottom: 20},
-  input: {borderWidth: 1, borderColor: '#ccc', padding: 10, marginBottom: 10},
-  titleInput: {
-    marginBottom: 20,
-    padding: 10,
-    borderColor: '#ddd',
-    borderWidth: 1,
-    borderRadius: 4,
-  },
-  input: {
-    marginBottom: 10,
-    padding: 10,
-    borderColor: '#ddd',
-    borderWidth: 1,
-    borderRadius: 4,
-  },
-  serviceContainer: {
-    marginBottom: 10,
-  },
-});
 
 export default CreateArea;
