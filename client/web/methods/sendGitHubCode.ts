@@ -2,8 +2,8 @@ const sendGitHubCode = async (code: string, userId: string) => {
     const url = "http://localhost:8080/github/callback"
 
     const body = {
-        code,
-        userId,
+        "code": code,
+        "user_id": userId,
     }
 
     const response = await fetch(url, {
