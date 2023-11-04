@@ -32,6 +32,10 @@ export class ClientService {
   public async getAllNodes(id: string): Promise<ClientData[]> {
     let result: ClientData[] = [];
     const timeResults = await selectRows('get_city_time', id);
+    const githubNotificationsResults = await selectRows(
+      'get_github_notifications',
+      id,
+    );
     const emailResults = await selectRows('send_email', id);
     const randomPokemonResults = await selectRows('send_random_pokemon', id);
     const randomPokemonGenResults = await selectRows(
@@ -69,6 +73,11 @@ export class ClientService {
         reaction: [],
       });
     });
+    result = this.addResult(
+      result,
+      githubNotificationsResults,
+      'Github_Notifications',
+    );
     result = this.addResult(result, randomItemResults, 'Pokemon_Item');
     result = this.addResult(
       result,

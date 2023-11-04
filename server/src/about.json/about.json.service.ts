@@ -16,8 +16,7 @@ export class AboutJsonService {
   async getAboutJson(): Promise<AboutJson> {
     return {
       client: {
-        // I need to get the host IP address of the client here
-        host: 'localhost',
+        host: 'http://localhost:8081',
       },
       server: {
         current_time: Date.now(),
@@ -204,6 +203,18 @@ export class AboutJsonService {
                 ],
               },
             ],
+          },
+          {
+            name: 'Github',
+            actions: [
+              {
+                name: 'get_github_notifications',
+                description:
+                  'Trigger notifications from github and launch the reaction',
+                params: [],
+              },
+            ],
+            reactions: [],
           },
         ],
       },
