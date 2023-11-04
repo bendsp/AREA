@@ -35,11 +35,11 @@ const ActionsContainer = ({ services, user }: ActionsContainerProps) => {
     console.log('userNodes: ', userNodes)
 
     return (
-        <div className="bg-[#1e1e1e] rounded-xl p-5 space-y-3">
+        <div className="bg-[#1e1e1e] rounded-xl p-5 space-y-4">
             <div className="bg-yellow-500 w-fit rounded-xl px-2 text-xl font-bold text-[#1e1e1e]">
-                ACTION CONTAINER
+                Add your actions here!
             </div>
-            <div className="space-y-3">
+            <div className="space-y-4">
                 {userNodes?.map((userNode: NodeProps, index) => {
                     return (
                         <div key={index}>
