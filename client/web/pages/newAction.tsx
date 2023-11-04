@@ -57,6 +57,7 @@ const NewAction = () => {
     };
 
     const handleUpdateTriggerCard = (triggerCard: TriggerProps) => {
+        // TODO: fix paramValues the same way as in ReactionCard
         setTriggerCardData(triggerCard);
     }
 
