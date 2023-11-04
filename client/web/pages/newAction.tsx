@@ -12,22 +12,28 @@ import createNodeJson from '../methods/createNodeJson';
 import sendNewNode from '../methods/sendNewNode';
 import { User } from '../interfaces/user';
 import { NodeProps } from '../interfaces/nodes';
+import { ProtectedPage } from '../interfaces/protectedPage';
 
 const generateId = () => {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
 }
 
+export function getStaticProps(): ProtectedPage {
+    return {
+      props: {
+        isProtected: true
+      }
+    }
+}
+
 const NewAction = () => {
     const router = useRouter()
-    console.log("router.query", router)
     const services = router.query.services ? JSON.parse(router.query.services as string) : [];
     const actionName = router.query.name ? router.query.name as string : "";
-    console.log("actionName", actionName)
-    console.log("services", services)
     const servicesWithActions = services.filter((service: ServicesProps) => service.actions.length > 0);
 
     const servicesWithReactions = services.filter((service: ServicesProps) => service.reactions.length > 0);
-    console.log("servicesWithReactions", servicesWithReactions)
+
     // TODO: same here, default values
     const [triggerCardData, setTriggerCardData] = useState<TriggerProps>({
         service: "Time",
@@ -59,6 +65,7 @@ const NewAction = () => {
     };
 
     const handleUpdateTriggerCard = (triggerCard: TriggerProps) => {
+        // TODO: fix paramValues the same way as in ReactionCard
         setTriggerCardData(triggerCard);
     }
 
@@ -92,7 +99,6 @@ const NewAction = () => {
     const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) as User : null;
 
     const handleSaveArea = async () => {
-        console.log("triggerCardData", triggerCardData)
         const nodeJson = createNodeJson((user?.sub ?? "1" ), actionName, triggerCardData, reactionCardsData)
         await sendNewNode(nodeJson as NodeProps)
         router.push('/home')
@@ -118,13 +124,20 @@ const NewAction = () => {
                 />
             ))}
             <NewReactionButton onClick={addReactionCard}/>
-            {/* // TODO: add cancel & save buttons */}
-            <button
-                className="bg-blue-500 text-white px-4 py-2 rounded w-[fit-content] self-end"
-                onClick={handleSaveArea}
-            >
-                Save AREA
-            </button>
+            <div className="flex space-x-4 justify-end">
+                <button
+                    className="bg-red-500 text-white px-4 py-2 rounded w-[fit-content] self-end"
+                    onClick={() => router.push('/home')}
+                    >
+                    Cancel
+                </button>
+                <button
+                    className="bg-blue-500 text-white px-4 py-2 rounded w-[fit-content] self-end"
+                    onClick={handleSaveArea}
+                    >
+                    Save AREA
+                </button>
+            </div>
         </Background>
     )
 }
