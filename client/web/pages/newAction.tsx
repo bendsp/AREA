@@ -19,13 +19,15 @@ const generateId = () => {
 
 const NewAction = () => {
     const router = useRouter()
+    console.log("router.query", router)
     const services = router.query.services ? JSON.parse(router.query.services as string) : [];
     const actionName = router.query.name ? router.query.name as string : "";
-
+    console.log("actionName", actionName)
+    console.log("services", services)
     const servicesWithActions = services.filter((service: ServicesProps) => service.actions.length > 0);
 
     const servicesWithReactions = services.filter((service: ServicesProps) => service.reactions.length > 0);
-
+    console.log("servicesWithReactions", servicesWithReactions)
     // TODO: same here, default values
     const [triggerCardData, setTriggerCardData] = useState<TriggerProps>({
         service: "Time",
@@ -78,8 +80,10 @@ const NewAction = () => {
         setReactionCardsData((prevState) => {
             return prevState.map((card) => {
                 if (card.id === reactionCard.id) {
+                    console.log("reactionCard", reactionCard)
                     return reactionCard;
                 } else {
+                    console.log("card", card)
                     return card;
                 }
             })
@@ -89,6 +93,7 @@ const NewAction = () => {
     const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) as User : null;
 
     const handleSaveArea = async () => {
+        console.log("triggerCardData", triggerCardData)
         const nodeJson = createNodeJson((user?.sub ?? "1" ), actionName, triggerCardData, reactionCardsData)
         await sendNewNode(nodeJson as NodeProps)
         router.push('/home')

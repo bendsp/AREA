@@ -2,31 +2,40 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import LoginScreen from './loginScreen';
 import HomeScreen from './homeScreen';
 import AppScreen from './appScreen';
 import SettingsScreen from './settingsScreen';
 import {RootStackParamList} from './navigationTypes';
+import CreateArea from './createAreaScreen';
+import { useThemeContext } from '../components/themeContext';
+import { useTheme } from 'react-native-paper';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
+  const { isDarkTheme } = useThemeContext();
+  const theme = useTheme();
+
   return (
     <Tab.Navigator
       initialRouteName="HomeTab"
-      activeColor="#e91e63"
-      barStyle={{backgroundColor: 'tomato'}}
-      screenOptions={{headerShown: false}}>
+      screenOptions={{
+        tabBarActiveTintColor: theme.colors.primary,
+        tabBarInactiveTintColor: theme.colors.surfaceDisabled,
+        tabBarStyle: { 
+          backgroundColor: theme.colors.surface,
+        },
+        headerShown: false,}}>
       <Tab.Screen
         name="HomeTab"
         component={HomeScreen}
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons name="home" color={color} size={26} />
+            <Icon name="home" size={26} color={color}/>
           ),
         }}
       />
@@ -36,7 +45,7 @@ const BottomTabNavigator = () => {
         options={{
           tabBarLabel: 'Settings',
           tabBarIcon: ({color}) => (
-            <FontAwesome name="cog" color={color} size={26} />
+            <Icon name="cog" color={color} size={26} />
           ),
         }}
       />
@@ -70,6 +79,14 @@ const Navigation = () => {
           component={SettingsScreen}
           options={{
             headerLeft: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="CreateArea"
+          component={CreateArea}
+          options={{
+            headerShown: true,
+            title: 'Create Area',
           }}
         />
       </Stack.Navigator>
