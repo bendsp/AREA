@@ -89,8 +89,6 @@ const ReactionCard = ({ services, onDelete, onUpdate, data }: ReactionCardProps)
                 <button
                     className="bg-red-500 text-white px-4 py-2 rounded w-[fit-content]"
                     onClick={() => {
-                        console.log('Id:', data.id)
-                        console.log(onDelete)
                         onDelete(data.id)
                     }}>
                     Delete

@@ -65,7 +65,19 @@ const NewAction = () => {
     };
 
     const handleUpdateTriggerCard = (triggerCard: TriggerProps) => {
-        // TODO: fix paramValues the same way as in ReactionCard
+        const currentService = services.find((service: ServicesProps) => service.name === triggerCard.service);
+        const currentAction = currentService?.actions?.find((action: ActionProps) => action.name === triggerCard.action);
+        const currentParamValues = currentAction?.params ?? [];
+
+        triggerCard.paramValues = currentParamValues.map((param: ActionParamsProps) => {
+            const existingParam = triggerCard.paramValues.find((existingParam: ActionParamsProps) => existingParam.name === param.name);
+            if (existingParam) {
+                return existingParam;
+            } else {
+                return { name: param.name, value: "" };
+            }
+        });
+
         setTriggerCardData(triggerCard);
     }
 
@@ -86,10 +98,8 @@ const NewAction = () => {
         setReactionCardsData((prevState) => {
             return prevState.map((card) => {
                 if (card.id === reactionCard.id) {
-                    console.log("reactionCard", reactionCard)
                     return reactionCard;
                 } else {
-                    console.log("card", card)
                     return card;
                 }
             })
