@@ -26,9 +26,10 @@ export function getStaticProps(): ProtectedPage {
 const getCodeFromURL = (userId: string) => {
   const url = new URL(window.location.href);
   const code = url.searchParams.get("code");
-  if (code) {
-      localStorage.setItem('gitHubToken', code);
-      sendGitHubCode(code, userId);
+  if (code && !localStorage.getItem('githubTokenSent')) {
+    localStorage.setItem('githubTokenSent', 'true');
+    localStorage.setItem('gitHubToken', code);
+    sendGitHubCode(code, userId);
   }
 }
 
@@ -42,7 +43,12 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     fetchAboutJson({ setServices });
-    getCodeFromURL(user.sub);
+  }, [])
+
+  useEffect(() => {
+    if (user) {
+      getCodeFromURL(user.sub);
+    }
   }, [user])
 
   return (
