@@ -136,7 +136,7 @@ const CreateArea = () => {
   const styles = StyleSheet.create({
     container: {flex: 1, padding: 16, backgroundColor: theme.colors.background},
     serviceContainer: {marginBottom: 20},
-    input: {borderWidth: 1, borderColor: '#ccc', padding: 10, marginBottom: 10},
+    input: {borderWidth: 1, borderColor: '#ccc', padding: 10, marginBottom: 10, color: theme.colors.onSurface},
     titleInput: {
       marginBottom: 20,
       padding: 10,
@@ -164,6 +164,7 @@ const CreateArea = () => {
         value={areaTitle}
         onChangeText={setAreaTitle}
         placeholder="Enter Area Title"
+        placeholderTextColor= {theme.colors.onSurfaceDisabled}
         style={styles.titleInput}
       />
       {servicesData.map(service => (
