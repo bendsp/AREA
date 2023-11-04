@@ -47,6 +47,5 @@ export class TimeService {
     });
 
     return `${formattedTime}`;
-    return 'test';
   }
 }

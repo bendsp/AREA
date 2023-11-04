@@ -28,7 +28,6 @@ export class NbaService {
         ' ' +
         response.data.data[randomIndex].last_name;
       const teamplayer = response.data.data[randomIndex].team.full_name;
-      Logger.log(randomPlayer);
       this.mailingService.sendMail({
         email: email,
         subject: 'Random NBA Player',

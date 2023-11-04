@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { UpdateData } from 'src/db/db.updateData';
 import { selectRow, selectRows } from 'src/db/db.selectData';
@@ -10,7 +10,6 @@ export class GithubService {
     const FeedUpdates: number[] = [];
 
     for (const element of users) {
-      Logger.log(element);
       const github_token = await selectRow(
         'User',
         'github_token',
@@ -52,7 +51,7 @@ export class GithubService {
         console.error('Error fetching GitHub feed updates:', error);
       }
     }
-    console.log('FeedUpdates:', FeedUpdates);
+    // console.log('FeedUpdates:', FeedUpdates);
     return FeedUpdates;
   }
 
