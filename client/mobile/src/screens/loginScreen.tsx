@@ -78,7 +78,7 @@ const LoginScreen = () => {
         style={{
           fontSize: 24,
           marginBottom: 20,
-          colour: theme.colors.onBackground,
+          color: theme.colors.onBackground,
         }}>
         Login Screen
       </Text>
