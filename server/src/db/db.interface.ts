@@ -16,7 +16,8 @@ export type TableNames =
   | 'send_random_token'
   | 'send_random_chuck_norris_dev_joke'
   | 'send_random_chuck_norris_religion_joke'
-  | 'send_random_chuck_norris_political_joke';
+  | 'send_random_chuck_norris_political_joke'
+  | 'get_github_notifications';
 
 export type serviceName = 'Gmail' | 'Time';
 
@@ -95,6 +96,16 @@ export interface SelectChuckNorrisPoliticalJokeData {
   value: PokemonData;
 }
 
+export interface GithubNotificationsTable {
+  user_id: string;
+  area_id: number;
+}
+
+export interface SelectGithubNotificationsData {
+  TablesName: 'get_github_notifications';
+  value: GithubNotificationsTable;
+}
+
 export interface PutData {
   user_id: string;
   area_id: number;
@@ -118,7 +129,8 @@ export type Tables =
   | SelectTokenData
   | SelectChuckNorrisDevJokeData
   | SelectChuckNorrisReligionJokeData
-  | SelectChuckNorrisPoliticalJokeData;
+  | SelectChuckNorrisPoliticalJokeData
+  | SelectGithubNotificationsData;
 
 export interface Area {
   area_name: string;

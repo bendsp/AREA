@@ -10,7 +10,7 @@ export interface Param {
 }
 
 export interface Action {
-  name: 'get_city_time';
+  name: 'get_city_time' | 'get_github_notifications';
   description: string;
   params: Param[];
 }
