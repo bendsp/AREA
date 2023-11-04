@@ -54,6 +54,7 @@ const BottomTabNavigator = () => {
 };
 
 const Navigation = () => {
+  const theme = useTheme();
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -85,8 +86,11 @@ const Navigation = () => {
           name="CreateArea"
           component={CreateArea}
           options={{
-            headerShown: true,
             title: 'Create Area',
+            headerShown: true,
+            headerStyle: {backgroundColor : theme.colors.surface,},
+            headerTitleStyle: {color: theme.colors.onSurface,},
+            headerTintColor: theme.colors.onSurface,
           }}
         />
       </Stack.Navigator>
