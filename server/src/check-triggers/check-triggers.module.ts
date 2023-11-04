@@ -3,10 +3,22 @@ import { CheckTriggersService } from './check-triggers.service';
 import { CheckTriggersController } from './check-triggers.controller';
 import { MailingModule } from '../mailing/mailing.module';
 import { TimeModule } from '../time/time.module';
-
+import { PokemonModule } from 'src/pokemon/pokemon.module';
+import { NbaModule } from 'src/nba/nba.module';
+import { ChuckModule } from 'src/chuck/chuck.module';
+import { CoingekoModule } from 'src/coingeko/coingeko.module';
+import { GithubModule } from 'src/github/github.module';
 @Module({
-    imports: [MailingModule, TimeModule],
-    controllers: [CheckTriggersController],
-    providers: [CheckTriggersService],
+  imports: [
+    MailingModule,
+    TimeModule,
+    PokemonModule,
+    NbaModule,
+    ChuckModule,
+    CoingekoModule,
+    GithubModule,
+  ],
+  controllers: [CheckTriggersController],
+  providers: [CheckTriggersService],
 })
 export class CheckTriggersModule {}

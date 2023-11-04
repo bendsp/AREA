@@ -6,7 +6,7 @@ interface ActionCardProps {
 
 const ActionCard = ({ actions }: ActionCardProps) => {
     return (
-        <div>
+        <div className="space-y-3">
             { actions.map((item) => {
                 return (
                     <div key={item.name} className="bg-gray-200 rounded-xl px-3 pt-2 pb-3">

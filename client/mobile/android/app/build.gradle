@@ -73,13 +73,17 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.mobile"
+    namespace "com.awesomeproject"
     defaultConfig {
-        applicationId "com.mobile"
+        applicationId "com.awesomeproject"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        manifestPlaceholders = [
+            auth0Domain: "dev-i4fb32lnpthmvwbm.us.auth0.com",
+            auth0Scheme: "${applicationId}.auth0"
+        ]
     }
     signingConfigs {
         debug {
@@ -119,5 +123,5 @@ dependencies {
         implementation jscFlavor
     }
 }
-
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
