@@ -132,6 +132,31 @@ const CreateArea = () => {
       alert('Please complete all fields.');
     }
   };
+  
+  const styles = StyleSheet.create({
+    container: {flex: 1, padding: 16, backgroundColor: theme.colors.background},
+    serviceContainer: {marginBottom: 20},
+    input: {borderWidth: 1, borderColor: '#ccc', padding: 10, marginBottom: 10},
+    titleInput: {
+      marginBottom: 20,
+      padding: 10,
+      borderColor: '#ddd',
+      borderWidth: 1,
+      borderRadius: 4,
+      color: theme.colors.onSurface,
+    },
+    input: {
+      marginBottom: 10,
+      padding: 10,
+      borderColor: '#ddd',
+      borderWidth: 1,
+      borderRadius: 4,
+      color: theme.colors.onSurface,
+    },
+    serviceContainer: {
+      marginBottom: 10,
+    },
+  });
 
   return (
     <ScrollView style={styles.container}>
@@ -180,27 +205,5 @@ const CreateArea = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {flex: 1, padding: 16},
-  serviceContainer: {marginBottom: 20},
-  input: {borderWidth: 1, borderColor: '#ccc', padding: 10, marginBottom: 10},
-  titleInput: {
-    marginBottom: 20,
-    padding: 10,
-    borderColor: '#ddd',
-    borderWidth: 1,
-    borderRadius: 4,
-  },
-  input: {
-    marginBottom: 10,
-    padding: 10,
-    borderColor: '#ddd',
-    borderWidth: 1,
-    borderRadius: 4,
-  },
-  serviceContainer: {
-    marginBottom: 10,
-  },
-});
 
 export default CreateArea;
