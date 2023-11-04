@@ -54,8 +54,9 @@ export class CheckTriggersService {
   }
   async checkGithubNotification(): Promise<number[]> {
     try {
-      const ListGithubTrigger: number[] = [];
-      
+      const ListGithubTrigger: number[] =
+        await this.githubService.fetchNotifications();
+
       return ListGithubTrigger;
     } catch (error) {
       // Handle any errors here
