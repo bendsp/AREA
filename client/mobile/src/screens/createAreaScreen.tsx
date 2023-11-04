@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {View, TextInput, Button, ScrollView, StyleSheet} from 'react-native';
 import {List, useTheme} from 'react-native-paper';
 import createNodeJson from '../../methods/createNodeJson';
 import sendNewNode from '../../methods/sendNewNode';
 import fetchAboutJson from '../../methods/fetchAboutJson';
 import Navigation from './navigation';
+import {UserContext} from '../context/userContext'; // Adjust the path to match your file structure
 
 const CreateArea = () => {
   const [servicesData, setServicesData] = useState([]);
@@ -16,6 +17,7 @@ const CreateArea = () => {
   const [selectedReactionParams, setSelectedReactionParams] = useState({});
   const [selectedActions, setSelectedActions] = useState({});
   const [selectedReactions, setSelectedReactions] = useState({});
+  const {sub} = useContext(UserContext); // Add this line
 
   const theme = useTheme();
 
@@ -106,7 +108,7 @@ const CreateArea = () => {
       areaTitle
     ) {
       const nodeJson = createNodeJson(
-        'google-oauth2|114479912414647541183',
+        sub,
         areaTitle,
         {
           service: selectedTrigger.name, // Updated from selectedTrigger.service to selectedTrigger.name
