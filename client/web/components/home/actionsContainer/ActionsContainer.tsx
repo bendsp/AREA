@@ -17,7 +17,6 @@ const ActionsContainer = ({ services, user }: ActionsContainerProps) => {
 
     // TODO: check if behaves as expected (reload nodes after delete)
     const updateNodes = (userId: string) => {
-        console.log('update user nodes: ', userId)
         fetchAllUserNodes(userId)
         .then((userNodes) => {
             setUserNodes(userNodes);
@@ -31,8 +30,6 @@ const ActionsContainer = ({ services, user }: ActionsContainerProps) => {
         //     setUserNodes(userNodes);
         // })
     }, [user.sub])
-
-    console.log('userNodes: ', userNodes)
 
     return (
         <div className="bg-[#1e1e1e] rounded-xl p-5 space-y-4">

@@ -119,13 +119,20 @@ const NewAction = () => {
                 />
             ))}
             <NewReactionButton onClick={addReactionCard}/>
-            {/* // TODO: add cancel & save buttons */}
-            <button
-                className="bg-blue-500 text-white px-4 py-2 rounded w-[fit-content] self-end"
-                onClick={handleSaveArea}
-            >
-                Save AREA
-            </button>
+            <div className="flex space-x-4 justify-end">
+                <button
+                    className="bg-red-500 text-white px-4 py-2 rounded w-[fit-content] self-end"
+                    onClick={() => router.push('/home')}
+                    >
+                    Cancel
+                </button>
+                <button
+                    className="bg-blue-500 text-white px-4 py-2 rounded w-[fit-content] self-end"
+                    onClick={handleSaveArea}
+                    >
+                    Save AREA
+                </button>
+            </div>
         </Background>
     )
 }
