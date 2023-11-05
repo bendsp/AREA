@@ -18,11 +18,11 @@ import {
   Button,
 } from 'react-native-paper';
 import fetchAboutJson from '../../methods/fetchAboutJson'; // Adjust the path to where fetchAboutJson.ts is located
-import { useNavigation} from '@react-navigation/native'; // Import useNavigation
+import {useNavigation} from '@react-navigation/native'; // Import useNavigation
 import fetchAllUserNodes from '../../methods/fetchAllUserNodes'; // Import fetchAllUserNodes
 import deleteNode from '../../methods/deleteNode'; // Adjust the path to where deleteNode.ts is located
 import {UserContext} from '../context/userContext'; // Adjust the path to match your file structure
-import { EllipsizeProp } from 'react-native-paper/lib/typescript/types';
+import {EllipsizeProp} from 'react-native-paper/lib/typescript/types';
 
 const HomeScreen = () => {
   const [userAreas, setUserAreas] = useState([]);
@@ -70,7 +70,7 @@ const HomeScreen = () => {
     try {
       const userId = sub; // Replace with the actual user ID
       const result = await deleteNode(userId, areaId);
-      setAreaVisible(false);  // Close the modal
+      setAreaVisible(false); // Close the modal
       console.log('Delete result:', result);
       // Optionally, refresh the list of areas after deletion:
       onRefresh();
@@ -106,6 +106,51 @@ const HomeScreen = () => {
       </View>
     );
   }
+
+  const formatJSON = jsonObject => {
+    return Object.entries(jsonObject).map(([key, value], index) => (
+      <Text key={index}>{`${key}: ${JSON.stringify(value)}`}</Text>
+    ));
+  };
+
+  const parseDataString = dataString => {
+    // Check if dataString is not a string, then convert it to a string
+    if (typeof dataString !== 'string') {
+      dataString = JSON.stringify(dataString);
+    }
+    // Replace unwanted characters and format the string
+    const formattedString = dataString
+      .replace(/\["|"\]/g, '')
+      .replace(/","/g, ': ');
+    // If the key is "diff", return null to skip rendering
+    if (formattedString.startsWith('diff')) {
+      return null;
+    }
+    return formattedString;
+  };
+
+  const formatActionReaction = (data, title) => {
+    return (
+      <View>
+        <Text style={{fontWeight: 'bold'}}>{title}</Text>
+        {Array.isArray(data)
+          ? data.map((item, index) => {
+              const parsedString = parseDataString(item);
+              // Only render if parsedString is not null
+              return parsedString && <Text key={index}>{parsedString}</Text>;
+            })
+          : Object.entries(data).map(
+              ([key, value], index) =>
+                // Skip rendering if key is "diff"
+                key !== 'diff' && (
+                  <Text key={index}>
+                    {parseDataString(`["${key}""${value}"]`)}
+                  </Text>
+                ),
+            )}
+      </View>
+    );
+  };
 
   return (
     <ScrollView
@@ -188,16 +233,58 @@ const HomeScreen = () => {
                   </Text>
                 )}
               {selectedService.actions &&
-                selectedService.actions.map((action: { name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | ((props: { selectable: boolean; ellipsizeMode: EllipsizeProp | undefined; color: string; fontSize: number; }) => React.ReactNode) | null | undefined; description: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | ((props: { selectable: boolean; ellipsizeMode: EllipsizeProp | undefined; color: string; fontSize: number; }) => React.ReactNode) | null | undefined; }, actionIndex: React.Key | null | undefined) => (
-                  <List.Item
-                    key={actionIndex}
-                    title={action.name}
-                    description={action.description}
-                    titleNumberOfLines={10}
-                    descriptionNumberOfLines={10}
-                    ellipsizeMode="tail"
-                  />
-                ))}
+                selectedService.actions.map(
+                  (
+                    action: {
+                      name:
+                        | string
+                        | number
+                        | boolean
+                        | React.ReactElement<
+                            any,
+                            string | React.JSXElementConstructor<any>
+                          >
+                        | Iterable<React.ReactNode>
+                        | React.ReactPortal
+                        | ((props: {
+                            selectable: boolean;
+                            ellipsizeMode: EllipsizeProp | undefined;
+                            color: string;
+                            fontSize: number;
+                          }) => React.ReactNode)
+                        | null
+                        | undefined;
+                      description:
+                        | string
+                        | number
+                        | boolean
+                        | React.ReactElement<
+                            any,
+                            string | React.JSXElementConstructor<any>
+                          >
+                        | Iterable<React.ReactNode>
+                        | React.ReactPortal
+                        | ((props: {
+                            selectable: boolean;
+                            ellipsizeMode: EllipsizeProp | undefined;
+                            color: string;
+                            fontSize: number;
+                          }) => React.ReactNode)
+                        | null
+                        | undefined;
+                    },
+                    actionIndex: React.Key | null | undefined,
+                  ) => (
+                    <List.Item
+                      key={actionIndex}
+                      title={action.name}
+                      description={action.description}
+                      titleNumberOfLines={10}
+                      descriptionNumberOfLines={10}
+                      ellipsizeMode="tail"
+                    />
+                  ),
+                )}
 
               {/* Heading for Reactions */}
               {selectedService.reactions &&
@@ -207,16 +294,58 @@ const HomeScreen = () => {
                   </Text>
                 )}
               {selectedService.reactions &&
-                selectedService.reactions.map((reaction: { name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | ((props: { selectable: boolean; ellipsizeMode: EllipsizeProp | undefined; color: string; fontSize: number; }) => React.ReactNode) | null | undefined; description: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | ((props: { selectable: boolean; ellipsizeMode: EllipsizeProp | undefined; color: string; fontSize: number; }) => React.ReactNode) | null | undefined; }, reactionIndex: React.Key | null | undefined) => (
-                  <List.Item
-                    key={reactionIndex}
-                    title={reaction.name}
-                    description={reaction.description}
-                    titleNumberOfLines={10}
-                    descriptionNumberOfLines={10}
-                    ellipsizeMode="tail"
-                  />
-                ))}
+                selectedService.reactions.map(
+                  (
+                    reaction: {
+                      name:
+                        | string
+                        | number
+                        | boolean
+                        | React.ReactElement<
+                            any,
+                            string | React.JSXElementConstructor<any>
+                          >
+                        | Iterable<React.ReactNode>
+                        | React.ReactPortal
+                        | ((props: {
+                            selectable: boolean;
+                            ellipsizeMode: EllipsizeProp | undefined;
+                            color: string;
+                            fontSize: number;
+                          }) => React.ReactNode)
+                        | null
+                        | undefined;
+                      description:
+                        | string
+                        | number
+                        | boolean
+                        | React.ReactElement<
+                            any,
+                            string | React.JSXElementConstructor<any>
+                          >
+                        | Iterable<React.ReactNode>
+                        | React.ReactPortal
+                        | ((props: {
+                            selectable: boolean;
+                            ellipsizeMode: EllipsizeProp | undefined;
+                            color: string;
+                            fontSize: number;
+                          }) => React.ReactNode)
+                        | null
+                        | undefined;
+                    },
+                    reactionIndex: React.Key | null | undefined,
+                  ) => (
+                    <List.Item
+                      key={reactionIndex}
+                      title={reaction.name}
+                      description={reaction.description}
+                      titleNumberOfLines={10}
+                      descriptionNumberOfLines={10}
+                      ellipsizeMode="tail"
+                    />
+                  ),
+                )}
             </>
           )}
         </Modal>
@@ -238,15 +367,12 @@ const HomeScreen = () => {
               <Title numberOfLines={10} ellipsizeMode="tail">
                 {selectedArea.area_name}
               </Title>
-              <List.Item
-                title={`${selectedArea.action.serviceName} - ${JSON.stringify(
-                  selectedArea.action.body,
-                )}`}
-                description={JSON.stringify(selectedArea.reaction)}
-                titleNumberOfLines={10}
-                descriptionNumberOfLines={10}
-                ellipsizeMode="tail"
-              />
+              {formatActionReaction(selectedArea.action.body, 'Action')}
+              {selectedArea.reaction.map((reaction, index) => (
+                <View key={index} style={{marginTop: 10}}>
+                  {formatActionReaction(reaction.body, reaction.serviceName)}
+                </View>
+              ))}
               <Button
                 icon="delete"
                 onPress={() => handleDelete(selectedArea.area_id)}>
