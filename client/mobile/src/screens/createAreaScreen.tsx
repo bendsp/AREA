@@ -185,7 +185,6 @@ const CreateArea = () => {
       borderRadius: 4, // Optional: round the corners
     },
     serviceContainer: {
-      marginBottom: 20,
       borderRadius: 10,
       backgroundColor: theme.colors.surface, // Adjusted from background to surface
     },
