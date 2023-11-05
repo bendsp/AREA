@@ -13,7 +13,6 @@ import {
 import createNodeJson from '../../methods/createNodeJson';
 import sendNewNode from '../../methods/sendNewNode';
 import fetchAboutJson from '../../methods/fetchAboutJson';
-import Navigation from './navigation';
 import {UserContext} from '../context/userContext'; // Adjust the path to match your file structure
 import {useNavigation} from '@react-navigation/native';
 
@@ -21,8 +20,6 @@ const CreateArea = () => {
   const [servicesData, setServicesData] = useState([]);
   const [selectedTrigger, setSelectedTrigger] = useState(null);
   const [areaTitle, setAreaTitle] = useState('');
-  const [triggerParams, setTriggerParams] = useState({});
-  const [reactionParams, setReactionParams] = useState([]);
   const [selectedActionParams, setSelectedActionParams] = useState({});
   const [selectedReactionParams, setSelectedReactionParams] = useState({});
   const [selectedActions, setSelectedActions] = useState({});
@@ -75,6 +72,10 @@ const CreateArea = () => {
     actionName,
     isReaction = false,
   ) => {
+    console.log('Param Name:', paramName);
+    console.log('Value:', value);
+    console.log('Action Name:', actionName);
+    console.log('Is Reaction:', isReaction);
     if (isReaction) {
       setSelectedReactionParams(prev => ({
         ...prev,
@@ -123,9 +124,9 @@ const CreateArea = () => {
         sub,
         areaTitle,
         {
-          service: selectedTrigger.name, // Updated from selectedTrigger.service to selectedTrigger.name
+          service: selectedTrigger.name,
           paramValues: Object.entries(
-            selectedActionParams[selectedTrigger.service] || {},
+            selectedActionParams[selectedTrigger.name] || {},
           ).map(([name, value]) => ({name, value})),
         },
         selectedReactionServices.map(serviceName => ({
@@ -272,9 +273,8 @@ const CreateArea = () => {
       <Button
         mode="contained"
         onPress={handleCreateArea}
-        style={{width: '90%', alignSelf: 'center', marginBottom: 26}}  // Added marginBottom for extra spacing if needed
-        color={theme.colors.primary}
-      >
+        style={{width: '90%', alignSelf: 'center', marginBottom: 26}} // Added marginBottom for extra spacing if needed
+        color={theme.colors.primary}>
         Create Area
       </Button>
     </ScrollView>

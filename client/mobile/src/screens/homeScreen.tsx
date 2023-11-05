@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   RefreshControl,
-  Dimensions,
 } from 'react-native';
 import {
   List,
@@ -19,12 +18,11 @@ import {
   Button,
 } from 'react-native-paper';
 import fetchAboutJson from '../../methods/fetchAboutJson'; // Adjust the path to where fetchAboutJson.ts is located
-import {useNavigation} from '@react-navigation/native'; // Import useNavigation
+import { useNavigation} from '@react-navigation/native'; // Import useNavigation
 import fetchAllUserNodes from '../../methods/fetchAllUserNodes'; // Import fetchAllUserNodes
-import {black} from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import deleteNode from '../../methods/deleteNode'; // Adjust the path to where deleteNode.ts is located
 import {UserContext} from '../context/userContext'; // Adjust the path to match your file structure
+import { EllipsizeProp } from 'react-native-paper/lib/typescript/types';
 
 const HomeScreen = () => {
   const [userAreas, setUserAreas] = useState([]);
@@ -36,7 +34,6 @@ const HomeScreen = () => {
   const {sub} = useContext(UserContext); // Add this line
   const [areaVisible, setAreaVisible] = useState(false);
   const [selectedArea, setSelectedArea] = useState(null);
-  const modalHeight = Dimensions.get('window').height * 0.8; // 80% of screen height
 
   const theme = useTheme();
   const navigation = useNavigation();
@@ -69,10 +66,11 @@ const HomeScreen = () => {
       });
   }, []);
 
-  const handleDelete = async areaId => {
+  const handleDelete = async (areaId: string) => {
     try {
       const userId = sub; // Replace with the actual user ID
       const result = await deleteNode(userId, areaId);
+      setAreaVisible(false);  // Close the modal
       console.log('Delete result:', result);
       // Optionally, refresh the list of areas after deletion:
       onRefresh();
@@ -81,7 +79,7 @@ const HomeScreen = () => {
     }
   };
 
-  const showModal = service => {
+  const showModal = (service: React.SetStateAction<null>) => {
     setSelectedService(service);
     setVisible(true);
   };
@@ -91,7 +89,7 @@ const HomeScreen = () => {
     setVisible(false);
   };
 
-  const showAreaModal = area => {
+  const showAreaModal = (area: React.SetStateAction<null>) => {
     setSelectedArea(area);
     setAreaVisible(true);
   };
@@ -190,7 +188,7 @@ const HomeScreen = () => {
                   </Text>
                 )}
               {selectedService.actions &&
-                selectedService.actions.map((action, actionIndex) => (
+                selectedService.actions.map((action: { name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | ((props: { selectable: boolean; ellipsizeMode: EllipsizeProp | undefined; color: string; fontSize: number; }) => React.ReactNode) | null | undefined; description: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | ((props: { selectable: boolean; ellipsizeMode: EllipsizeProp | undefined; color: string; fontSize: number; }) => React.ReactNode) | null | undefined; }, actionIndex: React.Key | null | undefined) => (
                   <List.Item
                     key={actionIndex}
                     title={action.name}
@@ -209,7 +207,7 @@ const HomeScreen = () => {
                   </Text>
                 )}
               {selectedService.reactions &&
-                selectedService.reactions.map((reaction, reactionIndex) => (
+                selectedService.reactions.map((reaction: { name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | ((props: { selectable: boolean; ellipsizeMode: EllipsizeProp | undefined; color: string; fontSize: number; }) => React.ReactNode) | null | undefined; description: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | ((props: { selectable: boolean; ellipsizeMode: EllipsizeProp | undefined; color: string; fontSize: number; }) => React.ReactNode) | null | undefined; }, reactionIndex: React.Key | null | undefined) => (
                   <List.Item
                     key={reactionIndex}
                     title={reaction.name}
