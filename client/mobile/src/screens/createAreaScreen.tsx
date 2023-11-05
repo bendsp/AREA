@@ -92,6 +92,7 @@ const CreateArea = () => {
           handleParamChange(param.name, value, actionName, isReaction)
         }
         style={styles.input}
+        placeholderTextColor={theme.colors.onSurfaceDisabled}
       />
     ));
   };
