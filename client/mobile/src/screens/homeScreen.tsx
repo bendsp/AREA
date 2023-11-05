@@ -1,11 +1,12 @@
 // Import necessary libraries
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {
   ScrollView,
   View,
   TouchableOpacity,
   ActivityIndicator,
   RefreshControl,
+  Dimensions,
 } from 'react-native';
 import {
   List,
@@ -18,12 +19,12 @@ import {
   Button,
 } from 'react-native-paper';
 import fetchAboutJson from '../../methods/fetchAboutJson'; // Adjust the path to where fetchAboutJson.ts is located
-import HomeHeader from '../components/HomeHeader';
 import {useNavigation} from '@react-navigation/native'; // Import useNavigation
 import fetchAllUserNodes from '../../methods/fetchAllUserNodes'; // Import fetchAllUserNodes
 import {black} from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import deleteNode from '../../methods/deleteNode'; // Adjust the path to where deleteNode.ts is located
+import {UserContext} from '../context/userContext'; // Adjust the path to match your file structure
 
 const HomeScreen = () => {
   const [userAreas, setUserAreas] = useState([]);
@@ -32,6 +33,10 @@ const HomeScreen = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const {sub} = useContext(UserContext); // Add this line
+  const [areaVisible, setAreaVisible] = useState(false);
+  const [selectedArea, setSelectedArea] = useState(null);
+  const modalHeight = Dimensions.get('window').height * 0.8; // 80% of screen height
 
   const theme = useTheme();
   const navigation = useNavigation();
@@ -39,7 +44,7 @@ const HomeScreen = () => {
   useEffect(() => {
     setLoading(true);
     fetchAboutJson({setServices});
-    fetchAllUserNodes('google-oauth2|114479912414647541183')
+    fetchAllUserNodes(sub)
       .then(data => {
         setUserAreas(data);
         setLoading(false);
@@ -53,7 +58,7 @@ const HomeScreen = () => {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     fetchAboutJson({setServices});
-    fetchAllUserNodes('google-oauth2|114479912414647541183')
+    fetchAllUserNodes(sub)
       .then(data => {
         setUserAreas(data);
         setRefreshing(false);
@@ -66,7 +71,7 @@ const HomeScreen = () => {
 
   const handleDelete = async areaId => {
     try {
-      const userId = 'google-oauth2|114479912414647541183'; // Replace with the actual user ID
+      const userId = sub; // Replace with the actual user ID
       const result = await deleteNode(userId, areaId);
       console.log('Delete result:', result);
       // Optionally, refresh the list of areas after deletion:
@@ -84,6 +89,16 @@ const HomeScreen = () => {
   const hideModal = () => {
     setSelectedService(null);
     setVisible(false);
+  };
+
+  const showAreaModal = area => {
+    setSelectedArea(area);
+    setAreaVisible(true);
+  };
+
+  const hideAreaModal = () => {
+    setSelectedArea(null);
+    setAreaVisible(false);
   };
 
   if (loading) {
@@ -120,19 +135,11 @@ const HomeScreen = () => {
           </View>
           {userAreas.length > 0 ? (
             userAreas.map((area, index) => (
-              <List.Item
+              <TouchableOpacity
                 key={area.area_id || index}
-                title={area.area_name}
-                description={`${area.action.serviceName} - ${JSON.stringify(
-                  area.action.body,
-                )} / ${JSON.stringify(area.reaction)}`}
-                right={props => (
-                  <Button
-                    icon="delete"
-                    onPress={() => handleDelete(area.area_id)}
-                  />
-                )}
-              />
+                onPress={() => showAreaModal(area)}>
+                <List.Item title={area.area_name} />
+              </TouchableOpacity>
             ))
           ) : (
             <Text style={{color: theme.colors.onSurface}}>
@@ -156,27 +163,32 @@ const HomeScreen = () => {
           ))}
         </Card.Content>
       </Card>
-
       <Portal>
         <Modal
           visible={visible}
           onDismiss={hideModal}
           contentContainerStyle={{
-            backgroundColor: 'white',
+            backgroundColor: theme.colors.surface,
             padding: 20,
             alignSelf: 'center',
-            width: '80%',
+            width: '90%',
+            maxWidth: '90%',
             borderRadius: 10,
           }}>
           {selectedService && (
             <>
-              <Title>{selectedService.name}</Title>
+              <Title numberOfLines={10} ellipsizeMode="tail">
+                {selectedService.name}
+              </Title>
               {selectedService.actions &&
                 selectedService.actions.map((action, actionIndex) => (
                   <List.Item
                     key={actionIndex}
                     title={action.name}
                     description={action.description}
+                    titleNumberOfLines={10}
+                    descriptionNumberOfLines={10}
+                    ellipsizeMode="tail"
                   />
                 ))}
               {selectedService.reactions &&
@@ -185,8 +197,46 @@ const HomeScreen = () => {
                     key={reactionIndex}
                     title={reaction.name}
                     description={reaction.description}
+                    titleNumberOfLines={10}
+                    descriptionNumberOfLines={10}
+                    ellipsizeMode="tail"
                   />
                 ))}
+            </>
+          )}
+        </Modal>
+      </Portal>
+      <Portal>
+        <Modal
+          visible={areaVisible}
+          onDismiss={hideAreaModal}
+          contentContainerStyle={{
+            backgroundColor: theme.colors.surface,
+            padding: 20,
+            alignSelf: 'center',
+            width: '90%',
+            maxWidth: '90%',
+            borderRadius: 10,
+          }}>
+          {selectedArea && (
+            <>
+              <Title numberOfLines={10} ellipsizeMode="tail">
+                {selectedArea.area_name}
+              </Title>
+              <List.Item
+                title={`${selectedArea.action.serviceName} - ${JSON.stringify(
+                  selectedArea.action.body,
+                )}`}
+                description={JSON.stringify(selectedArea.reaction)}
+                titleNumberOfLines={10}
+                descriptionNumberOfLines={10}
+                ellipsizeMode="tail"
+              />
+              <Button
+                icon="delete"
+                onPress={() => handleDelete(selectedArea.area_id)}>
+                Delete
+              </Button>
             </>
           )}
         </Modal>
