@@ -163,6 +163,7 @@ const HomeScreen = () => {
           ))}
         </Card.Content>
       </Card>
+
       <Portal>
         <Modal
           visible={visible}
@@ -180,6 +181,14 @@ const HomeScreen = () => {
               <Title numberOfLines={10} ellipsizeMode="tail">
                 {selectedService.name}
               </Title>
+
+              {/* Heading for Actions */}
+              {selectedService.actions &&
+                selectedService.actions.length > 0 && (
+                  <Text style={{fontWeight: 'bold', marginTop: 10}}>
+                    Actions
+                  </Text>
+                )}
               {selectedService.actions &&
                 selectedService.actions.map((action, actionIndex) => (
                   <List.Item
@@ -191,6 +200,14 @@ const HomeScreen = () => {
                     ellipsizeMode="tail"
                   />
                 ))}
+
+              {/* Heading for Reactions */}
+              {selectedService.reactions &&
+                selectedService.reactions.length > 0 && (
+                  <Text style={{fontWeight: 'bold', marginTop: 10}}>
+                    Reactions
+                  </Text>
+                )}
               {selectedService.reactions &&
                 selectedService.reactions.map((reaction, reactionIndex) => (
                   <List.Item
