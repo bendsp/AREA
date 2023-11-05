@@ -6,6 +6,7 @@ import sendNewNode from '../../methods/sendNewNode';
 import fetchAboutJson from '../../methods/fetchAboutJson';
 import Navigation from './navigation';
 import {UserContext} from '../context/userContext'; // Adjust the path to match your file structure
+import { useNavigation } from '@react-navigation/native';
 
 const CreateArea = () => {
   const [servicesData, setServicesData] = useState([]);
@@ -18,6 +19,7 @@ const CreateArea = () => {
   const [selectedActions, setSelectedActions] = useState({});
   const [selectedReactions, setSelectedReactions] = useState({});
   const {sub} = useContext(UserContext); // Add this line
+  const navigation = useNavigation();
 
   const theme = useTheme();
 
@@ -130,7 +132,7 @@ const CreateArea = () => {
       console.log('nodeJson:', nodeJson);
 
       sendNewNode(nodeJson);
-      // navigation.navigate('BottomTabNavigator', {screen: 'HomeTab'});
+      navigation.navigate('BottomTabNavigator', {screen: 'HomeTab'});
     } else {
       alert('Please complete all fields.');
     }
