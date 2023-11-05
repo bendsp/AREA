@@ -16,6 +16,7 @@ const GitHubLoginButton = () => {
 
 function disconnectGitHub() {
     localStorage.removeItem('gitHubToken')
+    localStorage.removeItem('githubTokenSent')
     window.location.reload()
 }
 
