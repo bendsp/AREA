@@ -91,10 +91,9 @@ export class CheckTriggersService {
 
       for (const user of TimeData) {
         if (user.diff === null) {
-          // const cityTimeStr = this.formatDateTime(
-          //   (await this.timeService.getCurrentTimeByCity(user.city)).toString(),
-          // );
-          const cityTimeStr = this.formatDateTime(currentTime.toString());
+          const cityTimeStr = this.formatDateTime(
+            (await this.timeService.getCurrentTimeByCity(user.city)).toString(),
+          );
           const diffMilliseconds =
             new Date(cityTimeStr).getTime() - currentTime.getTime();
           const diffHours = diffMilliseconds / (1000 * 60 * 60);

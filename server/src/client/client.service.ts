@@ -234,6 +234,11 @@ export class ClientService {
           area_id: area_id,
           TablesName: 'get_city_time',
         });
+        deleteData({
+          user_id: id,
+          area_id: area_id,
+          TablesName: 'get_github_notifications',
+        });
         // deleteData({user_id: id, area_id: area_id, TablesName: "Gmail"});
       })
       .catch((err) => {
