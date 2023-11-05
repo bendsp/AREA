@@ -19,7 +19,7 @@ export class ClientService {
     const firstDict = input[0];
 
     // Define the keys to exclude from the result.
-    const excludeKeys = ['user_id', 'area_id'];
+    const excludeKeys = ['user_id', 'area_id', 'diff'];
 
     // Filtering and then mapping over its keys and values to produce the desired format.
     return Object.entries(firstDict)
@@ -34,8 +34,8 @@ export class ClientService {
   ): ClientData[] {
     Rows.forEach(async (user: any) => {
       result.forEach((area) => {
-        console.log(this.transformDict([user]));
         if (Number(area.area_id) === Number(user.area_id)) {
+          Logger.log('body : ' + JSON.stringify(this.transformDict([user])));
           area.action = {
             serviceName: serviceName,
             body: this.transformDict([user]),
@@ -45,6 +45,7 @@ export class ClientService {
           Number(area.area_id) < Number(user.area_id) &&
           Number(user.area_id) < Number(area.area_id) + 1
         ) {
+          Logger.log('body : ' + JSON.stringify(this.transformDict([user])));
           area.reaction.push({
             serviceName: serviceName,
             body: this.transformDict([user]),
@@ -120,17 +121,17 @@ export class ClientService {
     result = this.addResult(
       result,
       randomChuckNorrisDevJokeResults,
-      'Chuck Norris',
+      'Chuck Norris Dev',
     );
     result = this.addResult(
       result,
       randomChuckNorrisReligionJokeResults,
-      'Chuck Norris',
+      'Chuck Norris Religion',
     );
     result = this.addResult(
       result,
       randomChuckNorrisPoliticalJokeResults,
-      'Chuck Norris',
+      'Chuck Norris Political',
     );
     return result;
   }
