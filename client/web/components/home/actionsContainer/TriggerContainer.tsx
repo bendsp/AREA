@@ -10,7 +10,7 @@ const TriggerContainer = ({ action }: TriggerContainerProps) => {
             <div className="bg-blue-500 w-fit rounded-xl px-2 text-lg font-bold text-[#1e1e1e]">
                 TRIGGER
             </div>
-            <div className="font-bold border-dotted border-2 border-black rounded-xl px-2">
+            <div className="font-bold border-dashed border-2 border-black rounded-xl px-2">
                 {action.serviceName}
             </div>
             <div>-&gt;</div>
