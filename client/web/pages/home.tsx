@@ -10,6 +10,7 @@ import LoginContainer from '../components/home/loginContainer/LoginContainer';
 import { ProtectedPage } from '../interfaces/protectedPage';
 import Background from '../components/wrappers/Background';
 import { User } from '../interfaces/user';
+import { ServicesProps } from '../interfaces/services';
 
 // Methods
 import fetchAboutJson from '../methods/fetchAboutJson';
@@ -39,11 +40,22 @@ const HomePage: React.FC = () => {
   const code = localStorage.getItem('gitHubToken');
   const gitHubStatus = code ? true : false;
 
-  const [services, setServices] = useState([]);
+  const [services, setServices] = useState<ServicesProps[]>([]);
 
   useEffect(() => {
-    fetchAboutJson({ setServices });
-  }, [])
+    const fetchData = async () => {
+      const fetchedServices = await fetchAboutJson();
+
+      if (!gitHubStatus) {
+        setServices(fetchedServices.filter((service: ServicesProps) => service.name !== 'Github'));
+      } else {
+        setServices(fetchedServices);
+      }
+    }
+
+    fetchData();
+  }, [gitHubStatus]);
+
 
   useEffect(() => {
     if (user) {

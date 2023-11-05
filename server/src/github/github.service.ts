@@ -1,29 +1,58 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { UpdateData } from 'src/db/db.updateData';
+import { selectRow, selectRows } from 'src/db/db.selectData';
 
 @Injectable()
 export class GithubService {
-  async fetchNotifications(access_token: string): Promise<any | null> {
-    const url = 'https://api.github.com/notifications';
-    const headers = {
-      Authorization: `token ${access_token}`,
-      Accept: 'application/vnd.github.v3+json',
-    };
+  async fetchNotifications(): Promise<number[]> {
+    const users = await selectRows('get_github_notifications');
+    const FeedUpdates: number[] = [];
 
-    try {
-      const response = await axios.get(url, { headers: headers });
+    for (const element of users) {
+      const github_token = await selectRow(
+        'User',
+        'github_token',
+        element.user_id,
+      );
 
-      if (response.status === 200) {
-        return response.data;
-      } else {
-        // Handle non-200 status codes if needed
-        throw new Error(`Received status code: ${response.status}`);
+      if (!github_token) {
+        continue;
       }
-    } catch (error) {
-      console.error(`Error fetching notifications: ${error.message}`);
-      return null;
+
+      // Get username using the github_token
+      try {
+        const userResponse = await axios.get('https://api.github.com/user', {
+          headers: {
+            Authorization: `token ${github_token}`,
+          },
+        });
+
+        const username = userResponse.data.login;
+        const url = `https://api.github.com/users/${username}/received_events`;
+
+        const feedResponse = await axios.get(url, {
+          headers: {
+            Authorization: `token ${github_token}`,
+          },
+        });
+        if (feedResponse.data && feedResponse.data.length > 0) {
+          const latestFeedUpdate = feedResponse.data[0].created_at;
+          const latestFeedUpdateDate = new Date(latestFeedUpdate);
+          const currentDate = new Date();
+          const oneMinuteAgo = new Date(currentDate.getTime() - 60000); // 60000ms = 1 minute
+
+          // If the latest update is within the last minute, add the area_id to the FeedUpdates array
+          if (latestFeedUpdateDate > oneMinuteAgo) {
+            FeedUpdates.push(element.area_id); // assuming area_id is part of the element
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching GitHub feed updates:', error);
+      }
     }
+    // console.log('FeedUpdates:', FeedUpdates);
+    return FeedUpdates;
   }
 
   async exchangeCodeForToken(code: string, user_id: string): Promise<string> {
