@@ -6,8 +6,27 @@ import { selectRow, selectRows } from 'src/db/db.selectData';
 import { UpdateData } from 'src/db/db.updateData';
 import { SelectAreaData, User } from 'src/db/db.interface';
 import { deleteData } from 'src/db/db.deleteData';
+
+// type Dictionary = { [key: string]: string };
+type ResultEntry = [string, string];
+type Result = ResultEntry[];
 @Injectable()
 export class ClientService {
+  transformDict(input: any[]): Result {
+    if (input.length === 0) return [];
+
+    // Taking the first dictionary as a reference.
+    const firstDict = input[0];
+
+    // Define the keys to exclude from the result.
+    const excludeKeys = ['user_id', 'area_id', 'diff'];
+
+    // Filtering and then mapping over its keys and values to produce the desired format.
+    return Object.entries(firstDict)
+      .filter(([key]) => !excludeKeys.includes(key))
+      .map(([key, value]): ResultEntry => [key, value] as ResultEntry);
+  }
+
   public addResult(
     result: ClientData[],
     Rows: any[],
@@ -16,13 +35,21 @@ export class ClientService {
     Rows.forEach(async (user: any) => {
       result.forEach((area) => {
         if (Number(area.area_id) === Number(user.area_id)) {
-          area.action = { serviceName: serviceName, body: {} };
+          Logger.log('body : ' + JSON.stringify(this.transformDict([user])));
+          area.action = {
+            serviceName: serviceName,
+            body: this.transformDict([user]),
+          };
         }
         if (
           Number(area.area_id) < Number(user.area_id) &&
           Number(user.area_id) < Number(area.area_id) + 1
         ) {
-          area.reaction.push({ serviceName: serviceName, body: {} });
+          Logger.log('body : ' + JSON.stringify(this.transformDict([user])));
+          area.reaction.push({
+            serviceName: serviceName,
+            body: this.transformDict([user]),
+          });
         }
       });
     });
@@ -94,17 +121,17 @@ export class ClientService {
     result = this.addResult(
       result,
       randomChuckNorrisDevJokeResults,
-      'Chuck Norris',
+      'Chuck Norris Dev',
     );
     result = this.addResult(
       result,
       randomChuckNorrisReligionJokeResults,
-      'Chuck Norris',
+      'Chuck Norris Religion',
     );
     result = this.addResult(
       result,
       randomChuckNorrisPoliticalJokeResults,
-      'Chuck Norris',
+      'Chuck Norris Political',
     );
     return result;
   }

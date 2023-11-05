@@ -37,7 +37,7 @@ export class CheckTriggersService {
 
   @Cron('0 */1 * * * *')
   async handleCron() {
-    Logger.log('Called every 5 minutes');
+    Logger.log('Called every 10 s');
     try {
       this.triggers.forEach(async function (trigger) {
         const ListTimeTrigger = await trigger.call(this);
@@ -54,8 +54,9 @@ export class CheckTriggersService {
   }
   async checkGithubNotification(): Promise<number[]> {
     try {
-      const ListGithubTrigger: number[] = [];
-      
+      const ListGithubTrigger: number[] =
+        await this.githubService.fetchNotifications();
+
       return ListGithubTrigger;
     } catch (error) {
       // Handle any errors here
@@ -63,6 +64,25 @@ export class CheckTriggersService {
     }
   }
 
+  formatDateTime(dateTimeStr: string): string {
+    const dateObj = new Date(dateTimeStr);
+
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    };
+
+    return new Intl.DateTimeFormat('en-US', options).format(dateObj);
+  }
+
+  formatToHourMinute(date: Date): string {
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  }
   async checkTime(): Promise<number[]> {
     try {
       const TimeData = await selectRows('get_city_time');
@@ -70,60 +90,40 @@ export class CheckTriggersService {
       const currentTime = new Date();
 
       for (const user of TimeData) {
-        let diffInHours = user.diff;
-
         if (user.diff === null) {
-          console.log('time null');
-          const currentTime = new Date();
-
-          const current_time_in_other_country = '11/3/2023, 8:33:00 PM';
-          // const current_time_in_other_country =
-          //   await this.timeService.getCurrentTimeByCity(user.city);
-          const [datePart, timeWithAmpm] =
-            current_time_in_other_country.split(', ');
-          const [timePart, ampmPart] = timeWithAmpm.split(' ');
-          const [month, day, year] = datePart.split('/').map(Number);
-          const [hour, minute, second] = timePart.split(':').map(Number);
-          const cityTime = new Date(
-            year,
-            month - 1,
-            day,
-            hour + (ampmPart === 'PM' && hour !== 12 ? 12 : 0),
-            minute,
-            second,
-          );
-
-          console.log(currentTime, cityTime);
-
-          // Calculate the difference in hours
-          const diffInMs = cityTime.getTime() - currentTime.getTime();
-          diffInHours = diffInMs / (1000 * 60 * 60);
-          console.log('diffInHours : ' + diffInHours);
+          // const cityTimeStr = this.formatDateTime(
+          //   (await this.timeService.getCurrentTimeByCity(user.city)).toString(),
+          // );
+          const cityTimeStr = this.formatDateTime(currentTime.toString());
+          const diffMilliseconds =
+            new Date(cityTimeStr).getTime() - currentTime.getTime();
+          const diffHours = diffMilliseconds / (1000 * 60 * 60);
+          const diffHoursunit = Math.round(diffHours);
           await UpdateData(
             user.user_id,
-            diffInHours,
+            diffHoursunit,
             'get_city_time',
             'diff',
             user.area_id,
           );
+          Logger.log('diff is null');
+          continue;
         }
-        const expectedLaunchTime = new Date(
-          currentTime.getTime() + diffInHours * 60 * 60 * 1000,
-        );
-        const hours = expectedLaunchTime.getHours().toString().padStart(2, '0');
-        const minutes = expectedLaunchTime
-          .getMinutes()
-          .toString()
-          .padStart(2, '0');
-        const formattedTime = `${hours}:${minutes}`;
-        console.log('formattedTime : ' + formattedTime);
-        console.log('user.time : ' + user.time);
-        if (formattedTime === user.time) {
+
+        // Adjust the current time with the user's time difference
+        const adjustedTime = new Date(currentTime);
+        Logger.log('adjustedTime is ' + this.formatToHourMinute(adjustedTime));
+        Logger.log('diff is ' + user.diff);
+        Logger.log('getHours is ' + adjustedTime.getHours());
+
+        adjustedTime.setHours(adjustedTime.getHours() + Math.round(user.diff));
+        Logger.log('adjustedTime is ' + this.formatToHourMinute(adjustedTime));
+        Logger.log('user.time is ' + user.time);
+        // Compare the adjusted time with user.time
+        if (this.formatToHourMinute(adjustedTime) === user.time) {
           ListTimeTrigger.push(user.area_id);
         }
       }
-
-      console.log('ListTimeTrigger : ' + ListTimeTrigger);
       return ListTimeTrigger;
     } catch (error) {
       Logger.error('Error in checkTime:' + error);

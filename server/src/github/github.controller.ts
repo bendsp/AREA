@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Logger } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { GithubService } from './github.service';
 
 @Controller('github')

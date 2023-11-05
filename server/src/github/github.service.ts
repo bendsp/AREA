@@ -6,21 +6,53 @@ import { selectRow, selectRows } from 'src/db/db.selectData';
 @Injectable()
 export class GithubService {
   async fetchNotifications(): Promise<number[]> {
-    const user = await selectRows('get_github_notifications');
-    let TriggerID: number[];
-    user.forEach(async (element) => {
-      const github_token = selectRow('User', element.user_id, 'github_token');
+    const users = await selectRows('get_github_notifications');
+    const FeedUpdates: number[] = [];
+
+    for (const element of users) {
+      const github_token = await selectRow(
+        'User',
+        'github_token',
+        element.user_id,
+      );
+
       if (!github_token) {
-        return;
+        continue;
       }
-      const url = `https://api.github.com/notifications?access_token=${github_token}`;
-      const response = await axios.get(url);
-      console.log(response.data);
-      if (response.data.length > 0) {
-        TriggerID.push(element.area_id);
+
+      // Get username using the github_token
+      try {
+        const userResponse = await axios.get('https://api.github.com/user', {
+          headers: {
+            Authorization: `token ${github_token}`,
+          },
+        });
+
+        const username = userResponse.data.login;
+        const url = `https://api.github.com/users/${username}/received_events`;
+
+        const feedResponse = await axios.get(url, {
+          headers: {
+            Authorization: `token ${github_token}`,
+          },
+        });
+        if (feedResponse.data && feedResponse.data.length > 0) {
+          const latestFeedUpdate = feedResponse.data[0].created_at;
+          const latestFeedUpdateDate = new Date(latestFeedUpdate);
+          const currentDate = new Date();
+          const oneMinuteAgo = new Date(currentDate.getTime() - 60000); // 60000ms = 1 minute
+
+          // If the latest update is within the last minute, add the area_id to the FeedUpdates array
+          if (latestFeedUpdateDate > oneMinuteAgo) {
+            FeedUpdates.push(element.area_id); // assuming area_id is part of the element
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching GitHub feed updates:', error);
       }
-    });
-    return TriggerID;
+    }
+    // console.log('FeedUpdates:', FeedUpdates);
+    return FeedUpdates;
   }
 
   async exchangeCodeForToken(code: string, user_id: string): Promise<string> {
