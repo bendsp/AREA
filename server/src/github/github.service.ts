@@ -56,8 +56,8 @@ export class GithubService {
   }
 
   async exchangeCodeForToken(code: string, user_id: string): Promise<string> {
-    const client_id = '469d3830933d3d81b6a9';
-    const client_secret = 'd161eb0f427e0d6d4bd800748a1c8a839958e59e';
+    const client_id = 'your_client_id';
+    const client_secret = 'your_client_secret';
     const url = 'https://github.com/login/oauth/access_token';
 
     try {
